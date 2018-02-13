@@ -1,0 +1,31 @@
+{
+  "name": "elegance.css",
+  "version": "1.0.0",
+  "description": "Elegance CSS framework",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack",
+    "watch": "webpack --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "browser-sync-webpack-plugin": "^2.0.1",
+    "browser-sync": "^2.23.6",
+    "css-loader": "^0.28.9",
+    "node-sass": "^4.7.2",
+    "sass-loader": "^6.0.6",
+    "style-loader": "^0.20.1",
+    "webpack": "^3.11.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Datahjelpen/elegance.css.git"
+  },
+  "author": "Datahjelpen AS",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/Datahjelpen/elegance.css/issues"
+  },
+  "homepage": "https://github.com/Datahjelpen/elegance.css#readme"
+}
