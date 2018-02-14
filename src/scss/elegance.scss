@@ -3,10 +3,12 @@
 @import 'vendor/sanitize';
 
 html {
+	box-sizing: border-box;
 	font-size: #{$base + 'px'};
 	font-size: #{$base-font-size + '%'};
 	font-family: $font-body;
 	color: $color-font-body;
+	cursor: default;
 	-ms-text-size-adjust: 100%;
 	-webkit-text-size-adjust: 100%;
 

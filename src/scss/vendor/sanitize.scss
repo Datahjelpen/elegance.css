@@ -30,13 +30,6 @@
  * 3. Prevent font size adjustments after orientation changes in IE and iOS.
  */
 
-html {
-	box-sizing: border-box; /* 1 */
-	cursor: default; /* 2 */
-	-ms-text-size-adjust: 100%; /* 3 */
-	-webkit-text-size-adjust: 100%; /* 3 */
-}
-
 /* Sections (https://html.spec.whatwg.org/multipage/semantics.html#sections)
    ========================================================================== */
 
