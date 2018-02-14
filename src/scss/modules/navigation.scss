@@ -1,0 +1,29 @@
+html.navigation {
+	&-aside {
+		height: 100%;
+
+		body {
+			height: 100%;
+			display: flex;
+			flex-direction: row;
+			justify-content: flex-start;
+			align-content: flex-start;
+			align-items: flex-start;
+
+			> main {
+				height: 100%;
+				overflow-y: auto;
+			}
+		}
+	}
+}
+
+nav.navigation {
+	color: $color-nav-link-normal-text;
+	background-color: $color-nav-bg;
+	width: 100%;
+
+	&-aside {
+		max-width: $size-s;
+	}
+}

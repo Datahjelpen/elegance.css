@@ -1,4 +1,22 @@
+$color-light1: #ffffff;
+$color-light2: #eeeeee;
+$color-light3: #dddddd;
+$color-light4: #cccccc;
+$color-light5: #bbbbbb;
+$color-dark1: #444444;
+$color-dark2: #333333;
+$color-dark3: #222222;
+$color-dark4: #111111;
+$color-dark5: #000000;
+
 $color-blue: #b3d4fc;
+
+// Navigation
+$color-nav-bg: $color-light1;
+$color-nav-link-normal-text: $color-dark1;
+$color-nav-link-normal-bg:   $color-light1;
+$color-nav-link-hover-text:  $color-light1;
+$color-nav-link-hover-bg:    $color-dark1;
 
 // Typography
 $color-font-body: #222 !default;

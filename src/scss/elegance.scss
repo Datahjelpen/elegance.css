@@ -4,6 +4,7 @@
 
 html {
 	box-sizing: border-box;
+	margin: 0;
 	font-size: #{$base + 'px'};
 	font-size: #{$base-font-size + '%'};
 	font-family: $font-body;
@@ -12,20 +13,25 @@ html {
 	-ms-text-size-adjust: 100%;
 	-webkit-text-size-adjust: 100%;
 
-	@include line-height(1);
-	@include margin(0, 0, 1);
-
 	@media screen and (min-width: #{ $max-width + 5 + 'em'}) {
 		font-size: #{$base-desktop + 'px'};
 		font-size: #{$base-font-size-desktop / 100 + 'rem'};
+	}
+}
 
+body {
+	position: relative;
+	background-color: $color-light2;
+
+	@include line-height(1);
+	@media screen and (min-width: #{ $max-width + 5 + 'em'}) {
 		$leading: $leading-desktop;
 		$leading-rem: $leading-rem-desktop;
 
 		@include line-height(1);
-		@include margin-bottom(1);
 	}
 }
 
 
 @import 'modules/typography';
+@import 'modules/navigation';
