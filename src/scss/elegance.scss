@@ -21,7 +21,7 @@ html {
 
 body {
 	position: relative;
-	background-color: $color-light2;
+	background-color: $color-body-bg;
 
 	@include line-height(1);
 	@media screen and (min-width: #{ $max-width + 5 + 'em'}) {

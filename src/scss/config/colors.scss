@@ -1,30 +1,73 @@
-$color-light1: #ffffff;
-$color-light2: #eeeeee;
-$color-light3: #dddddd;
-$color-light4: #cccccc;
-$color-light5: #bbbbbb;
-$color-dark1: #444444;
-$color-dark2: #333333;
-$color-dark3: #222222;
-$color-dark4: #111111;
-$color-dark5: #000000;
+// Tones & shades
+$color-light:  #ffffff;
+$color-light1: #f5f7fa;
+$color-light2: #dfe1e5;
+$color-light3: #c7c7c7;
+$color-light4: #999999;
+$color-light5: #757575;
+$color-dark1:  #6e6e6e;
+$color-dark2:  #5f6368;
+$color-dark3:  #414549;
+$color-dark4:  #2b2b2b;
+$color-dark5:  #1b1b1b;
+$color-dark:   #000000;
 
-$color-blue: #b3d4fc;
+// Grays
+$color-gray-cold-light:     #6b7c93;
+$color-gray-cold-medium:    #6b7c93;
+$color-gray-cold-dark:      #2c3e50;
+$color-gray-neutral-light:  $color-light3;
+$color-gray-neutral-medium: $color-light5;
+$color-gray-neutral-dark:   $color-dark3;
+$color-gray-warm-light:     #aca89f;
+$color-gray-warm-medium:    #898276;
+$color-gray-warm-dark:      #605b53;
+
+// Regular
+$color-red-light:    #ff627c;
+$color-red:          #fa1d42;
+$color-red-dark:     #aa132d;
+$color-purple-light: #edd9fe;
+$color-purple:       #b664ff;
+$color-purple-dark:  #9013fe;
+$color-blue-light:   #dde3fe;
+$color-blue:         #839bfd;
+$color-blue-dark:    #5677fc;
+$color-green-light:  #ccf4ea;
+$color-green:        #43dab4;
+$color-green-dark:   #00cc99;
+$color-yellow-light: #fff3ce;
+$color-yellow:       #ffd067;
+$color-yellow-dark:  #ffc208;
+
+// Special
+$color-red-vivid: #fa1d42;
+$color-blue-vivid: #421dfa;
+$color-blue-vivid-shade1: #130264;
+$color-blue-vivid-shade2: #0f0251;
+$color-blue-vivid-shade3: #08012b;
+
+// Brand
+$color-primary: $color-red-vivid;
+$color-accent: $color-blue-vivid;
 
 // Navigation
-$color-nav-bg: $color-light1;
+$color-nav-bg: $color-light;
 $color-nav-link-normal-text: $color-dark1;
 $color-nav-link-normal-bg:   $color-light1;
 $color-nav-link-hover-text:  $color-light1;
 $color-nav-link-hover-bg:    $color-dark1;
 
+// Layout
+$color-body-bg: $color-light1;
+
 // Typography
-$color-font-body: #222 !default;
-$color-font-headings: $color-font-body !default;
-$color-font-light: #888 !default;
-$color-font-figcaption: $color-font-body !default;
+$color-font-body: $color-dark4;
+$color-font-headings: $color-font-body;
+$color-font-light: $color-light5;
+$color-font-figcaption: $color-font-body;
 
 $color-link-normal: $color-font-body;
 $color-link-hover: $color-font-body;
-$color-link-active: #f00;
+$color-link-active: $color-red;
 $color-link-visited: $color-font-light;
