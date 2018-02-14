@@ -214,6 +214,11 @@ ol li {
 	margin-bottom: 0;
 }
 
+dl dt {
+	@include margin-top(.5);
+	font-weight: bold;
+}
+
 a {
 	background: transparent;
 	color: $color-link-normal;
