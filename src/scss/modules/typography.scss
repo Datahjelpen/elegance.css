@@ -265,13 +265,13 @@ pre {
 // Remove the text shadow on text selections (opinionated).
 // Restore the coloring undone by defining the text shadow (opinionated).
 ::-moz-selection {
-	background-color: $color-blue;
-	color: #000000;
+	background-color: $color-accent;
+	color: $color-light;
 	text-shadow: none;
 }
 
 ::selection {
-	background-color: $color-blue;
-	color: #000000;
+	background-color: $color-accent;
+	color: $color-light;
 	text-shadow: none;
 }

@@ -11,9 +11,22 @@ html.navigation {
 			align-items: flex-start;
 
 			> main {
+				@include padding(0, 0, 0, 1);
 				height: 100%;
 				overflow-y: auto;
 			}
+		}
+	}
+}
+
+nav ol,
+nav ul {
+	list-style: none;
+	padding: 0;
+
+	> li {
+		> ul {
+			@include padding(0, 0, 0, 1);
 		}
 	}
 }
@@ -24,6 +37,8 @@ nav.navigation {
 	width: 100%;
 
 	&-aside {
+		@include padding(1, 1);
 		max-width: $size-s;
+		height: 100%;
 	}
 }
