@@ -11,9 +11,15 @@ html.navigation {
 			align-items: flex-start;
 
 			> main {
-				@include padding(0, 0, 0, 1);
+				z-index: 1;
+				@include padding(1, 0, 0, 1);
 				height: 100%;
 				overflow-y: auto;
+				flex-grow: 1;
+			}
+
+			> nav.navigation {
+				flex-shrink: 0;
 			}
 		}
 	}
@@ -32,13 +38,88 @@ nav ul {
 }
 
 nav.navigation {
+	z-index: 2;
 	color: $color-nav-link-normal-text;
 	background-color: $color-nav-bg;
 	width: 100%;
+	max-width: $size-l;
+
+	h1, h2, h3,
+	h4, h5, h6 {
+		@include margin(0, 0);
+	}
 
 	&-aside {
 		@include padding(1, 1);
 		max-width: $size-s;
 		height: 100%;
+
+		&-left {
+			order: -1;
+		}
+
+		&-right {
+			order: 999;
+		}
+	}
+}
+
+// Hide nav toggle on desktop
+#navigation-toggle,
+#navigation-toggle-button {
+	display: none;
+}
+
+@media (max-width: $size-m) {
+	nav.navigation {
+		&-aside {
+			position: absolute;
+			top: 0;
+			transition: transform 250ms;
+
+			&-left {
+				transform: translateX(-100%);
+				left: 0;
+			}
+
+			&-right {
+				transform: translateX(100%);
+				right: 0;
+			}
+		}
+	}
+
+	#navigation-toggle {
+		display: block;
+		position: fixed;
+		top: 0;
+		left: 0;
+		z-index: -1;
+		width: 1px;
+		height: 1px;
+		opacity: 0;
+
+		&-button {
+			display: block;
+			position: fixed;
+			top: 0;
+			left: 0;
+			z-index: 3;
+
+			.closed {
+				display: none;
+			}
+		}
+
+		&:checked {
+			& + #navigation-toggle-button {
+				.open   { display: none;  }
+				.closed { display: block; }
+			}
+
+			& ~ nav.navigation {
+				transform: translateX(0%);
+			}
+		}
 	}
 }
