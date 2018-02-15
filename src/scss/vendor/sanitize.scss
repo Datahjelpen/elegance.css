@@ -1,7 +1,6 @@
 /*! sanitize.css v5.0.0 | CC0 License | github.com/jonathantneal/sanitize.css */
 
-/* Document (https://html.spec.whatwg.org/multipage/semantics.html#semantics)
-   ========================================================================== */
+/* Document (https://html.spec.whatwg.org/multipage/semantics.html#semantics) */
 
 /**
  * 1. Add box sizing inheritence in all browsers (opinionated).
@@ -30,8 +29,7 @@
  * 3. Prevent font size adjustments after orientation changes in IE and iOS.
  */
 
-/* Sections (https://html.spec.whatwg.org/multipage/semantics.html#sections)
-   ========================================================================== */
+/* Sections (https://html.spec.whatwg.org/multipage/semantics.html#sections) */
 
 /**
  * Add the correct display in IE 9-.
@@ -46,16 +44,7 @@ section {
 	display: block;
 }
 
-/**
- * Remove the margin in all browsers (opinionated).
- */
-
-body {
-	margin: 0;
-}
-
-/* Grouping content (https://html.spec.whatwg.org/multipage/semantics.html#grouping-content)
-   ========================================================================== */
+/* Grouping content (https://html.spec.whatwg.org/multipage/semantics.html#grouping-content) */
 
 /**
  * Add the correct display in IE 9-.
@@ -76,8 +65,7 @@ figure {
 	margin: 1em 40px;
 }
 
-/* Embedded content (https://html.spec.whatwg.org/multipage/embedded-content.html#embedded-content)
-   ========================================================================== */
+/* Embedded content (https://html.spec.whatwg.org/multipage/embedded-content.html#embedded-content) */
 
 /*
  * Change the alignment on media elements in all browers (opinionated).
@@ -134,8 +122,7 @@ svg:not(:root) {
 	overflow: hidden;
 }
 
-/* Tabular data (https://html.spec.whatwg.org/multipage/tables.html#tables)
-   ========================================================================== */
+/* Tabular data (https://html.spec.whatwg.org/multipage/tables.html#tables) */
 
 /**
  * Collapse border spacing
@@ -145,8 +132,7 @@ table {
 	border-collapse: collapse;
 }
 
-/* Forms (https://html.spec.whatwg.org/multipage/forms.html#forms)
-   ========================================================================== */
+/* Forms (https://html.spec.whatwg.org/multipage/forms.html#forms) */
 
 /**
  * Remove the margin in Firefox and Safari.
@@ -315,8 +301,7 @@ textarea {
 	font: inherit; /* 2 */
 }
 
-/* Interactive elements (https://html.spec.whatwg.org/multipage/forms.html#interactive-elements)
-   ========================================================================== */
+/* Interactive elements (https://html.spec.whatwg.org/multipage/forms.html#interactive-elements) */
 
 /*
  * Add the correct display in IE 9-.
@@ -336,8 +321,7 @@ summary {
 	display: list-item;
 }
 
-/* Scripting (https://html.spec.whatwg.org/multipage/scripting.html#scripting-3)
-   ========================================================================== */
+/* Scripting (https://html.spec.whatwg.org/multipage/scripting.html#scripting-3) */
 
 /**
  * Add the correct display in IE 9-.
@@ -355,8 +339,7 @@ template {
 	display: none;
 }
 
-/* User interaction (https://html.spec.whatwg.org/multipage/interaction.html#editing)
-   ========================================================================== */
+/* User interaction (https://html.spec.whatwg.org/multipage/interaction.html#editing) */
 
 /*
  * Remove the tapping delay on clickable elements (opinionated).
@@ -384,8 +367,7 @@ textarea,
 	display: none;
 }
 
-/* ARIA (https://w3c.github.io/html-aria/)
-   ========================================================================== */
+/* ARIA (https://w3c.github.io/html-aria/) */
 
 /**
  * Change the cursor on busy elements (opinionated).
