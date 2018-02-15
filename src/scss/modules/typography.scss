@@ -163,8 +163,7 @@ dfn {
 }
 
 // Prevent `em` and `i` affecting `line-height` in all browsers.
-em,
-i {
+em {
 	line-height: 0;
 	position: relative;
 	vertical-align: baseline;
@@ -259,6 +258,20 @@ samp,
 pre {
 	font-family: $font-code;
 	font-size: 1em;
+}
+
+.icon {
+	&:first-child {
+		@include margin(0, .45, 0, 0);
+	}
+
+	&:last-child {
+		@include margin(0, 0, 0, .45);
+	}
+
+	&:first-child:last-child {
+		margin: 0;
+	}
 }
 
 // Remove the text shadow on text selections (opinionated).
