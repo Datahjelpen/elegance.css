@@ -66,38 +66,60 @@ nav.navigation {
 		background-color: $color-nav-bg;
 	}
 
-	> ul {
+	> .navigation-menu {
 		> li {
-			position: relative;
+			&.navigation-menu-item-parent {
+				position: relative;
 
-			> ul {
-				z-index: 1;
-				@include line-height(1);
-				transition: opacity 250ms;
-				opacity: 0;
-				position: absolute;
-				top: 100%;
-				padding: 0;
-				width: 0;
-				height: 0;
-				overflow: hidden;
-				@include shadow(0);
-			}
+				> .navigation-menu-item-child {
+					z-index: 1;
+					transition: opacity 250ms;
+					@include line-height(1);
+					@include padding(0, 0, 0, 1);
 
-			&:hover {
-				> ul {
-					@include padding(.5, .5);
-					opacity: 1;
-					height: auto;
-					width: 150%;
-					@include shadow(1);
+					&.collapse {
+						padding: 0;
+						opacity: 0;
+						padding: 0;
+						width: 0;
+						height: 0;
+						overflow: hidden;
+					}
+
+					> li {
+						white-space: nowrap;
+					}
+				}
+
+				&:hover {
+					> .navigation-menu-item-child.trigger-hover {
+						@include padding(.5, .5);
+						opacity: 1;
+						height: auto;
+						width: auto;
+					}
+				}
+
+				&:target,
+				&:focus,
+				&:focus-within {
+					> a {
+						outline: 0;
+					}
+
+					> .navigation-menu-item-child.trigger-click {
+						@include padding(.5, .5);
+						opacity: 1;
+						height: auto;
+						width: auto;
+					}
 				}
 			}
 		}
 	}
 
 	&-hor {
-		> ul {
+		> .navigation-menu {
 			@include padding(0, 0, 0, .5);
 			flex-grow: 1;
 			margin: 0;
@@ -113,16 +135,25 @@ nav.navigation {
 				}
 
 				> ul {
+					position: absolute;
+					top: 100%;
 					right: 0;
+					@include shadow(0);
+
+					&:hover {
+						@include shadow(1);
+					}
 				}
 			}
 		}
 	}
 
 	&-vert {
-		> ul {
+		> .navigation-menu {
 			> li {
 				> ul {
+					position: relative;
+					top: 0%;
 					left: 0;
 				}
 			}
