@@ -2,9 +2,13 @@
 
 @import 'vendor/sanitize';
 
+html,
+body {
+	margin: 0;
+}
+
 html {
 	box-sizing: border-box;
-	margin: 0;
 	font-size: #{$base + 'px'};
 	font-size: #{$base-font-size + '%'};
 	font-family: $font-body;
@@ -22,8 +26,8 @@ html {
 body {
 	position: relative;
 	background-color: $color-body-bg;
-
 	@include line-height(1);
+
 	@media screen and (min-width: #{ $max-width + 5 + 'em'}) {
 		$leading: $leading-desktop;
 		$leading-rem: $leading-rem-desktop;
@@ -32,6 +36,10 @@ body {
 	}
 }
 
+// TODO: USE FOR TABS
+*:target {
+	background-color: $color-light2;
+}
 
 @import 'modules/typography';
 @import 'modules/navigation';
