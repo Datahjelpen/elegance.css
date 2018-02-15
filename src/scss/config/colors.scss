@@ -54,9 +54,9 @@ $color-accent: $color-blue-vivid;
 // Navigation
 $color-nav-bg: $color-light;
 $color-nav-link-normal-text: $color-dark1;
-$color-nav-link-normal-bg:   $color-light1;
-$color-nav-link-hover-text:  $color-light1;
-$color-nav-link-hover-bg:    $color-dark1;
+$color-nav-link-normal-bg:   $color-nav-bg;
+$color-nav-link-hover-text:  $color-light3;
+$color-nav-link-hover-bg:    $color-nav-bg;
 
 // Layout
 $color-body-bg: $color-light1;
