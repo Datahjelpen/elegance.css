@@ -1,0 +1,13 @@
+@mixin shadow($depth: 1, $strength: 1) {
+	@if $depth == 0 { box-shadow: 0 0 0 rgba($color-shadow, 0); }
+
+	@if $strength == 1 {
+		@if $depth == 1 { box-shadow: 0 .25rem 1rem rgba($color-shadow, .05); }
+		@else if $depth == 2 { box-shadow: 0 .5rem 1rem rgba($color-shadow, .05);  }
+	}
+
+	@if $strength == 2 {
+		@if $depth == 1 { box-shadow: 0 .25rem 1rem rgba($color-shadow, .1); }
+		@else if $depth == 2 { box-shadow: 0 .5rem 1rem rgba($color-shadow, .1); }
+	}
+}

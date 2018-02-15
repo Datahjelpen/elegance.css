@@ -1,10 +1,12 @@
 @import 'config/variables';
+@import 'modules/utilities';
 
 @import 'vendor/sanitize';
 
 html,
 body {
 	margin: 0;
+	overflow-x: hidden;
 }
 
 html {
