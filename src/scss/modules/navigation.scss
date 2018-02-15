@@ -19,7 +19,7 @@ html.navigation {
 				flex-grow: 1;
 			}
 
-			> nav.navigation {
+			> nav.navigation-aside {
 				flex-shrink: 0;
 			}
 		}
@@ -42,12 +42,73 @@ nav.navigation {
 	z-index: 2;
 	color: $color-nav-link-normal-text;
 	background-color: $color-nav-bg;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-content: flex-start;
+	align-items: flex-start;
+	margin: 0 auto;
 	width: 100%;
-	max-width: $size-l;
+	height: 4rem;
+	max-width: $size-xl;
 
-	h1, h2, h3,
-	h4, h5, h6 {
+	a {
+		color: $color-nav-link-normal-text;
+		background-color: $color-nav-link-normal-bg;
+
+		&:focus,
+		&:hover {
+			color: $color-nav-link-hover-text;
+			background-color: $color-nav-link-hover-bg;
+		}
+	}
+
+	ul {
+		background-color: $color-nav-bg;
+	}
+
+	> ul {
 		margin: 0;
+		display: flex;
+
+		> li {
+			height: 4rem;
+			line-height: 4rem;
+
+			> a {
+				display: block;
+				width: 100%;
+				height: 100%;
+			}
+
+			> ul {
+				@include line-height(1);
+				transition: opacity 250ms;
+				transition-delay: 250ms;
+				opacity: 0;
+				height: 0;
+				overflow: hidden;
+
+				&:hover {
+					opacity: 1;
+					height: auto;
+				}
+			}
+
+			&:hover {
+				> ul {
+					transition-delay: 0ms;
+					opacity: 1;
+					height: auto;
+				}
+			}
+		}
+	}
+
+	.navigation {
+		&-logo {
+			margin: 0;
+		}
 	}
 
 	&-aside {
