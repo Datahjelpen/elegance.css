@@ -1,7 +1,6 @@
 html.navigation {
-	&-aside {
+	&-vert {
 		height: 100%;
-		overflow-x: hidden;
 
 		body {
 			height: 100%;
@@ -19,7 +18,7 @@ html.navigation {
 				flex-grow: 1;
 			}
 
-			> nav.navigation-aside {
+			> nav.navigation-vert {
 				flex-shrink: 0;
 			}
 		}
@@ -30,12 +29,6 @@ nav ol,
 nav ul {
 	list-style: none;
 	padding: 0;
-
-	> li {
-		> ul {
-			@include padding(0, 0, 0, 1);
-		}
-	}
 }
 
 nav.navigation {
@@ -51,10 +44,16 @@ nav.navigation {
 	width: 100%;
 	height: 4rem;
 	max-width: $size-xl;
+	@include padding(0, 1);
 
 	a {
 		color: $color-nav-link-normal-text;
 		background-color: $color-nav-link-normal-bg;
+		display: block;
+		width: 100%;
+		height: 100%;
+		@include padding(0, .5);
+		text-decoration: none;
 
 		&:focus,
 		&:hover {
@@ -68,38 +67,63 @@ nav.navigation {
 	}
 
 	> ul {
-		margin: 0;
-		display: flex;
-
 		> li {
-			height: 4rem;
-			line-height: 4rem;
-
-			> a {
-				display: block;
-				width: 100%;
-				height: 100%;
-			}
+			position: relative;
 
 			> ul {
+				z-index: 1;
 				@include line-height(1);
 				transition: opacity 250ms;
-				transition-delay: 250ms;
 				opacity: 0;
+				position: absolute;
+				top: 100%;
+				padding: 0;
+				width: 0;
 				height: 0;
 				overflow: hidden;
-
-				&:hover {
-					opacity: 1;
-					height: auto;
-				}
+				@include shadow(0);
 			}
 
 			&:hover {
 				> ul {
-					transition-delay: 0ms;
+					@include padding(.5, .5);
 					opacity: 1;
 					height: auto;
+					width: 150%;
+					@include shadow(1);
+				}
+			}
+		}
+	}
+
+	&-hor {
+		> ul {
+			@include padding(0, 0, 0, .5);
+			flex-grow: 1;
+			margin: 0;
+			display: flex;
+			justify-content: flex-end;
+
+			> li {
+				height: 4rem;
+				line-height: 4rem;
+
+				> a {
+					overflow: hidden;
+				}
+
+				> ul {
+					right: 0;
+				}
+			}
+		}
+	}
+
+	&-vert {
+		> ul {
+			> li {
+				> ul {
+					left: 0;
 				}
 			}
 		}
@@ -108,13 +132,22 @@ nav.navigation {
 	.navigation {
 		&-logo {
 			margin: 0;
+			flex-shrink: 1;
+			word-break: break-all;
+			width: auto;
+			height: 4rem;
+			overflow: hidden;
 		}
 	}
 
-	&-aside {
+	&-vert {
 		@include padding(1, 1);
-		max-width: $size-s;
+		max-width: 18rem;
 		height: 100%;
+		flex-direction: column;
+		justify-content: flex-start;
+		align-content: flex-start;
+		align-items: flex-start;
 
 		&-left {
 			order: -1;
@@ -135,7 +168,7 @@ nav.navigation {
 
 @media (max-width: $size-m) {
 	nav.navigation {
-		&-aside {
+		&-vert {
 			position: absolute;
 			top: 0;
 			transition: transform 250ms;
@@ -153,7 +186,7 @@ nav.navigation {
 	}
 
 	html.navigation {
-		&-aside {
+		&-vert {
 			&-left {
 				#navigation-toggle-button {
 					left: 0;
