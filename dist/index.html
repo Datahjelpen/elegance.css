@@ -9,13 +9,7 @@
 	<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
 </head>
 <body>
-	<input id="navigation-toggle" type="checkbox">
-	<label id="navigation-toggle-button" for="navigation-toggle">
-		<div class="open"><i class="icon fas fa-bars"></i></div>
-		<div class="closed"><i class="icon fas fa-times"></i></div>
-	</label>
-	<label id="navigation-toggle-backdrop" for="navigation-toggle"></label>
-	<nav class="navigation navigation-vert navigation-vert-left navigation-vert-adaptive">
+	<nav id="nav-main" class="navigation navigation-vert navigation-vert-left navigation-vert-adaptive">
 		<div class="navigation-wrapper-inner">
 			<img class="navigation-logo" src="https://brand.datahjelpen.no/images/dh-logo.svg">
 			<ul class="navigation-menu">
@@ -39,9 +33,17 @@
 					</ul>
 				</li>
 			</ul>
+			<button class="navigation-toggle" target="#nav-main">
+				<span class="open"><i class="icon fas fa-bars"></i></span>
+				<span class="close"><i class="icon fas fa-times"></i></span>
+			</button>
 		</div>
 	</nav>
 	<main>
+		<button class="navigation-toggle" target="#nav-main">
+				<span class="open"><i class="icon fas fa-bars"></i></span>
+				<span class="close"><i class="icon fas fa-times"></i></span>
+			</button>
 		<section id="doc-typography">
 			<header>
 				<h2><i class="icon fas fa-font"></i><span>Typography</span></h2>
