@@ -1,9 +1,9 @@
+const webpack = require('webpack');
 const path = require('path');
-const webpack = require("webpack");
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 
 module.exports = {
-	entry: path.resolve(__dirname, 'src')+'/js/app.js',
+	entry: path.resolve(__dirname, 'src/js/app.js'),
 	output: {
 		path: path.resolve(__dirname, 'dist/assets'),
 		filename: 'app.js',
@@ -13,11 +13,17 @@ module.exports = {
 		rules: [{
 			test:/\.(s*)css$/,
 			use: [
-				{ loader: "style-loader" },
-				{ loader: "css-loader"   },
-				{ loader: "sass-loader"  }
+				{ loader: 'style-loader' },
+				{ loader: 'css-loader'   },
+				{ loader: 'sass-loader'  }
 			]
 		}]
+	},
+	resolve: {
+		extensions: ['.js'],
+		alias: {
+			'core': path.resolve(__dirname, 'src/js/core.js')
+		}
 	},
 	plugins: [
 		new BrowserSyncPlugin({
@@ -25,5 +31,8 @@ module.exports = {
 			port: 8080,
 			server: { baseDir: [__dirname+'/dist'] }
 		}),
+		new webpack.ProvidePlugin({
+			'core': 'core'
+		})
 	]
 }
