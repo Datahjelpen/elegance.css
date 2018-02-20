@@ -1,24 +1,33 @@
-// Open and close navigations
+// Open and close adaptive/responsive navigations
 (function() {
 	let navigationToggles = document.querySelectorAll('.navigation-toggle');
 
 	for (var i = navigationToggles.length - 1; i >= 0; i--) {
+		setupNavToggle(navigationToggles[i]);
+	}
+
+	function setupNavToggle(navToggle) {
 		const uuid = core.uuid();
-		var nav = document.querySelector(navigationToggles[i].getAttribute('target'));
+		var nav = document.querySelector(navToggle.getAttribute('target'));
 
 		nav.setAttribute('uuid', uuid);
-		navigationToggles[i].setAttribute('belongsTo', uuid);
+		navToggle.setAttribute('belongsTo', uuid);
 
 		// Create backdrop
 		var backdrop = document.createElement('div');
 		backdrop.classList.add('navigation-backdrop');
 		backdrop.setAttribute('belongsTo', uuid);
 		document.body.appendChild(backdrop);
+		backdrop.addEventListener('click', function() {
+			toggleNavigation(nav, backdrop);
+		});
 
-		navigationToggles[i].addEventListener('click', function(e) {
+		// Setup toggle for button
+		navToggle.addEventListener('click', function(e) {
 			e.preventDefault();
 			toggleNavigation(nav, backdrop);
-		})
+		});
+
 	}
 
 	function toggleNavigation(nav, backdrop) {
