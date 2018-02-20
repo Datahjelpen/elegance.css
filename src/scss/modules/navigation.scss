@@ -143,6 +143,16 @@ nav.navigation {
 			}
 		}
 
+		&-adaptive {
+			.navigation-toggle {
+				display: none;
+
+				@media (max-width: $size-m) {
+					display: inherit;
+				}
+			}
+		}
+
 		.navigation-menu {
 			@include padding(0, 0, 0, .5);
 			flex-grow: 1;
