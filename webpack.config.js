@@ -19,6 +19,11 @@ module.exports = {
 			]
 		}]
 	},
+	externals: [
+		{
+			'window': 'window'
+		}
+	],
 	resolve: {
 		extensions: ['.js'],
 		alias: {

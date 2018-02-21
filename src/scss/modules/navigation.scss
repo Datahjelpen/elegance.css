@@ -136,23 +136,6 @@ nav.navigation {
 	}
 
 	&-hor {
-		.navigation {
-			&-logo {
-				margin: auto;
-				height: #{($base-font-size-desktop / 100)*2 + 'rem'};
-			}
-		}
-
-		&-adaptive {
-			.navigation-toggle {
-				display: none;
-
-				@media (max-width: $size-m) {
-					display: inherit;
-				}
-			}
-		}
-
 		.navigation-menu {
 			@include padding(0, 0, 0, .5);
 			flex-grow: 1;
@@ -175,6 +158,26 @@ nav.navigation {
 					@include shadow(0);
 				}
 			}
+		}
+
+		.navigation {
+			&-logo {
+				margin: auto;
+				height: #{($base-font-size-desktop / 100)*2 + 'rem'};
+			}
+		}
+
+		&-adaptive {
+			.navigation-toggle {
+				display: none;
+
+				@media (max-width: $size-m) {
+					display: inherit;
+				}
+			}
+
+			// .navigation-menu {
+			// }
 		}
 	}
 
