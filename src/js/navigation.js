@@ -1,3 +1,19 @@
+(function() {
+	var div = document.createElement('div');
+	div.setAttribute('id', 'devicecheck');
+	document.body.appendChild(div);
+
+	const devicecheck = window.getComputedStyle(document.getElementById("devicecheck")).getPropertyValue("content");
+
+	window.is_desktop = false;
+	window.is_tablet =  false;
+	window.is_mobile =  false;
+
+	if (devicecheck == "\"desktop\"" || devicecheck == "desktop") window.is_desktop = true;
+	if (devicecheck == "\"tablet\""  || devicecheck == "tablet") window.is_tablet =   true;
+	if (devicecheck == "\"mobile\""  || devicecheck == "mobile") window.is_mobile =   true;
+})();
+
 // Open and close adaptive/responsive navigations
 (function() {
 	let navigationToggles = document.querySelectorAll('.navigation-toggle');
