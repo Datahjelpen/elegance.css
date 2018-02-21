@@ -1,17 +1,30 @@
 (function() {
+	// Create the devicecheck element
 	var div = document.createElement('div');
 	div.setAttribute('id', 'devicecheck');
 	document.body.appendChild(div);
 
-	const devicecheck = window.getComputedStyle(document.getElementById("devicecheck")).getPropertyValue("content");
+	// Trigger update on resize
+	var delay;
+	window.addEventListener('resize', function() {
+		clearTimeout(delay);
+		delay = setTimeout(window_is_sizeUpdate, 250);
+	});
 
-	window.is_desktop = false;
-	window.is_tablet =  false;
-	window.is_mobile =  false;
+	window_is_sizeUpdate(); // Init
 
-	if (devicecheck == "\"desktop\"" || devicecheck == "desktop") window.is_desktop = true;
-	if (devicecheck == "\"tablet\""  || devicecheck == "tablet") window.is_tablet =   true;
-	if (devicecheck == "\"mobile\""  || devicecheck == "mobile") window.is_mobile =   true;
+	// Update variables
+	function window_is_sizeUpdate() {
+		var devicecheck = window.getComputedStyle(document.getElementById("devicecheck")).getPropertyValue("content");
+
+		window.is_desktop = false;
+		window.is_tablet =  false;
+		window.is_mobile =  false;
+
+		if (devicecheck == "\"desktop\"" || devicecheck == "desktop") window.is_desktop = true;
+		if (devicecheck == "\"tablet\""  || devicecheck == "tablet") window.is_tablet =   true;
+		if (devicecheck == "\"mobile\""  || devicecheck == "mobile") window.is_mobile =   true;
+	};
 })();
 
 // Open and close adaptive/responsive navigations
@@ -76,21 +89,35 @@
 
 		bindNavToggle(vertNav, navToggle);
 
+		var lastSize = 'desktop';
+		if (window.is_mobile || window.is_tablet) {
+			lastSize = 'mobile/tablet';
+			sizeChanged();
+		}
+
 		var delay;
-		window.onresize = function() {
+		window.addEventListener('resize', function() {
 			clearTimeout(delay);
 			delay = setTimeout(sizeChanged, 250);
-		};
+		});
 
-		sizeChanged();
 		function sizeChanged() {
 			if (window.is_mobile || window.is_tablet) {
-				console.log(nav.querySelector('.navigation-menu'));
-				// vertNavInnerWrapper.appendChild(nav.querySelector('.navigation-menu'));
+				var newSize = 'mobile/tablet';
 			} else if (window.is_desktop) {
-				console.log(vertNav.querySelector('.navigation-menu'));
-				// navInnerWrapper.appendChild(vertNav.querySelector('.navigation-menu'));
+				var newSize = 'desktop';
 			}
+
+			if (lastSize != newSize) {
+				// If navigation is bigger than body, send menu items to the other navigation
+				if (nav.scrollWidth > document.body.clientWidth) {
+					vertNavInnerWrapper.appendChild(nav.querySelector('.navigation-menu'));
+				} else {
+					navInnerWrapper.appendChild(vertNav.querySelector('.navigation-menu'));
+				}
+			}
+
+			lastSize = newSize;
 		}
 	};
 })();

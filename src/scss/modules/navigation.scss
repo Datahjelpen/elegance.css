@@ -176,8 +176,13 @@ nav.navigation {
 				}
 			}
 
-			// .navigation-menu {
-			// }
+			.navigation-menu {
+				flex-wrap: nowrap;
+
+				> li {
+					white-space: nowrap;
+				}
+			}
 		}
 	}
 
