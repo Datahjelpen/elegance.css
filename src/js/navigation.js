@@ -40,7 +40,7 @@
 
 		// Setup adaptive horizontal navigation
 		if (nav.classList.contains('navigation-hor-adaptive')) {
-			createVertNav(nav, navToggle);
+			createVertNav(nav, navToggle, 'adaptive');
 		} else {
 			bindNavToggle(nav, navToggle);
 		}
@@ -72,7 +72,8 @@
 		}
 	}
 
-	function createVertNav(nav, navToggle) {
+	// Creates a vertical nav for the adaptive/responsive horizontal nav
+	function createVertNav(nav, navToggle, nav_type) {
 		// Find menu
 		var menu = nav.querySelector('.navigation-menu');
 		var navInnerWrapper = nav.querySelector('.navigation-wrapper-inner');
@@ -89,11 +90,12 @@
 
 		bindNavToggle(vertNav, navToggle);
 
-		var lastSize = 'desktop';
-		if (window.is_mobile || window.is_tablet) {
-			lastSize = 'mobile/tablet';
+		var lastMode = 'horizontal';
+		var lastOverflowWidth = nav.clientWidth+1;
+		// Tiny delay to make sure the navigation is rendered and we can spot overflow
+		setTimeout(function() {
 			sizeChanged();
-		}
+		}, 25);
 
 		var delay;
 		window.addEventListener('resize', function() {
@@ -101,23 +103,34 @@
 			delay = setTimeout(sizeChanged, 250);
 		});
 
+		// Sends menu items or the entire menu to the correct navigation,
+		// depending on the window size and nav size and nav type
 		function sizeChanged() {
-			if (window.is_mobile || window.is_tablet) {
-				var newSize = 'mobile/tablet';
-			} else if (window.is_desktop) {
-				var newSize = 'desktop';
-			}
+			// set mode to vertical if we have overflow
+			var newMode ;
+			if (nav.scrollWidth > nav.clientWidth) {
+				lastOverflowWidth = nav.scrollWidth;
+				newMode = 'vertical';
+			} else {
+				newMode = 'horizontal';
 
-			if (lastSize != newSize) {
-				// If navigation is bigger than body, send menu items to the other navigation
-				if (nav.scrollWidth > document.body.clientWidth) {
-					vertNavInnerWrapper.appendChild(nav.querySelector('.navigation-menu'));
-				} else {
-					navInnerWrapper.appendChild(vertNav.querySelector('.navigation-menu'));
+				// Stai in vertical, as window is not big enough yet
+				if (nav.clientWidth <= lastOverflowWidth) {
+					newMode = 'vertical';
 				}
 			}
 
-			lastSize = newSize;
+			if (nav_type == 'adaptive') {
+				if (newMode == 'vertical' && lastMode == 'horizontal') {
+					vertNavInnerWrapper.appendChild(nav.querySelector('.navigation-menu'));
+					navToggle.style.display = 'inherit';
+				} else if (newMode == 'horizontal' && lastMode == 'vertical') {
+					navInnerWrapper.appendChild(vertNav.querySelector('.navigation-menu'));
+					navToggle.style.display = '';
+				}
+			}
+
+			lastMode = newMode;
 		}
 	};
 })();

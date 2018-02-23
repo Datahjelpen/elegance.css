@@ -171,9 +171,9 @@ nav.navigation {
 			.navigation-toggle {
 				display: none;
 
-				@media (max-width: $size-m) {
-					display: inherit;
-				}
+				// @media (max-width: $size-m) {
+				// 	display: inherit;
+				// }
 			}
 
 			.navigation-menu {
