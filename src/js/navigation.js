@@ -44,6 +44,10 @@
 		} else {
 			bindNavToggle(nav, navToggle);
 		}
+
+		if (nav.classList.contains('navigation-stick-auto')) {
+			setupStickAuto(nav, navToggle);
+		}
 	}
 
 	function bindNavToggle(nav, navToggle) {
@@ -93,9 +97,7 @@
 		var lastMode = 'horizontal';
 		var lastOverflowWidth = 0;
 		// Tiny delay to make sure the navigation is rendered and we can spot overflow
-		setTimeout(function() {
-			sizeChanged();
-		}, 25);
+		setTimeout(function() { sizeChanged() }, 25);
 
 		var delay;
 		window.addEventListener('resize', function() {
@@ -133,4 +135,29 @@
 			lastMode = newMode;
 		}
 	};
+
+	function setupStickAuto(nav, navToggle) {
+		var navParent = nav.parentNode;
+		var navHeight = nav.clientHeight;
+
+		// Trigger update on scroll (with a small delay)
+		var delay;
+		var lastScrollTop = 0;
+		navParent.addEventListener('scroll', function() {
+			clearTimeout(delay);
+			delay = setTimeout(function() {
+				elementScroll(navParent);
+			}, 100);
+		});
+
+		function elementScroll(scrollElement) {
+			var st = scrollElement.scrollTop;
+			if (st > navHeight && st > lastScrollTop){
+				nav.classList.add('navigation-stick-active');
+			} else {
+				nav.classList.remove('navigation-stick-active');
+			}
+			lastScrollTop = st;
+		}
+	}
 })();

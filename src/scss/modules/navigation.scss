@@ -135,6 +135,22 @@ nav.navigation {
 		}
 	}
 
+	&-stick {
+		position: sticky;
+		top: 0px;
+
+		&-auto {
+			position: sticky;
+			top: 0px;
+			transform: translateY(0%);
+			transition: transform 250ms;
+		}
+
+		&-active {
+			transform: translateY(-100%);
+		}
+	}
+
 	&-hor {
 		.navigation-menu {
 			@include padding(0, 0, 0, .5);
