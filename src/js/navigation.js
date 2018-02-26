@@ -85,21 +85,21 @@
 
 		// Figure out weather to send menu items to a generated nav or a user defined element
 		if (navTarget != null) {
-			var vertNav = document.querySelector(navTarget);
-			var vertNavInnerWrapper = vertNav;
+			var adaptiveNav = document.querySelector(navTarget);
+			var adaptiveNavInnerWrapper = adaptiveNav;
 		} else {
 			// Create elements
-			var vertNav = document.createElement('nav');
-			vertNav.classList.add('navigation', 'navigation-vert', 'navigation-vert-right');
-			var vertNavInnerWrapper = document.createElement('div');
-			vertNavInnerWrapper.classList.add('navigation-wrapper-inner');
+			var adaptiveNav = document.createElement('nav');
+			adaptiveNav.classList.add('navigation', 'navigation-vert', 'navigation-vert-right');
+			var adaptiveNavInnerWrapper = document.createElement('div');
+			adaptiveNavInnerWrapper.classList.add('navigation-wrapper-inner');
 
 			// Append elements to page
-			vertNav.appendChild(vertNavInnerWrapper);
-			document.body.appendChild(vertNav);
-
-			bindNavToggle(vertNav, navToggle);
+			adaptiveNav.appendChild(adaptiveNavInnerWrapper);
+			document.body.appendChild(adaptiveNav);
 		}
+
+		bindNavToggle(adaptiveNav, navToggle);
 
 		var lastMode = 'horizontal';
 		var lastOverflowWidth = 0;
@@ -131,10 +131,10 @@
 
 			if (nav_type == 'adaptive') {
 				if (newMode == 'vertical' && lastMode == 'horizontal') {
-					vertNavInnerWrapper.appendChild(nav.querySelector('.navigation-menu'));
+					adaptiveNavInnerWrapper.appendChild(nav.querySelector('.navigation-menu'));
 					navToggle.style.display = 'inherit';
 				} else if (newMode == 'horizontal' && lastMode == 'vertical') {
-					navInnerWrapper.appendChild(vertNav.querySelector('.navigation-menu'));
+					navInnerWrapper.appendChild(adaptiveNav.querySelector('.navigation-menu'));
 					navToggle.style.display = '';
 				}
 			}
