@@ -40,7 +40,7 @@
 
 		// Setup adaptive horizontal navigation
 		if (nav.classList.contains('navigation-hor-adaptive')) {
-			createVertNav(nav, navToggle, 'adaptive');
+			setupAdaptiveNav(nav, navToggle, 'adaptive');
 		} else {
 			bindNavToggle(nav, navToggle);
 		}
@@ -77,7 +77,7 @@
 	}
 
 	// Creates a vertical nav for the adaptive/responsive horizontal nav
-	function createVertNav(nav, navToggle, nav_type) {
+	setupAdaptiveNav(nav, navToggle, nav_type) {
 		// Find menu
 		var menu = nav.querySelector('.navigation-menu');
 		var navInnerWrapper = nav.querySelector('.navigation-wrapper-inner');
