@@ -8,7 +8,7 @@
 	var delay;
 	window.addEventListener('resize', function() {
 		clearTimeout(delay);
-		delay = setTimeout(window_is_sizeUpdate, 250);
+		delay = setTimeout(window_is_sizeUpdate, 500);
 	});
 
 	window_is_sizeUpdate(); // Init
@@ -134,4 +134,3 @@
 		}
 	};
 })();
-
