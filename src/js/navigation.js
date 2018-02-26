@@ -81,18 +81,25 @@
 		// Find menu
 		var menu = nav.querySelector('.navigation-menu');
 		var navInnerWrapper = nav.querySelector('.navigation-wrapper-inner');
+		var navTarget = nav.getAttribute('target');
 
-		// Create elements
-		var vertNav = document.createElement('nav');
-		vertNav.classList.add('navigation', 'navigation-vert', 'navigation-vert-right');
-		var vertNavInnerWrapper = document.createElement('div');
-		vertNavInnerWrapper.classList.add('navigation-wrapper-inner');
+		// Figure out weather to send menu items to a generated nav or a user defined element
+		if (navTarget != null) {
+			var vertNav = document.querySelector(navTarget);
+			var vertNavInnerWrapper = vertNav;
+		} else {
+			// Create elements
+			var vertNav = document.createElement('nav');
+			vertNav.classList.add('navigation', 'navigation-vert', 'navigation-vert-right');
+			var vertNavInnerWrapper = document.createElement('div');
+			vertNavInnerWrapper.classList.add('navigation-wrapper-inner');
 
-		// Append elements to page
-		vertNav.appendChild(vertNavInnerWrapper);
-		document.body.appendChild(vertNav);
+			// Append elements to page
+			vertNav.appendChild(vertNavInnerWrapper);
+			document.body.appendChild(vertNav);
 
-		bindNavToggle(vertNav, navToggle);
+			bindNavToggle(vertNav, navToggle);
+		}
 
 		var lastMode = 'horizontal';
 		var lastOverflowWidth = 0;
