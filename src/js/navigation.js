@@ -77,7 +77,7 @@
 	}
 
 	// Creates a vertical nav for the adaptive/responsive horizontal nav
-	setupAdaptiveNav(nav, navToggle, nav_type) {
+	function setupAdaptiveNav(nav, navToggle, nav_type) {
 		// Find menu
 		var menu = nav.querySelector('.navigation-menu');
 		var navInnerWrapper = nav.querySelector('.navigation-wrapper-inner');
