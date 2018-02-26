@@ -91,7 +91,7 @@
 		bindNavToggle(vertNav, navToggle);
 
 		var lastMode = 'horizontal';
-		var lastOverflowWidth = nav.clientWidth+1;
+		var lastOverflowWidth = 0;
 		// Tiny delay to make sure the navigation is rendered and we can spot overflow
 		setTimeout(function() {
 			sizeChanged();
@@ -114,8 +114,8 @@
 			} else {
 				newMode = 'horizontal';
 
-				// Stai in vertical, as window is not big enough yet
-				if (nav.clientWidth <= lastOverflowWidth) {
+				// Stay in vertical, as window is not big enough yet
+				if (lastOverflowWidth != 0 && nav.clientWidth <= lastOverflowWidth) {
 					newMode = 'vertical';
 				}
 			}
