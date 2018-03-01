@@ -41,6 +41,8 @@
 		// Setup adaptive horizontal navigation
 		if (nav.classList.contains('navigation-hor-adaptive')) {
 			setupAdaptiveNav(nav, navToggle, 'adaptive');
+		} else if (nav.classList.contains('navigation-hor-responsive')) {
+			setupAdaptiveNav(nav, navToggle, 'responsive');
 		} else {
 			bindNavToggle(nav, navToggle);
 		}
@@ -94,6 +96,12 @@
 			var adaptiveNavInnerWrapper = document.createElement('div');
 			adaptiveNavInnerWrapper.classList.add('navigation-wrapper-inner');
 
+			if (nav_type == 'responsive') {
+				var menuItemsWrapper = document.createElement('ul');
+				menuItemsWrapper.classList.add('navigation-menu');
+				adaptiveNavInnerWrapper.appendChild(menuItemsWrapper);
+			}
+
 			// Append elements to page
 			adaptiveNav.appendChild(adaptiveNavInnerWrapper);
 			document.body.appendChild(adaptiveNav);
@@ -103,8 +111,6 @@
 
 		var lastMode = 'horizontal';
 		var lastOverflowWidth = 0;
-		// Tiny delay to make sure the navigation is rendered and we can spot overflow
-		setTimeout(function() { sizeChanged() }, 25);
 
 		var delay;
 		window.addEventListener('resize', function() {
@@ -129,19 +135,54 @@
 				}
 			}
 
-			if (nav_type == 'adaptive') {
+			if (nav_type == 'responsive') {
+				if (newMode == 'vertical') {
+					checkResponsiveSize('smaller');
+				} else {
+					checkResponsiveSize('bigger');
+				}
+			} else if (nav_type == 'adaptive') {
 				if (newMode == 'vertical' && lastMode == 'horizontal') {
-					adaptiveNavInnerWrapper.appendChild(nav.querySelector('.navigation-menu'));
+					var menuItems = nav.querySelector('.navigation-menu');
+
+					// Send from hor nav to other
+					adaptiveNavInnerWrapper.appendChild(menuItems);
+
+					// Show toggle for other
 					navToggle.style.display = 'inherit';
 				} else if (newMode == 'horizontal' && lastMode == 'vertical') {
-					navInnerWrapper.appendChild(adaptiveNav.querySelector('.navigation-menu'));
+					var menuItems = adaptiveNav.querySelector('.navigation-menu');
+
+					// Send from other to hor nav
+					navInnerWrapper.appendChild(menuItems);
+
+					// Hide toggle for other
 					navToggle.style.display = '';
 				}
 			}
 
 			lastMode = newMode;
 		}
-	};
+
+		function checkResponsiveSize(newSize) {
+			var menuItems = nav.querySelector('.navigation-menu');
+			var newMenuItemsWrapper = adaptiveNavInnerWrapper.querySelector('.navigation-menu');
+
+			if (newSize == 'smaller') {
+				// newMenuItemsWrapper.insertBefore(menuItems.lastElementChild, newMenuItemsWrapper.firstElementChild);
+				newMenuItemsWrapper.appendChild(menuItems.lastElementChild);
+				setTimeout(sizeChanged, 500);
+			} else if (newSize == 'bigger') {
+				menuItems.appendChild(newMenuItemsWrapper.firstElementChild);
+				setTimeout(sizeChanged, 500);
+			}
+		}
+
+		sizeChanged();
+		// delay to make sure the navigation is rendered and we can spot overflow
+		setTimeout(sizeChanged, 25);
+		setTimeout(sizeChanged, 250);
+	}
 
 	function setupStickAuto(nav, navToggle) {
 		var navParent = nav.parentNode;
