@@ -9,8 +9,8 @@
     "prod": "webpack --config webpack.prod.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "dependencies": {},
   "dependencies": {
+    "fg-loadcss": "^2.0.1"
   },
   "devDependencies": {
     "browser-sync": "^2.23.6",
