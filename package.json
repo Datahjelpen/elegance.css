@@ -5,18 +5,24 @@
   "main": "app.js",
   "scripts": {
     "start": "webpack",
-    "watch": "webpack --watch",
+    "dev": "webpack --config webpack.dev.js --watch",
+    "prod": "webpack --config webpack.prod.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {},
+  "dependencies": {
+  },
   "devDependencies": {
-    "browser-sync-webpack-plugin": "^2.0.1",
     "browser-sync": "^2.23.6",
+    "browser-sync-webpack-plugin": "^2.0.1",
     "css-loader": "^0.28.9",
+    "extract-text-webpack-plugin": "^3.0.2",
     "node-sass": "^4.7.2",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.20.1",
-    "webpack": "^3.11.0"
+    "uglifyjs-webpack-plugin": "^1.2.2",
+    "webpack": "^3.11.0",
+    "webpack-merge": "^4.1.2"
   },
   "repository": {
     "type": "git",
