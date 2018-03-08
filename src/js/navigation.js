@@ -35,19 +35,97 @@
 
 	for (var i = navigationToggles.length - 1; i >= 0; i--) {
 		var nav = new Navigation(navigationToggles[i]);
-		var navClassList = nav.selector.classList;
+	}
 
-		// Setup adaptive horizontal navigation
-		if (navClassList.contains('navigation-hor-adaptive')) {
-			nav.setupAdaptiveNav('adaptive');
-		} else if (navClassList.contains('navigation-hor-responsive')) {
-			nav.setupAdaptiveNav('responsive');
-		} else {
-			nav.bindNavToggle();
+	var navigationayy = new NavigationElement('vertical left adaptive');
+	navigationayy.createLogo('https://brand.datahjelpen.no/images/dh-logo.svg');
+	navigationayy.createMenuItem('1.1 - Headings', '#', 'icon fas fa-font');
+
+	function NavigationElement(nav_type) {
+		this.selector = document.createElement('nav');
+		this.selector.classList.add('navigation');
+
+		if (nav_type != null) {
+			this.classes = nav_type.split(' ');
+			if (this.classes.indexOf('horizontal') != -1) {
+				this.selector.classList.add('navigation-hor');
+
+				if (this.classes.indexOf('sticky') != -1)     this.selector.classList.add('navigation-stick-auto');
+				if (this.classes.indexOf('adaptive') != -1)   this.selector.classList.add('navigation-hor-adaptive');
+				if (this.classes.indexOf('responsive') != -1) this.selector.classList.add('navigation-hor-responsive');
+			} else if (this.classes.indexOf('vertical') != -1) {
+				this.selector.classList.add('navigation-vert');
+
+				if (this.classes.indexOf('left') != -1)     this.selector.classList.add('navigation-vert-left');
+				if (this.classes.indexOf('right') != -1)    this.selector.classList.add('navigation-vert-right');
+				if (this.classes.indexOf('adaptive') != -1) this.selector.classList.add('navigation-vert-adaptive');
+			}
 		}
 
-		if (navClassList.contains('navigation-stick-auto')) nav.setupSticky();
+		this.wrapper_selector = document.createElement('div');
+		this.wrapper_selector.classList.add('navigation-wrapper-inner');
+		this.selector.appendChild(this.wrapper_selector);
+
+		this.menu_wrapper_selector = document.createElement('ul');
+		this.menu_wrapper_selector.classList.add('navigation-menu');
+		this.wrapper_selector.appendChild(this.menu_wrapper_selector);
+
+		// '<nav id="nav-main-vert" class="">'
+		// '<div class="navigation-wrapper-inner">'
+		// '<img class="navigation-logo" src="https://brand.datahjelpen.no/images/dh-logo.svg">'
+		// '<ul class="navigation-menu">'
+		// '<li class="navigation-menu-item-parent">'
+		// '<a href="#"><i class="icon fas fa-font"></i><span>1.0 - Typography</span></a>'
+		// '<ul class="navigation-menu-item-child trigger-hover">'
+		// '<li><a href="#doc-typography-headings">1.1 - Headings</a></li>'
+
+		this.createLogo = function(logo_source) {
+			var logo_ext = logo_source.split('.').pop();
+
+			if (logo_ext == 'png' || logo_ext == 'jpg' || logo_ext == 'jpeg' || logo_ext == 'gif') {
+				var _this = this;
+				this.logo = new Image();
+				this.logo.src = logo_source;
+
+				this.logo.addEventListener('load', function() {
+					console.log(_this.logo.contentDocument);
+				});
+			} else if (logo_ext == 'svg') {
+			// <object data="alpha.svg" type="image/svg+xml" id="alphasvg" width="100%" height="100%"></object>
+			}
+
+			this.wrapper_selector.insertBefore(this.logo, this.menu_wrapper_selector);
+		}
+
+		this.createMenuItem = function(text, link, icon) {
+			var li = document.createElement('li');
+			li.classList.add('navigation-menu-item-parent');
+
+			var a = document.createElement('a');
+			a.href = link;
+			li.appendChild(a);
+
+			var span = document.createElement('span');
+			span.appendChild(document.createTextNode(text));
+			a.appendChild(span);
+
+			var i = document.createElement('i');
+			i.classList = icon;
+			a.insertBefore(i, span);
+
+			this.menu_wrapper_selector.appendChild(li);
+		}
+
+		document.body.appendChild(this.selector);
 	}
+
+
+
+
+
+
+
+
 
 	function Navigation(toggle) {
 		var _this = this;
@@ -203,6 +281,16 @@
 			setTimeout(_this.sizeChanged, 25);
 			setTimeout(_this.sizeChanged, 250);
 		}
+
+		// Setup adaptive horizontal navigation
+		if (this.selector.classList.contains('navigation-hor-adaptive')) {
+			this.setupAdaptiveNav('adaptive');
+		} else if (this.selector.classList.contains('navigation-hor-responsive')) {
+			this.setupAdaptiveNav('responsive');
+		} else {
+			this.bindNavToggle();
+		}
+		if (this.selector.classList.contains('navigation-stick-auto')) this.setupSticky();
 
 		navs.push(this);
 	}
