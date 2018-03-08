@@ -30,6 +30,7 @@
 // Open and close adaptive/responsive navigations
 (function() {
 	var navs = [];
+	var backdrops = [];
 	var navigationToggles = document.querySelectorAll('.navigation-toggle');
 
 	for (var i = navigationToggles.length - 1; i >= 0; i--) {
@@ -46,8 +47,6 @@
 		}
 
 		if (navClassList.contains('navigation-stick-auto')) nav.setupSticky();
-
-		navs.push(nav);
 	}
 
 	function Navigation(toggle) {
@@ -78,26 +77,20 @@
 		this.toggleNav = function() {
 			if (this.selector.classList.contains('open')) {
 				this.selector.classList.remove('open');
-				backdrop.classList.remove('open');
+				this.backdrop.selector.classList.remove('open');
 			} else {
 				this.selector.classList.add('open');
-				backdrop.classList.add('open');
+				this.backdrop.selector.classList.add('open');
 			}
 		}
 
 		this.bindNavToggle = function() {
-			// Create backdrop
-			this.backdrop = document.createElement('div');
-			this.backdrop.classList.add('navigation-backdrop');
-			document.body.appendChild(this.backdrop);
-			this.backdrop.addEventListener('click', function() {
-				this.toggleNav();
-			});
+			this.backdrop = new Backdrop(this);
 
 			// Setup toggle for button
 			this.toggle_selector.addEventListener('click', function(e) {
 				e.preventDefault();
-				this.toggleNav();
+				_this.toggleNav();
 			});
 		}
 
@@ -210,7 +203,24 @@
 			setTimeout(_this.sizeChanged, 25);
 			setTimeout(_this.sizeChanged, 250);
 		}
+
+		navs.push(this);
 	}
 
+	function Backdrop(navigation) {
+		this.navigation = navigation;
+		this.selector = document.createElement('div');
+		this.selector.classList.add('navigation-backdrop');
+		document.body.appendChild(this.selector);
+
+		// Setup toggle for clicking the backdrop
+		this.selector.addEventListener('click', function() {
+			navigation.toggleNav();
+		});
+
+		backdrops.push(this);
+	}
+
+	console.log(backdrops);
 	console.log(navs);
 })();
