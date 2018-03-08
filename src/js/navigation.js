@@ -29,183 +29,188 @@
 
 // Open and close adaptive/responsive navigations
 (function() {
-	let navigationToggles = document.querySelectorAll('.navigation-toggle');
+	var navs = [];
+	var navigationToggles = document.querySelectorAll('.navigation-toggle');
 
 	for (var i = navigationToggles.length - 1; i >= 0; i--) {
-		setupNav(navigationToggles[i]);
-	}
-
-	function setupNav(navToggle) {
-		var nav = document.querySelector(navToggle.getAttribute('target'));
+		var nav = new Navigation(navigationToggles[i]);
+		var navClassList = nav.selector.classList;
 
 		// Setup adaptive horizontal navigation
-		if (nav.classList.contains('navigation-hor-adaptive')) {
-			setupAdaptiveNav(nav, navToggle, 'adaptive');
-		} else if (nav.classList.contains('navigation-hor-responsive')) {
-			setupAdaptiveNav(nav, navToggle, 'responsive');
+		if (navClassList.contains('navigation-hor-adaptive')) {
+			nav.setupAdaptiveNav('adaptive');
+		} else if (navClassList.contains('navigation-hor-responsive')) {
+			nav.setupAdaptiveNav('responsive');
 		} else {
-			bindNavToggle(nav, navToggle);
+			nav.bindNavToggle();
 		}
 
-		if (nav.classList.contains('navigation-stick-auto')) {
-			setupStickAuto(nav, navToggle);
-		}
+		if (navClassList.contains('navigation-stick-auto')) nav.setupSticky();
+
+		navs.push(nav);
 	}
 
-	function bindNavToggle(nav, navToggle) {
-		// Create backdrop
-		var backdrop = document.createElement('div');
-		backdrop.classList.add('navigation-backdrop');
-		document.body.appendChild(backdrop);
-		backdrop.addEventListener('click', function() {
-			toggleNav(nav, backdrop);
-		});
+	function Navigation(toggle) {
+		var _this = this;
+		this.toggle_selector = toggle;
+		this.selector = document.querySelector(this.toggle_selector.getAttribute('target'));
 
-		// Setup toggle for button
-		navToggle.addEventListener('click', function(e) {
-			e.preventDefault();
-			toggleNav(nav, backdrop);
-		});
-	}
+		this.setupSticky = function() {
+			this.selector.parentNode = this.selector.parentNode;
 
-	function toggleNav(nav, backdrop) {
-		if (nav.classList.contains('open')) {
-			nav.classList.remove('open');
-			backdrop.classList.remove('open');
-		} else {
-			nav.classList.add('open');
-			backdrop.classList.add('open');
-		}
-	}
+			// Trigger update on scroll (with a small delay)
+			this.lastScrollTop = 0;
+			this.selector.parentNode.addEventListener('scroll', function() {
+				clearTimeout(_this.scrollTimeout);
+				_this.scrollTimeout = setTimeout(function() {
+					_this.parentScrollTop = _this.selector.parentNode.scrollTop;
 
-	// Creates a vertical nav for the adaptive/responsive horizontal nav
-	function setupAdaptiveNav(nav, navToggle, nav_type) {
-		// Find menu
-		var menu = nav.querySelector('.navigation-menu');
-		var navInnerWrapper = nav.querySelector('.navigation-wrapper-inner');
-		var navTarget = nav.getAttribute('target');
-
-		// Figure out weather to send menu items to a generated nav or a user defined element
-		if (navTarget != null) {
-			var adaptiveNav = document.querySelector(navTarget);
-			var adaptiveNavInnerWrapper = adaptiveNav;
-		} else {
-			// Create elements
-			var adaptiveNav = document.createElement('nav');
-			adaptiveNav.classList.add('navigation', 'navigation-vert', 'navigation-vert-right');
-			var adaptiveNavInnerWrapper = document.createElement('div');
-			adaptiveNavInnerWrapper.classList.add('navigation-wrapper-inner');
-
-			if (nav_type == 'responsive') {
-				var menuItemsWrapper = document.createElement('ul');
-				menuItemsWrapper.classList.add('navigation-menu');
-				adaptiveNavInnerWrapper.appendChild(menuItemsWrapper);
-			}
-
-			// Append elements to page
-			adaptiveNav.appendChild(adaptiveNavInnerWrapper);
-			document.body.appendChild(adaptiveNav);
+					if (_this.parentScrollTop > _this.selector.clientHeight && _this.parentScrollTop > _this.lastScrollTop) {
+						_this.selector.classList.add('navigation-stick-active');
+					} else {
+						_this.selector.classList.remove('navigation-stick-active');
+					}
+					_this.lastScrollTop = _this.parentScrollTop;
+				}, 100);
+			});
 		}
 
-		bindNavToggle(adaptiveNav, navToggle);
-
-		var lastMode = 'horizontal';
-		var lastOverflowWidth = 0;
-
-		var delay;
-		window.addEventListener('resize', function() {
-			clearTimeout(delay);
-			delay = setTimeout(sizeChanged, 250);
-		});
-
-		// Sends menu items or the entire menu to the correct navigation,
-		// depending on the window size and nav size and nav type
-		function sizeChanged() {
-			// set mode to vertical if we have overflow
-			var newMode ;
-			if (nav.scrollWidth > nav.clientWidth) {
-				lastOverflowWidth = nav.scrollWidth;
-				newMode = 'vertical';
+		this.toggleNav = function() {
+			if (this.selector.classList.contains('open')) {
+				this.selector.classList.remove('open');
+				backdrop.classList.remove('open');
 			} else {
-				newMode = 'horizontal';
+				this.selector.classList.add('open');
+				backdrop.classList.add('open');
+			}
+		}
 
-				// Stay in vertical, as window is not big enough yet
-				if (lastOverflowWidth != 0 && nav.clientWidth <= lastOverflowWidth) {
-					newMode = 'vertical';
+		this.bindNavToggle = function() {
+			// Create backdrop
+			this.backdrop = document.createElement('div');
+			this.backdrop.classList.add('navigation-backdrop');
+			document.body.appendChild(this.backdrop);
+			this.backdrop.addEventListener('click', function() {
+				this.toggleNav();
+			});
+
+			// Setup toggle for button
+			this.toggle_selector.addEventListener('click', function(e) {
+				e.preventDefault();
+				this.toggleNav();
+			});
+		}
+
+		// Creates a vertical nav for the adaptive/responsive horizontal nav
+		this.setupAdaptiveNav = function(nav_type) {
+			this.nav_type = nav_type;
+			// Find menu
+			this.menu = this.selector.querySelector('.navigation-menu');
+			this.navInnerWrapper = this.selector.querySelector('.navigation-wrapper-inner');
+			this.navTarget = this.selector.getAttribute('target');
+
+			// Figure out weather to send menu items to a generated nav or a user defined element
+			if (this.navTarget != null) {
+				this.adaptiveNav = document.querySelector(this.navTarget);
+				this.adaptiveNavInnerWrapper = this.adaptiveNav;
+			} else {
+				// Create elements
+				this.adaptiveNav = document.createElement('nav');
+				this.adaptiveNav.classList.add('navigation', 'navigation-vert', 'navigation-vert-right');
+				this.adaptiveNavInnerWrapper = document.createElement('div');
+				this.adaptiveNavInnerWrapper.classList.add('navigation-wrapper-inner');
+
+				if (this.nav_type == 'responsive') {
+					this.menuItemsWrapper = document.createElement('ul');
+					this.menuItemsWrapper.classList.add('navigation-menu');
+					this.adaptiveNavInnerWrapper.appendChild(this.menuItemsWrapper);
 				}
+
+				// Append elements to page
+				this.adaptiveNav.appendChild(this.adaptiveNavInnerWrapper);
+				document.body.appendChild(this.adaptiveNav);
 			}
 
-			if (nav_type == 'responsive') {
-				if (newMode == 'vertical') {
-					checkResponsiveSize('smaller');
+			// bindNavToggle(adaptiveNav, this.toggle_selector);
+
+			this.lastMode = 'horizontal';
+			this.lastOverflowWidth = 0;
+
+			window.addEventListener('resize', function() {
+				clearTimeout(_this.resizeTimeout);
+				_this.resizeTimeout = setTimeout(_this.sizeChanged, 250);
+			});
+
+			// Sends menu items or the entire menu to the correct navigation,
+			// depending on the window size and nav size and nav type
+			this.sizeChanged = function() {
+				// set mode to vertical if we have overflow
+				if (_this.selector.scrollWidth > _this.selector.clientWidth) {
+					_this.lastOverflowWidth = _this.selector.scrollWidth;
+					_this.newMode = 'vertical';
 				} else {
-					checkResponsiveSize('bigger');
+					_this.newMode = 'horizontal';
+
+					// Stay in vertical, as window is not big enough yet
+					if (_this.lastOverflowWidth != 0 && _this.selector.clientWidth <= _this.lastOverflowWidth) {
+						_this.newMode = 'vertical';
+					}
 				}
-			} else if (nav_type == 'adaptive') {
-				if (newMode == 'vertical' && lastMode == 'horizontal') {
-					var menuItems = nav.querySelector('.navigation-menu');
 
-					// Send from hor nav to other
-					adaptiveNavInnerWrapper.appendChild(menuItems);
+				if (_this.nav_type == 'responsive') {
+					if (_this.newMode == 'vertical') {
+						_this.checkResponsiveSize('smaller');
+					} else {
+						_this.checkResponsiveSize('bigger');
+					}
+				} else if (_this.nav_type == 'adaptive') {
+					if (_this.newMode == 'vertical' && _this.lastMode == 'horizontal') {
+						_this.menuItems = _this.selector.querySelector('.navigation-menu');
 
-					// Show toggle for other
-					navToggle.style.display = 'inherit';
-				} else if (newMode == 'horizontal' && lastMode == 'vertical') {
-					var menuItems = adaptiveNav.querySelector('.navigation-menu');
+						// Send from hor nav to other
+						_this.adaptiveNavInnerWrapper.appendChild(_this.menuItems);
 
-					// Send from other to hor nav
-					navInnerWrapper.appendChild(menuItems);
+						// Show toggle for other
+						_this.toggle_selector.style.display = 'inherit';
+					} else if (_this.newMode == 'horizontal' && _this.lastMode == 'vertical') {
+						_this.menuItems = adaptiveNav.querySelector('.navigation-menu');
 
-					// Hide toggle for other
-					navToggle.style.display = '';
+						// Send from other to hor nav
+						_this.navInnerWrapper.appendChild(_this.menuItems);
+
+						// Hide toggle for other
+						_this.toggle_selector.style.display = '';
+					}
+				}
+
+				_this.lastMode = _this.newMode;
+			}
+
+			this.checkResponsiveSize = function(newSize) {
+				this.newSize = newSize;
+				this.menuItems = this.selector.querySelector('.navigation-menu');
+				this.newMenuItemsWrapper = this.adaptiveNavInnerWrapper.querySelector('.navigation-menu');
+
+				if (this.newSize == 'smaller') {
+					// newMenuItemsWrapper.insertBefore(menuItems.lastElementChild, newMenuItemsWrapper.firstElementChild);
+					if (this.menuItems.lastElementChild != null) {
+						this.newMenuItemsWrapper.appendChild(this.menuItems.lastElementChild);
+					}
+					// setTimeout(sizeChanged, 500);
+				} else if (this.newSize == 'bigger') {
+					if (this.newMenuItemsWrapper.firstElementChild != null) {
+						this.menuItems.appendChild(this.newMenuItemsWrapper.firstElementChild);
+						// setTimeout(sizeChanged, 500);
+					}
 				}
 			}
 
-			lastMode = newMode;
+			this.sizeChanged();
+			// delay to make sure the navigation is rendered and we can spot overflow
+			setTimeout(_this.sizeChanged, 25);
+			setTimeout(_this.sizeChanged, 250);
 		}
-
-		function checkResponsiveSize(newSize) {
-			var menuItems = nav.querySelector('.navigation-menu');
-			var newMenuItemsWrapper = adaptiveNavInnerWrapper.querySelector('.navigation-menu');
-
-			if (newSize == 'smaller') {
-				// newMenuItemsWrapper.insertBefore(menuItems.lastElementChild, newMenuItemsWrapper.firstElementChild);
-				newMenuItemsWrapper.appendChild(menuItems.lastElementChild);
-				setTimeout(sizeChanged, 500);
-			} else if (newSize == 'bigger') {
-				menuItems.appendChild(newMenuItemsWrapper.firstElementChild);
-				setTimeout(sizeChanged, 500);
-			}
-		}
-
-		sizeChanged();
-		// delay to make sure the navigation is rendered and we can spot overflow
-		setTimeout(sizeChanged, 25);
-		setTimeout(sizeChanged, 250);
 	}
 
-	function setupStickAuto(nav, navToggle) {
-		var navParent = nav.parentNode;
-		var navHeight = nav.clientHeight;
-
-		// Trigger update on scroll (with a small delay)
-		var delay;
-		var lastScrollTop = 0;
-		navParent.addEventListener('scroll', function() {
-			clearTimeout(delay);
-			delay = setTimeout(function() {
-				elementScroll(navParent);
-			}, 100);
-		});
-
-		function elementScroll(scrollElement) {
-			var st = scrollElement.scrollTop;
-			if (st > navHeight && st > lastScrollTop){
-				nav.classList.add('navigation-stick-active');
-			} else {
-				nav.classList.remove('navigation-stick-active');
-			}
-			lastScrollTop = st;
-		}
-	}
+	console.log(navs);
 })();
