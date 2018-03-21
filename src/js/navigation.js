@@ -38,7 +38,7 @@
 	}
 
 	var navigationayy = new NavigationElement('vertical left adaptive');
-	navigationayy.createLogo('https://brand.datahjelpen.no/images/dh-logo.svg');
+	navigationayy.createLogo('/assets/images/datahjelpen_logo.svg');
 	navigationayy.createMenuItem('1.1 - Headings', '#', 'icon fas fa-font');
 
 	function NavigationElement(nav_type) {
