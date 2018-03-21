@@ -91,6 +91,11 @@
 					console.log(_this.logo.contentDocument);
 				});
 			} else if (logo_ext == 'svg') {
+				var svgObject = document.createElement('object');
+				svgObject.setAttribute('data', logo_source);
+				svgObject.setAttribute('type', 'image/svg+xml');
+
+				this.logo = svgObject;
 			// <object data="alpha.svg" type="image/svg+xml" id="alphasvg" width="100%" height="100%"></object>
 			}
 
