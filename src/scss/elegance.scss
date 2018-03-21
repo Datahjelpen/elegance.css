@@ -3,6 +3,18 @@
 
 @import 'vendor/sanitize';
 
+*,
+::before,
+::after {
+	box-sizing: inherit;
+}
+
+::before,
+::after {
+	text-decoration: inherit;
+	vertical-align: inherit;
+}
+
 html,
 body {
 	margin: 0;
