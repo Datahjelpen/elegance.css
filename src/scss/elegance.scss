@@ -38,6 +38,12 @@ body {
 	}
 }
 
+img {
+	border-style: none;
+	max-width: 100%;
+	height: auto;
+}
+
 // TODO: USE FOR TABS
 *:target {
 	background-color: $color-light2;
