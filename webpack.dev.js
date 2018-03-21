@@ -1,13 +1,47 @@
 const common = require('./webpack.common.js');
 
 const merge = require('webpack-merge');
+// const ImageLoader = require('image-webpack-loader');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = merge(common, {
 	module: {
-		rules: [
-			{
+		rules: [{
+				// test: /\.(jpg|png|svg)$/,
+				// use: {
+				// 	loader: 'file-loader',
+				// 	options: {
+				// 		name: '../images/[name].[hash].[ext]',
+				// 	},
+				// 	},
+				test: /\.(gif|png|jpe?g|svg)$/i,
+			  use: [
+			    'file-loader',
+			    {
+			      loader: 'image-webpack-loader',
+			      options: {
+			        mozjpeg: {
+			          progressive: true,
+			          quality: 65,
+			        },
+			        optipng: {
+			          enabled: false,
+			        },
+			        pngquant: {
+			          quality: '65-90',
+			          speed: 4
+			        },
+			        gifsicle: {
+			          interlaced: false,
+			        },
+			        webp: {
+			          quality: 75
+			        }
+			      }
+			    },
+			  ],
+			}, {
 				test:/\.(s*)css$/,
 				use: ExtractTextPlugin.extract({
 					fallback: 'style-loader',
