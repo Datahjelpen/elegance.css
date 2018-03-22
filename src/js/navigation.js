@@ -77,15 +77,6 @@
 		this.menu_wrapper_selector.classList.add('navigation-menu');
 		this.wrapper_selector.appendChild(this.menu_wrapper_selector);
 
-		// '<nav id="nav-main-vert" class="">'
-		// '<div class="navigation-wrapper-inner">'
-		// '<img class="navigation-logo" src="https://brand.datahjelpen.no/images/dh-logo.svg">'
-		// '<ul class="navigation-menu">'
-		// '<li class="navigation-menu-item-parent">'
-		// '<a href="#"><i class="icon fas fa-font"></i><span>1.0 - Typography</span></a>'
-		// '<ul class="navigation-menu-item-child trigger-hover">'
-		// '<li><a href="#doc-typography-headings">1.1 - Headings</a></li>'
-
 		this.createLogo = function(logo_source) {
 			var logo_ext = logo_source.split('.').pop();
 
@@ -103,7 +94,6 @@
 				svgObject.setAttribute('type', 'image/svg+xml');
 
 				this.logo = svgObject;
-			// <object data="alpha.svg" type="image/svg+xml" id="alphasvg" width="100%" height="100%"></object>
 			}
 
 			this.wrapper_selector.insertBefore(this.logo, this.menu_wrapper_selector);
