@@ -130,6 +130,7 @@
 				this.logo = svgObject;
 			}
 
+			this.logo.classList.add('navigation-logo');
 			this.wrapper_selector.insertBefore(this.logo, this.menu_wrapper_selector);
 		}
 
