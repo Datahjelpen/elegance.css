@@ -136,11 +136,11 @@ nav.navigation {
 	}
 
 	&-stick {
-		position: sticky;
+		position: fixed;
 		top: 0px;
 
 		&-auto {
-			position: sticky;
+			position: fixed;
 			top: 0px;
 			transform: translateY(0%);
 			transition: transform 250ms;
