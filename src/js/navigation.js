@@ -39,7 +39,14 @@
 
 	var navigationayy = new NavigationElement('vertical left adaptive');
 	navigationayy.createLogo('/assets/images/datahjelpen_logo.svg');
-	navigationayy.createMenuItem('1.1 - Headings', '#', 'icon fas fa-font');
+	var navAyy1 = navigationayy.createMenuItem('Typography', '#', 'icon fas fa-font', 'parent');
+	navAyy1.createMenuItem('1.1 Headings', '#', null);
+	navAyy1.createMenuItem('1.1 Headings', '#', null);
+	navAyy1.createMenuItem('1.1 Headings', '#', null);
+	var navAyy2 = navigationayy.createMenuItem('Something', '#', null, 'parent');
+	navAyy2.createMenuItem('1.1 Headings', '#', null);
+	navAyy2.createMenuItem('1.1 Headings', '#', null);
+	navAyy2.createMenuItem('1.1 Headings', '#', null);
 
 	function NavigationElement(nav_type) {
 		this.selector = document.createElement('nav');
@@ -102,23 +109,69 @@
 			this.wrapper_selector.insertBefore(this.logo, this.menu_wrapper_selector);
 		}
 
-		this.createMenuItem = function(text, link, icon) {
+
+		this.createMenuItem = function(text, link, icon, type, trigger) {
 			var li = document.createElement('li');
 			li.classList.add('navigation-menu-item-parent');
 
-			var a = document.createElement('a');
-			a.href = link;
-			li.appendChild(a);
+			if (link != null) {
+				var a = document.createElement('a');
+				a.href = link;
+				li.appendChild(a);
+			}
 
-			var span = document.createElement('span');
-			span.appendChild(document.createTextNode(text));
-			a.appendChild(span);
+			if (text != null) {
+				var span = document.createElement('span');
+				span.appendChild(document.createTextNode(text));
+				a.appendChild(span);
+			}
 
-			var i = document.createElement('i');
-			i.classList = icon;
-			a.insertBefore(i, span);
+			if (icon != null) {
+				var i = document.createElement('i');
+				i.classList = icon;
+				a.insertBefore(i, span);
+			}
 
-			this.menu_wrapper_selector.appendChild(li);
+			if (type != null && type == 'parent') {
+				var ul = document.createElement('ul');
+				ul.classList.add('navigation-menu-item-child');
+
+				if (trigger != null) {
+					ul.classList.add(trigger);
+				} else {
+					ul.classList.add('trigger-hover');
+				}
+
+				li.appendChild(ul);
+				this.menu_wrapper_selector.appendChild(li);
+
+				li.createMenuItem = function(text, link, icon) {
+					var li = document.createElement('li');
+					li.classList.add('navigation-menu-item-parent');
+
+					if (link != null) {
+						var a = document.createElement('a');
+						a.href = link;
+						li.appendChild(a);
+					}
+
+					if (text != null) {
+						var span = document.createElement('span');
+						span.appendChild(document.createTextNode(text));
+						a.appendChild(span);
+					}
+
+					if (icon != null) {
+						var i = document.createElement('i');
+						i.classList = icon;
+						a.insertBefore(i, span);
+					}
+
+					ul.appendChild(li);
+				}
+			}
+
+			return li;
 		}
 
 		document.body.appendChild(this.selector);
