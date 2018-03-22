@@ -52,6 +52,7 @@
 		this.selector = document.createElement('nav');
 		this.selector.classList.add('navigation');
 
+		// Check what type of navigation this is. Give the appropiate classes
 		if (nav_type != null) {
 			this.classes = nav_type.split(' ');
 			if (this.classes.indexOf('horizontal') != -1) {
@@ -69,14 +70,17 @@
 			}
 		}
 
+		// Make an inner wrapper element
 		this.wrapper_selector = document.createElement('div');
 		this.wrapper_selector.classList.add('navigation-wrapper-inner');
 		this.selector.appendChild(this.wrapper_selector);
 
+		// Make n wrapper element for menu items
 		this.menu_wrapper_selector = document.createElement('ul');
 		this.menu_wrapper_selector.classList.add('navigation-menu');
 		this.wrapper_selector.appendChild(this.menu_wrapper_selector);
 
+		// Add a logo to the navigation
 		this.createLogo = function(logo_source) {
 			var logo_ext = logo_source.split('.').pop();
 
@@ -99,7 +103,7 @@
 			this.wrapper_selector.insertBefore(this.logo, this.menu_wrapper_selector);
 		}
 
-
+		// Creates menu items.
 		this.createMenuItem = function(text, link, icon, type, trigger) {
 			var li = document.createElement('li');
 			li.classList.add('navigation-menu-item-parent');
@@ -122,14 +126,16 @@
 				a.insertBefore(i, span);
 			}
 
+			// If the element is a parent, setup function for creating child elements
 			if (type != null && type == 'parent') {
 				var ul = document.createElement('ul');
 				ul.classList.add('navigation-menu-item-child');
 
+				// How should we open the child element wrapper
 				if (trigger != null) {
 					ul.classList.add(trigger);
 				} else {
-					ul.classList.add('trigger-hover');
+					ul.classList.add('trigger-hover'); // Opens on hover by default
 				}
 
 				li.appendChild(ul);
