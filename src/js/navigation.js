@@ -201,7 +201,17 @@
 			return li;
 		}
 
-		document.body.appendChild(this.selector);
+		// Setup the HTML element classes
+		if (this.isVertical) {
+			document.documentElement.classList.add('navigation-vert');
+
+			if (this.isLeft) {
+				document.documentElement.classList.add('navigation-vert-left');
+			} else if (this.isRight) {
+				document.documentElement.classList.add('navigation-vert-right');
+			}
+		}
+
 		if (this.isSticky) {
 			this.setupSticky = function() {
 				var _this = this;
@@ -380,7 +390,6 @@
 		} else {
 			this.bindNavToggle();
 		}
-		if (this.selector.classList.contains('navigation-stick-auto')) this.setupSticky();
 
 		navs.push(this);
 	}
