@@ -37,7 +37,8 @@
 		var nav = new Navigation(navigationToggles[i]);
 	}
 
-	var navigationayy = new NavigationElement('vertical left adaptive');
+	var navigationayy = new NavigationElement('horizontal sticky', document.querySelector('main'));
+	// var navigationayy = new NavigationElement('vertical left adaptive');
 	navigationayy.createLogo('/assets/images/datahjelpen_logo.svg');
 	var navAyy1 = navigationayy.createMenuItem('Typography', '#', 'icon fas fa-font', 'parent');
 	navAyy1.createMenuItem('1.1 Headings', '#', null);
@@ -48,27 +49,56 @@
 	navAyy2.createMenuItem('1.1 Headings', '#', null);
 	navAyy2.createMenuItem('1.1 Headings', '#', null);
 
-	function NavigationElement(nav_type) {
+	function NavigationElement(navigationType, appendNavTo) {
 		this.selector = document.createElement('nav');
 		this.selector.classList.add('navigation');
+		this.isHorizontal = false; this.isSticky =   false; this.isAdaptive = false;
+		this.isResponsive = false; this.isVertical = false; this.isLeft =     false;
+		this.isRight =      false;
 
 		// Check what type of navigation this is. Give the appropiate classes
-		if (nav_type != null) {
-			this.classes = nav_type.split(' ');
+		if (navigationType != null) {
+			this.classes = navigationType.split(' ');
 			if (this.classes.indexOf('horizontal') != -1) {
+				this.isHorizontal = true;
 				this.selector.classList.add('navigation-hor');
 
-				if (this.classes.indexOf('sticky') != -1)     this.selector.classList.add('navigation-stick-auto');
-				if (this.classes.indexOf('adaptive') != -1)   this.selector.classList.add('navigation-hor-adaptive');
-				if (this.classes.indexOf('responsive') != -1) this.selector.classList.add('navigation-hor-responsive');
+				if (this.classes.indexOf('sticky') != -1) {
+					this.isSticky = true;
+					this.selector.classList.add('navigation-stick-auto');
+				}
+
+				if (this.classes.indexOf('adaptive') != -1) {
+					this.isAdaptive = true;
+					this.selector.classList.add('navigation-hor-adaptive');
+				} else if (this.classes.indexOf('responsive') != -1) {
+					this.isResponsive = true;
+					this.selector.classList.add('navigation-hor-responsive');
+				}
 			} else if (this.classes.indexOf('vertical') != -1) {
+				this.isVertical = true;
 				this.selector.classList.add('navigation-vert');
 
-				if (this.classes.indexOf('left') != -1)     this.selector.classList.add('navigation-vert-left');
-				if (this.classes.indexOf('right') != -1)    this.selector.classList.add('navigation-vert-right');
-				if (this.classes.indexOf('adaptive') != -1) this.selector.classList.add('navigation-vert-adaptive');
+				if (this.classes.indexOf('left') != -1) {
+					this.isLeft = true;
+					this.selector.classList.add('navigation-vert-left');
+				}
+
+				if (this.classes.indexOf('right') != -1) {
+					this.isRight = true;
+					this.selector.classList.add('navigation-vert-right');
+				}
+
+				if (this.classes.indexOf('adaptive') != -1) {
+					this.isAdaptive = true;
+					this.selector.classList.add('navigation-vert-adaptive');
+				}
 			}
 		}
+
+		// isHorizontal
+		// isAdaptive
+		// isResponsive
 
 		// Make an inner wrapper element
 		this.wrapper_selector = document.createElement('div');
