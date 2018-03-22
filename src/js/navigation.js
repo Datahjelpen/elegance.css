@@ -171,6 +171,31 @@
 		}
 
 		document.body.appendChild(this.selector);
+		if (this.isSticky) {
+			this.setupSticky = function() {
+				var _this = this;
+				this.lastScrollTop = 0;
+				// this.selector.parentNode.addEventListener('scroll', function(ev) {
+				window.addEventListener('scroll', function(ev) {
+					clearTimeout(_this.scrollTimeout);
+
+					_this.scrollTimeout = setTimeout(function() {
+						_this.parentScrollTop = this.pageYOffset;
+
+						if (_this.parentScrollTop > _this.lastScrollTop && _this.parentScrollTop > _this.selector.clientHeight) {
+							_this.selector.classList.add('navigation-stick-active');
+						} else {
+							_this.selector.classList.remove('navigation-stick-active');
+						}
+						_this.lastScrollTop = _this.parentScrollTop;
+					}, 25);
+				});
+			}
+		}
+
+		// Append the navigatoin element to the document
+		appendNavTo.appendChild(this.selector);
+		if (this.isSticky) this.setupSticky();
 	}
 
 
@@ -185,26 +210,6 @@
 		var _this = this;
 		this.toggle_selector = toggle;
 		this.selector = document.querySelector(this.toggle_selector.getAttribute('target'));
-
-		this.setupSticky = function() {
-			this.selector.parentNode = this.selector.parentNode;
-
-			// Trigger update on scroll (with a small delay)
-			this.lastScrollTop = 0;
-			this.selector.parentNode.addEventListener('scroll', function() {
-				clearTimeout(_this.scrollTimeout);
-				_this.scrollTimeout = setTimeout(function() {
-					_this.parentScrollTop = _this.selector.parentNode.scrollTop;
-
-					if (_this.parentScrollTop > _this.selector.clientHeight && _this.parentScrollTop > _this.lastScrollTop) {
-						_this.selector.classList.add('navigation-stick-active');
-					} else {
-						_this.selector.classList.remove('navigation-stick-active');
-					}
-					_this.lastScrollTop = _this.parentScrollTop;
-				}, 100);
-			});
-		}
 
 		this.toggleNav = function() {
 			if (this.selector.classList.contains('open')) {
