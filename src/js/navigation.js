@@ -33,31 +33,38 @@ import throttle from 'lodash.throttle';
 (function() {
 	var navigations = [];
 	var backdrops = [];
-	var navigationToggles = document.querySelectorAll('.navigation-toggle');
 	var buttons = [];
+	// var navigationToggles = document.querySelectorAll('.navigation-toggle');
 
-	for (var i = navigationToggles.length - 1; i >= 0; i--) {
-		var nav = new Navigation(navigationToggles[i]);
-	}
+	// for (var i = navigationToggles.length - 1; i >= 0; i--) {
+	// 	var nav = new Navigation(navigationToggles[i]);
+	// }
 
-	var navigationayy = new NavigationElement('horizontal sticky', document.querySelector('main'));
+	var navigationayy = new NavigationElement('horizontal sticky adaptive', document.querySelector('main'));
 	// var navigationayy = new NavigationElement('vertical left adaptive');
 	navigationayy.createLogo('/assets/images/datahjelpen_logo.svg');
-	var navAyy1 = navigationayy.createMenuItem('Typography', '#', 'icon fas fa-font', 'parent');
+	var navAyy1 = navigationayy.createMenuItem('Link 1', '#', 'icon fas fa-font', 'parent');
 	navAyy1.createMenuItem('1.1 Headings', '#', null);
 	navAyy1.createMenuItem('1.1 Headings', '#', null);
 	navAyy1.createMenuItem('1.1 Headings', '#', null);
-	var navAyy2 = navigationayy.createMenuItem('Something', '#', null, 'parent');
+	var navAyy2 = navigationayy.createMenuItem('Link 2', '#', null, 'parent');
 	navAyy2.createMenuItem('1.1 Headings', '#', null);
 	navAyy2.createMenuItem('1.1 Headings', '#', null);
 	navAyy2.createMenuItem('1.1 Headings', '#', null);
+	var navAyy3 = navigationayy.createMenuItem('Link 3', '#', null, 'parent');
+	navAyy3.createMenuItem('1.1 Headings', '#', null);
+	navAyy3.createMenuItem('1.1 Headings', '#', null);
+	navAyy3.createMenuItem('1.1 Headings', '#', null);
 
 	function NavigationElement(navigationType, appendNavTo) {
+		var _this = this;
+
 		this.selector = document.createElement('nav');
 		this.selector.classList.add('navigation');
-		this.isHorizontal = false; this.isSticky =   false; this.isAdaptive = false;
-		this.isResponsive = false; this.isVertical = false; this.isLeft =     false;
+		this.isHorizontal = false; this.isSticky =    false; this.isAdaptive = false;
+		this.isResponsive = false; this.isVertical =  false; this.isLeft =     false;
 		this.isRight =      false;
+		this.hasLogo =      false; this.hasBackdrop = false; this.hasButton =  false;
 
 		// Check what type of navigation this is. Give the appropiate classes
 		if (navigationType != null) {
@@ -113,21 +120,13 @@ import throttle from 'lodash.throttle';
 		this.menu_wrapper_selector.classList.add('navigation-menu');
 		this.wrapper_selector.appendChild(this.menu_wrapper_selector);
 
-
-		if (this.isVertical) {
-			// Make a backdrop
-			this.backdrop = new Backdrop(this);
-
-			// Make a button for toggling the nav
-			this.button = new Button(this);
-		}
-
 		// Add a logo to the navigation
 		this.createLogo = function(logo_source) {
+			this.hasLogo = true;
+
 			var logo_ext = logo_source.split('.').pop();
 
 			if (logo_ext == 'png' || logo_ext == 'jpg' || logo_ext == 'jpeg' || logo_ext == 'gif') {
-				var _this = this;
 				this.logo = new Image();
 				this.logo.src = logo_source;
 
@@ -217,6 +216,12 @@ import throttle from 'lodash.throttle';
 		if (this.isVertical) {
 			document.documentElement.classList.add('navigation-vert');
 
+			// // Make a backdrop
+			// this.backdrop = new Backdrop(this);
+
+			// // Make a button for toggling the nav
+			// this.button = new Button(this);
+
 			if (this.isLeft) {
 				document.documentElement.classList.add('navigation-vert-left');
 			} else if (this.isRight) {
@@ -231,38 +236,138 @@ import throttle from 'lodash.throttle';
 				this.selector.classList.add('open');
 			}
 		}
+
+		this.stickyScroll = function stickyScroll() {
+			_this.parentScrollTop = this.pageYOffset;
+
+			if (_this.parentScrollTop > _this.lastScrollTop && _this.parentScrollTop > _this.selector.clientHeight) {
+				_this.selector.classList.add('navigation-stick-active');
+			} else {
+				_this.selector.classList.remove('navigation-stick-active');
+			}
+			_this.lastScrollTop = _this.parentScrollTop;
+		}
+
 		if (this.isSticky) {
 			this.setupSticky = function() {
-				var _this = this;
 				this.lastScrollTop = 0;
 
-				window.addEventListener('scroll', throttle(stickyScroll, 500));
+				window.addEventListener('scroll', throttle(this.stickyScroll, 500));
+			}
+		}
 
-				function stickyScroll() {
-					_this.parentScrollTop = this.pageYOffset;
+		this.resize = function resize() {
+			var cs = getComputedStyle(_this.menu_wrapper_selector);
 
-					if (_this.parentScrollTop > _this.lastScrollTop && _this.parentScrollTop > _this.selector.clientHeight) {
-						_this.selector.classList.add('navigation-stick-active');
-					} else {
-						_this.selector.classList.remove('navigation-stick-active');
+			_this.size = {
+				width: _this.menu_wrapper_selector.clientWidth,
+				height: _this.menu_wrapper_selector.clientHeight,
+				widthScroll: _this.menu_wrapper_selector.scrollWidth,
+				heightScroll: _this.menu_wrapper_selector.scrollHeight,
+				widthPadding: parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight),
+				heightPadding: parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom),
+				widthMargin: parseFloat(cs.marginLeft) + parseFloat(cs.marginRight),
+				heightMargin: parseFloat(cs.marginTop) + parseFloat(cs.marginBottom),
+			}
+
+			var csParent = getComputedStyle(_this.wrapper_selector);
+			_this.sizeParent = {
+				width: _this.wrapper_selector.clientWidth,
+				height: _this.wrapper_selector.clientHeight,
+				widthScroll: _this.wrapper_selector.scrollWidth,
+				heightScroll: _this.wrapper_selector.scrollHeight,
+				widthPadding: parseFloat(csParent.paddingLeft) + parseFloat(csParent.paddingRight),
+				heightPadding: parseFloat(csParent.paddingTop) + parseFloat(csParent.paddingBottom),
+				widthMargin: parseFloat(csParent.marginLeft) + parseFloat(csParent.marginRight),
+				heightMargin: parseFloat(csParent.marginTop) + parseFloat(csParent.marginBottom),
+			}
+
+
+			var sizeMenuNeeds = _this.size.widthScroll;
+			var sizeMenuHas = _this.sizeParent.width;
+			if (_this.hasLogo) sizeMenuHas -= _this.logo.scrollWidth;
+
+			console.log('sizeMenuNeeds', sizeMenuNeeds);
+			console.log('sizeMenuHas', sizeMenuHas);
+			console.log('overflow', _this.overflow);
+
+			if (sizeMenuNeeds > sizeMenuHas) {
+				if (_this.overflow == null || _this.overflow > _this.overflow) {
+					_this.overflow = sizeMenuNeeds;
+				}
+
+				// _thisparentNode.insertBefore(newNode, referenceNode);
+				// _this.selector.insertBefore(_this.button, _this.menu_wrapper_selector);
+
+				if (_this.isAdaptive) {
+					if (!_this.adaptiveTarget.hasButton) {
+						console.log('inserting button');
+
+						_this.adaptiveTarget.button = new Button(_this.adaptiveTarget, {
+							classList: ['navigation-toggle', 'stay-in-nav'],
+							element: 'li'
+						});
+
+						_this.menu_wrapper_selector.insertBefore(_this.adaptiveTarget.button.selector, _this.menu_wrapper_selector.lastElementChild);
 					}
-					_this.lastScrollTop = _this.parentScrollTop;
+
+					console.log('Send items from original to adaptive');
+
+					if (_this.adaptiveTarget.hasButton) {
+						_this.adaptiveTarget.button.selector.style.display = '';
+					}
+
+					for (var i = _this.menu_wrapper_selector.childNodes.length - 1; i >= 0; i--) {
+						if (!_this.menu_wrapper_selector.childNodes[i].classList.contains('stay-in-nav')) {
+							_this.adaptiveTarget.menu_wrapper_selector.insertBefore(_this.menu_wrapper_selector.childNodes[i], _this.adaptiveTarget.menu_wrapper_selector.childNodes[0]);
+						}
+					}
+				}
+			} else if (_this.overflow <= sizeMenuHas) {
+				console.log('Send items from adaptive to original');
+
+				if (_this.adaptiveTarget.hasButton) {
+					_this.adaptiveTarget.button.selector.style.display = 'none';
+				}
+
+				for (var i = _this.adaptiveTarget.menu_wrapper_selector.childNodes.length - 1; i >= 0; i--) {
+					if (!_this.adaptiveTarget.menu_wrapper_selector.childNodes[i].classList.contains('stay-in-nav')) {
+						_this.menu_wrapper_selector.insertBefore(_this.adaptiveTarget.menu_wrapper_selector.childNodes[i], _this.menu_wrapper_selector.childNodes[0]);
+					}
 				}
 			}
 		}
 
-		// Append the navigatoin element to the document
-		if (this.isHorizontal && this.isAdaptive) {
+		if (this.isHorizontal && (this.isAdaptive || this.isResponsive)) {
+			window.addEventListener('resize', throttle(this.resize, 500));
+
 			// Find the user defined target, or generate one
-			var adaptiveTargetSelector = this.selector.getAttribute('adaptive-target');
-			if (adaptiveTargetSelector == null) {
-				this.adaptiveTarget = new NavigationElement('vertical left', document.querySelector('main'));
-			} else {
-				this.adaptiveTarget = document.querySelector(adaptiveTargetSelector);
+			if (this.isAdaptive) {
+				var adaptiveTargetSelector = this.selector.getAttribute('adaptive-target');
+				if (adaptiveTargetSelector == null) {
+					this.adaptiveTarget = new NavigationElement('vertical right', document.querySelector('main'));
+				} else {
+					this.adaptiveTarget = document.querySelector(adaptiveTargetSelector);
+				}
+			} else if (this.isResponsive) {
+				var responsiveTargetSelector = this.selector.getAttribute('responsive-target');
+				if (responsiveTargetSelector == null) {
+					this.responsiveTarget = new NavigationElement('vertical right', document.querySelector('main'));
+				} else {
+					this.responsiveTarget = document.querySelector(responsiveTargetSelector);
+				}
 			}
 		}
+
+		// Append the navigation element to the document
 		appendNavTo.appendChild(this.selector);
 		if (this.isSticky) this.setupSticky();
+		// if (this.isHorizontal && (this.isAdaptive || this.isResponsive)) this.resize();
+		if (this.isHorizontal && (this.isAdaptive || this.isResponsive)) {
+			setTimeout(function() {
+				_this.resize();
+			}, 500);
+		}
 
 		navigations.push(this);
 	}
@@ -411,6 +516,8 @@ import throttle from 'lodash.throttle';
 	}
 
 	function Backdrop(NavigationElement) {
+		NavigationElement.hasBackdrop = true;
+
 		var _this = this;
 		this.selector = document.createElement('div');
 		this.selector.classList.add('navigation-backdrop');
@@ -427,19 +534,33 @@ import throttle from 'lodash.throttle';
 		this.selector.addEventListener('click', function() {
 			_this.toggle();
 			NavigationElement.toggle();
+			if (NavigationElement.hasButton) NavigationElement.button.toggle();
 		});
 
 		document.body.appendChild(this.selector);
 		backdrops.push(this);
 	}
 
-	function Button(NavigationElement) {
-		var _this = this;
-		this.selector = document.createElement('button');
+	function Button(NavigationElement, options) {
+		NavigationElement.hasButton = true;
+		if (options === null) var options = {};
 
-		this.selector.classList = NavigationElement.selector.classList;
-		this.selector.classList.add('navigation-toggle');
-		this.selector.classList.remove('navigation');
+		var _this = this;
+		if (options.element === null) {
+			this.selector = document.createElement('button');
+		} else {
+			this.selector = document.createElement(options.element);
+		}
+
+		if (options.classList === null) {
+			this.selector.classList = NavigationElement.selector.classList;
+			this.selector.classList.add('navigation-toggle');
+			this.selector.classList.add('stay-in-nav');
+			this.selector.classList.remove('navigation');
+		} else {
+			this.selector.classList = (options.classList.join(' '));
+			console.log('classes', '\'' + options.classList.join('\', \'') + '\'');
+		}
 
 		this.openSelector = document.createElement('span');
 		this.openSelector.classList.add('open');
@@ -467,14 +588,14 @@ import throttle from 'lodash.throttle';
 		this.selector.addEventListener('click', function() {
 			_this.toggle();
 			NavigationElement.toggle();
-			NavigationElement.backdrop.toggle();
+			if (NavigationElement.hasBackdrop) NavigationElement.backdrop.toggle();
 		});
 
 		document.body.appendChild(this.selector);
 		buttons.push(this);
 	}
 
-	console.log(buttons);
-	console.log(backdrops);
-	console.log(navigations);
+	// console.log(buttons);
+	// console.log(backdrops);
+	// console.log(navigations);
 })();
