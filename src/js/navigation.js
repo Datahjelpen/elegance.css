@@ -400,17 +400,26 @@ import throttle from 'lodash.throttle';
 		navs.push(this);
 	}
 
-	function Backdrop(navigation) {
-		this.navigation = navigation;
+	function Backdrop(NavigationElement) {
+		var _this = this;
 		this.selector = document.createElement('div');
 		this.selector.classList.add('navigation-backdrop');
-		document.body.appendChild(this.selector);
+
+		this.toggle = function() {
+			if (this.selector.classList.contains('open')) {
+				this.selector.classList.remove('open');
+			} else {
+				this.selector.classList.add('open');
+			}
+		}
 
 		// Setup toggle for clicking the backdrop
 		this.selector.addEventListener('click', function() {
-			navigation.toggleNav();
+			_this.toggle();
+			NavigationElement.toggle();
 		});
 
+		document.body.appendChild(this.selector);
 		backdrops.push(this);
 	}
 
