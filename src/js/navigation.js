@@ -423,6 +423,47 @@ import throttle from 'lodash.throttle';
 		backdrops.push(this);
 	}
 
+	function Button(NavigationElement) {
+		var _this = this;
+		this.selector = document.createElement('button');
+
+		this.selector.classList = NavigationElement.selector.classList;
+		this.selector.classList.add('navigation-toggle');
+		this.selector.classList.remove('navigation');
+
+		this.openSelector = document.createElement('span');
+		this.openSelector.classList.add('open');
+		this.openIconSelector = document.createElement('i');
+		this.openIconSelector.classList.add('icon', 'fas', 'fa-bars');
+		this.openSelector.appendChild(this.openIconSelector);
+		this.selector.appendChild(this.openSelector);
+
+		this.closeSelector = document.createElement('span');
+		this.closeSelector.classList.add('close');
+		this.closeIconSelector = document.createElement('i');
+		this.closeIconSelector.classList.add('icon', 'fas', 'fa-times');
+		this.closeSelector.appendChild(this.closeIconSelector);
+		this.selector.appendChild(this.closeSelector);
+
+		this.toggle = function() {
+			if (this.selector.classList.contains('open')) {
+				this.selector.classList.remove('open');
+			} else {
+				this.selector.classList.add('open');
+			}
+		}
+
+		// Setup toggle for clicking the button
+		this.selector.addEventListener('click', function() {
+			_this.toggle();
+			NavigationElement.toggle();
+			NavigationElement.backdrop.toggle();
+		});
+
+		document.body.appendChild(this.selector);
+		buttons.push(this);
+	}
+
 	console.log(backdrops);
 	console.log(navs);
 })();
