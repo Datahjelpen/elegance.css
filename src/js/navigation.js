@@ -34,6 +34,7 @@ import throttle from 'lodash.throttle';
 	var navigations = [];
 	var backdrops = [];
 	var navigationToggles = document.querySelectorAll('.navigation-toggle');
+	var buttons = [];
 
 	for (var i = navigationToggles.length - 1; i >= 0; i--) {
 		var nav = new Navigation(navigationToggles[i]);
@@ -473,6 +474,7 @@ import throttle from 'lodash.throttle';
 		buttons.push(this);
 	}
 
+	console.log(buttons);
 	console.log(backdrops);
 	console.log(navigations);
 })();
