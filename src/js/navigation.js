@@ -31,7 +31,7 @@ import throttle from 'lodash.throttle';
 
 // Open and close adaptive/responsive navigations
 (function() {
-	var navs = [];
+	var navigations = [];
 	var backdrops = [];
 	var navigationToggles = document.querySelectorAll('.navigation-toggle');
 
@@ -253,6 +253,8 @@ import throttle from 'lodash.throttle';
 		}
 		appendNavTo.appendChild(this.selector);
 		if (this.isSticky) this.setupSticky();
+
+		navigations.push(this);
 	}
 
 
@@ -396,8 +398,6 @@ import throttle from 'lodash.throttle';
 		} else {
 			this.bindNavToggle();
 		}
-
-		navs.push(this);
 	}
 
 	function Backdrop(NavigationElement) {
@@ -465,5 +465,5 @@ import throttle from 'lodash.throttle';
 	}
 
 	console.log(backdrops);
-	console.log(navs);
+	console.log(navigations);
 })();
