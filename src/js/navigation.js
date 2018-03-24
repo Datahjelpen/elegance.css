@@ -112,6 +112,15 @@ import throttle from 'lodash.throttle';
 		this.menu_wrapper_selector.classList.add('navigation-menu');
 		this.wrapper_selector.appendChild(this.menu_wrapper_selector);
 
+
+		if (this.isVertical) {
+			// Make a backdrop
+			this.backdrop = new Backdrop(this);
+
+			// Make a button for toggling the nav
+			this.button = new Button(this);
+		}
+
 		// Add a logo to the navigation
 		this.createLogo = function(logo_source) {
 			var logo_ext = logo_source.split('.').pop();
