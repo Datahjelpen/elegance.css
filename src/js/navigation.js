@@ -214,6 +214,13 @@ import throttle from 'lodash.throttle';
 			}
 		}
 
+		this.toggle = function() {
+			if (this.selector.classList.contains('open')) {
+				this.selector.classList.remove('open');
+			} else {
+				this.selector.classList.add('open');
+			}
+		}
 		if (this.isSticky) {
 			this.setupSticky = function() {
 				var _this = this;
@@ -251,16 +258,6 @@ import throttle from 'lodash.throttle';
 		var _this = this;
 		this.toggle_selector = toggle;
 		this.selector = document.querySelector(this.toggle_selector.getAttribute('target'));
-
-		this.toggleNav = function() {
-			if (this.selector.classList.contains('open')) {
-				this.selector.classList.remove('open');
-				this.backdrop.selector.classList.remove('open');
-			} else {
-				this.selector.classList.add('open');
-				this.backdrop.selector.classList.add('open');
-			}
-		}
 
 		this.bindNavToggle = function() {
 			this.backdrop = new Backdrop(this);
