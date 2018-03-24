@@ -13,3 +13,34 @@ $size-xxl-up: 1920px;
 
 @import 'colors';
 @import 'typography';
+
+// Styles we can get the same variables in JS via getComputedStyle()
+#size-xs-up {
+	display: none;
+	width: $size-xs-up;
+}
+
+#size-s-up {
+	display: none;
+	width: $size-s-up;
+}
+
+#size-m-up {
+	display: none;
+	width: $size-m-up;
+}
+
+#size-l-up {
+	display: none;
+	width: $size-l-up;
+}
+
+#size-xl-up {
+	display: none;
+	width: $size-xl-up;
+}
+
+#size-xxl-up {
+	display: none;
+	width: $size-xxl-up;
+}
