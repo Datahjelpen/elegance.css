@@ -242,6 +242,15 @@ import throttle from 'lodash.throttle';
 		}
 
 		// Append the navigatoin element to the document
+		if (this.isHorizontal && this.isAdaptive) {
+			// Find the user defined target, or generate one
+			var adaptiveTargetSelector = this.selector.getAttribute('adaptive-target');
+			if (adaptiveTargetSelector == null) {
+				this.adaptiveTarget = new NavigationElement('vertical left', document.querySelector('main'));
+			} else {
+				this.adaptiveTarget = document.querySelector(adaptiveTargetSelector);
+			}
+		}
 		appendNavTo.appendChild(this.selector);
 		if (this.isSticky) this.setupSticky();
 	}
