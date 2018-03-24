@@ -11,7 +11,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "fg-loadcss": "^2.0.1"
+    "lodash.throttle": "^4.1.1"
   },
   "devDependencies": {
     "browser-sync": "^2.23.6",

@@ -1,3 +1,5 @@
+import throttle from 'lodash.throttle';
+
 (function() {
 	// Create the devicecheck element
 	var div = document.createElement('div');
@@ -216,21 +218,19 @@
 			this.setupSticky = function() {
 				var _this = this;
 				this.lastScrollTop = 0;
-				// this.selector.parentNode.addEventListener('scroll', function(ev) {
-				window.addEventListener('scroll', function(ev) {
-					clearTimeout(_this.scrollTimeout);
 
-					_this.scrollTimeout = setTimeout(function() {
-						_this.parentScrollTop = this.pageYOffset;
+				window.addEventListener('scroll', throttle(stickyScroll, 500));
 
-						if (_this.parentScrollTop > _this.lastScrollTop && _this.parentScrollTop > _this.selector.clientHeight) {
-							_this.selector.classList.add('navigation-stick-active');
-						} else {
-							_this.selector.classList.remove('navigation-stick-active');
-						}
-						_this.lastScrollTop = _this.parentScrollTop;
-					}, 25);
-				});
+				function stickyScroll() {
+					_this.parentScrollTop = this.pageYOffset;
+
+					if (_this.parentScrollTop > _this.lastScrollTop && _this.parentScrollTop > _this.selector.clientHeight) {
+						_this.selector.classList.add('navigation-stick-active');
+					} else {
+						_this.selector.classList.remove('navigation-stick-active');
+					}
+					_this.lastScrollTop = _this.parentScrollTop;
+				}
 			}
 		}
 
