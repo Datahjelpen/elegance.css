@@ -259,7 +259,7 @@ import throttle from 'lodash.throttle';
 		this.resize = function resize() {
 			var cs = getComputedStyle(_this.menu_wrapper_selector);
 
-			_this.size = {
+			_this.sizeMenuWrapper = {
 				width: _this.menu_wrapper_selector.clientWidth,
 				height: _this.menu_wrapper_selector.clientHeight,
 				widthScroll: _this.menu_wrapper_selector.scrollWidth,
@@ -271,7 +271,7 @@ import throttle from 'lodash.throttle';
 			}
 
 			var csParent = getComputedStyle(_this.wrapper_selector);
-			_this.sizeParent = {
+			_this.sizeWrapper = {
 				width: _this.wrapper_selector.clientWidth,
 				height: _this.wrapper_selector.clientHeight,
 				widthScroll: _this.wrapper_selector.scrollWidth,
@@ -282,18 +282,13 @@ import throttle from 'lodash.throttle';
 				heightMargin: parseFloat(csParent.marginTop) + parseFloat(csParent.marginBottom),
 			}
 
-
-			var sizeMenuNeeds = _this.size.widthScroll;
-			var sizeMenuHas = _this.sizeParent.width;
+			var sizeMenuNeeds = _this.sizeMenuWrapper.widthScroll;
+			var sizeMenuHas = _this.sizeWrapper.width;
 			if (_this.hasLogo) sizeMenuHas -= _this.logo.scrollWidth;
 
-			console.log('sizeMenuNeeds', sizeMenuNeeds);
-			console.log('sizeMenuHas', sizeMenuHas);
-			console.log('overflow', _this.overflow);
-
 			if (sizeMenuNeeds > sizeMenuHas) {
-				if (_this.overflow == null || _this.overflow > _this.overflow) {
-					_this.overflow = sizeMenuNeeds;
+				if (_this.firstOverflow == null || sizeMenuNeeds > _this.firstOverflow) {
+					_this.firstOverflow = sizeMenuNeeds;
 				}
 
 				// _thisparentNode.insertBefore(newNode, referenceNode);
@@ -301,39 +296,33 @@ import throttle from 'lodash.throttle';
 
 				if (_this.isAdaptive) {
 					if (!_this.adaptiveTarget.hasButton) {
-						console.log('inserting button');
-
+						// Make button for the adaptive target
 						_this.adaptiveTarget.button = new Button(_this.adaptiveTarget, {
 							classList: ['navigation-toggle', 'stay-in-nav'],
 							element: 'li'
 						});
 
+						// Insert the button
 						_this.menu_wrapper_selector.insertBefore(_this.adaptiveTarget.button.selector, _this.menu_wrapper_selector.lastElementChild);
 					}
 
-					console.log('Send items from original to adaptive');
-
-					if (_this.adaptiveTarget.hasButton) {
-						_this.adaptiveTarget.button.selector.style.display = '';
-					}
-
-					for (var i = _this.menu_wrapper_selector.childNodes.length - 1; i >= 0; i--) {
-						if (!_this.menu_wrapper_selector.childNodes[i].classList.contains('stay-in-nav')) {
-							_this.adaptiveTarget.menu_wrapper_selector.insertBefore(_this.menu_wrapper_selector.childNodes[i], _this.adaptiveTarget.menu_wrapper_selector.childNodes[0]);
-						}
-					}
+					// Show button and send items from original to adaptive
+					_this.adaptiveTarget.button.show();
+					_this.transferItems(_this, _this.adaptiveTarget);
 				}
-			} else if (_this.overflow <= sizeMenuHas) {
-				console.log('Send items from adaptive to original');
+			} else if (_this.firstOverflow <= sizeMenuHas) {
+				// Hide button and send items from adaptive to original
+				_this.adaptiveTarget.button.hide();
+				_this.transferItems(_this.adaptiveTarget, _this);
+			}
+		}
 
-				if (_this.adaptiveTarget.hasButton) {
-					_this.adaptiveTarget.button.selector.style.display = 'none';
-				}
+		this.transferItems = function(from, to) {
+			var fromItems = from.menu_wrapper_selector.childNodes;
 
-				for (var i = _this.adaptiveTarget.menu_wrapper_selector.childNodes.length - 1; i >= 0; i--) {
-					if (!_this.adaptiveTarget.menu_wrapper_selector.childNodes[i].classList.contains('stay-in-nav')) {
-						_this.menu_wrapper_selector.insertBefore(_this.adaptiveTarget.menu_wrapper_selector.childNodes[i], _this.menu_wrapper_selector.childNodes[0]);
-					}
+			for (var i = fromItems.length - 1; i >= 0; i--) {
+				if (!fromItems[i].classList.contains('stay-in-nav')) {
+					to.menu_wrapper_selector.insertBefore(fromItems[i], to.menu_wrapper_selector.firstElementChild);
 				}
 			}
 		}
@@ -544,14 +533,16 @@ import throttle from 'lodash.throttle';
 	function Button(NavigationElement, options) {
 		NavigationElement.hasButton = true;
 		if (options === null) var options = {};
-
 		var _this = this;
+
+		// Create the selector
 		if (options.element === null) {
 			this.selector = document.createElement('button');
 		} else {
 			this.selector = document.createElement(options.element);
 		}
 
+		// Set classes
 		if (options.classList === null) {
 			this.selector.classList = NavigationElement.selector.classList;
 			this.selector.classList.add('navigation-toggle');
@@ -562,6 +553,7 @@ import throttle from 'lodash.throttle';
 			console.log('classes', '\'' + options.classList.join('\', \'') + '\'');
 		}
 
+		// Create selector for opening
 		this.openSelector = document.createElement('span');
 		this.openSelector.classList.add('open');
 		this.openIconSelector = document.createElement('i');
@@ -569,6 +561,7 @@ import throttle from 'lodash.throttle';
 		this.openSelector.appendChild(this.openIconSelector);
 		this.selector.appendChild(this.openSelector);
 
+		// Create selector for closing
 		this.closeSelector = document.createElement('span');
 		this.closeSelector.classList.add('close');
 		this.closeIconSelector = document.createElement('i');
@@ -583,6 +576,9 @@ import throttle from 'lodash.throttle';
 				this.selector.classList.add('open');
 			}
 		}
+
+		this.show = function() { this.selector.style.display = '';     }
+		this.hide = function() { this.selector.style.display = 'none'; }
 
 		// Setup toggle for clicking the button
 		this.selector.addEventListener('click', function() {
