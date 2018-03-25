@@ -40,7 +40,7 @@ import throttle from 'lodash.throttle';
 	// 	var nav = new Navigation(navigationToggles[i]);
 	// }
 
-	var navigationayy = new NavigationElement('horizontal sticky adaptive', document.querySelector('main'));
+	var navigationayy = new NavigationElement('horizontal sticky responsive', document.querySelector('main'));
 	// var navigationayy = new NavigationElement('vertical left adaptive');
 	navigationayy.createLogo('/assets/images/datahjelpen_logo.svg');
 	var navAyy1 = navigationayy.createMenuItem('Link 1', '#', 'icon fas fa-font', 'parent');
@@ -286,6 +286,10 @@ import throttle from 'lodash.throttle';
 			var sizeMenuHas = _this.sizeWrapper.width;
 			if (_this.hasLogo) sizeMenuHas -= _this.logo.scrollWidth;
 
+			console.log('sizeMenuNeeds', sizeMenuNeeds);
+			console.log('sizeMenuHas', sizeMenuHas);
+			console.log('firstOverflow', _this.firstOverflow);
+
 			if (sizeMenuNeeds > sizeMenuHas) {
 				if (_this.firstOverflow == null || sizeMenuNeeds > _this.firstOverflow) {
 					_this.firstOverflow = sizeMenuNeeds;
@@ -309,21 +313,44 @@ import throttle from 'lodash.throttle';
 					// Show button and send items from original to adaptive
 					_this.adaptiveTarget.button.show();
 					_this.transferItems(_this, _this.adaptiveTarget);
+				} else if (_this.isResponsive) {
+					if (!_this.responsiveTarget.hasButton) {
+						// Make button for the adaptive target
+						_this.responsiveTarget.button = new Button(_this.responsiveTarget, {
+							classList: ['navigation-toggle', 'stay-in-nav'],
+							element: 'li'
+						});
+
+						// Insert the button
+						_this.menu_wrapper_selector.insertBefore(_this.responsiveTarget.button.selector, _this.menu_wrapper_selector.lastElementChild);
+					}
+
+					_this.responsiveTarget.button.show();
+					_this.transferItems(_this, _this.responsiveTarget, 1);
 				}
-			} else if (_this.firstOverflow <= sizeMenuHas) {
-				// Hide button and send items from adaptive to original
-				_this.adaptiveTarget.button.hide();
-				_this.transferItems(_this.adaptiveTarget, _this);
+			} else if (_this.firstOverflow != null && _this.firstOverflow <= sizeMenuHas) {
+				if (_this.isAdaptive) {
+					// Hide button and send items from adaptive to original
+					_this.adaptiveTarget.button.hide();
+					_this.transferItems(_this.adaptiveTarget, _this);
+				} else if (_this.isResponsive) {
+					_this.responsiveTarget.button.hide();
+					_this.transferItems(_this.responsiveTarget, _this, 1);
+				}
 			}
 		}
 
-		this.transferItems = function(from, to) {
+		this.transferItems = function(from, to, itemsCount) {
 			var fromItems = from.menu_wrapper_selector.childNodes;
+			var fromItemsCount = fromItems.length;
+			if (itemsCount == null) var itemsCount = fromItemsCount;
 
-			for (var i = fromItems.length - 1; i >= 0; i--) {
-				if (!fromItems[i].classList.contains('stay-in-nav')) {
-					to.menu_wrapper_selector.insertBefore(fromItems[i], to.menu_wrapper_selector.firstElementChild);
+			for (var i = fromItemsCount; i-- > fromItemsCount-itemsCount && i >= 0;) {
+				if (fromItems[i].classList.contains('stay-in-nav')) {
+					i--;
 				}
+
+				to.menu_wrapper_selector.insertBefore(fromItems[i], to.menu_wrapper_selector.firstElementChild);
 			}
 		}
 
