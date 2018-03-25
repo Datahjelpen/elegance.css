@@ -230,6 +230,7 @@ import throttle from 'lodash.throttle';
 			}
 		}
 
+		// Will automatically transfer menu items depending on whether or not the nav is adaptive or responsive
 		this.resize = function resize() {
 			var cs = getComputedStyle(_this.menu_wrapper_selector);
 
@@ -269,9 +270,6 @@ import throttle from 'lodash.throttle';
 					_this.firstOverflow = sizeMenuNeeds;
 				}
 
-				// _thisparentNode.insertBefore(newNode, referenceNode);
-				// _this.selector.insertBefore(_this.button, _this.menu_wrapper_selector);
-
 				if (_this.isAdaptive) {
 					if (!_this.adaptiveTarget.hasButton) {
 						// Make button for the adaptive target
@@ -282,6 +280,11 @@ import throttle from 'lodash.throttle';
 
 						// Insert the button
 						_this.menu_wrapper_selector.insertBefore(_this.adaptiveTarget.button.selector, _this.menu_wrapper_selector.lastElementChild);
+					}
+
+					if (!_this.adaptiveTarget.hasBackdrop) {
+						// Make backdrop for the adaptive target
+						_this.adaptiveTarget.backdrop = new Backdrop(_this.adaptiveTarget);
 					}
 
 					// Show button and send items from original to adaptive
@@ -299,6 +302,11 @@ import throttle from 'lodash.throttle';
 						_this.menu_wrapper_selector.insertBefore(_this.responsiveTarget.button.selector, _this.menu_wrapper_selector.lastElementChild);
 					}
 
+					if (!_this.responsiveTarget.hasBackdrop) {
+						// Make backdrop for the responsive target
+						_this.responsiveTarget.backdrop = new Backdrop(_this.responsiveTarget);
+					}
+
 					_this.responsiveTarget.button.show();
 					_this.transferItems(_this, _this.responsiveTarget, 1);
 				}
@@ -308,6 +316,7 @@ import throttle from 'lodash.throttle';
 					_this.adaptiveTarget.button.hide();
 					_this.transferItems(_this.adaptiveTarget, _this);
 				} else if (_this.isResponsive) {
+					// Hide button and send one and one item from responsive to original
 					_this.responsiveTarget.button.hide();
 					_this.transferItems(_this.responsiveTarget, _this, 1);
 				}
