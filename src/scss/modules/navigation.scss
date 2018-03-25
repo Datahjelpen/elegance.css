@@ -40,6 +40,7 @@ nav.navigation {
 	@include padding(0, 1);
 
 	a {
+		cursor: pointer;
 		color: $color-nav-link-normal-text;
 		background-color: $color-nav-link-normal-bg;
 		display: block;
