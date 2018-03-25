@@ -30,7 +30,7 @@ nav ul {
 }
 
 nav.navigation {
-	z-index: 2;
+	z-index: 10; // Lies 1 under the backdrop, which is 11
 	color: $color-nav-link-normal-text;
 	background-color: $color-nav-bg;
 	margin: 0 auto;
@@ -85,7 +85,6 @@ nav.navigation {
 				position: relative;
 
 				> .navigation-menu-item-child {
-					z-index: 1;
 					transition: opacity 250ms;
 					@include line-height(1);
 					@include padding(0, 0, 0, 1);
@@ -228,6 +227,7 @@ nav.navigation {
 		}
 
 		@mixin navigation-vert-style() {
+			z-index: 12; // Vert nav goes above backdrop which is 11
 			position: absolute;
 			top: 0;
 			transition: transform 250ms;
@@ -285,7 +285,7 @@ nav.navigation {
 }
 
 @mixin navigation-toggle-vert-style() {
-	z-index: 3;
+	z-index: 13; // Toggle goes above vert nav which is 12
 	position: fixed;
 	top: 0;
 	display: block;
@@ -319,7 +319,7 @@ nav.navigation {
 }
 
 .navigation-backdrop {
-	z-index: 1;
+	z-index: 11;
 	position: fixed;
 	top: 0;
 	left: 0;
