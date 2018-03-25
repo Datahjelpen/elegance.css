@@ -387,18 +387,18 @@ import throttle from 'lodash.throttle';
 
 	function Button(NavigationElement, options) {
 		NavigationElement.hasButton = true;
-		if (options === null) var options = {};
+		if (options == null) var options = {};
 		var _this = this;
 
 		// Create the selector
-		if (options.element === null) {
+		if (options.element == null) {
 			this.selector = document.createElement('button');
 		} else {
 			this.selector = document.createElement(options.element);
 		}
 
 		// Set classes
-		if (options.classList === null) {
+		if (options.classList == null) {
 			this.selector.classList = NavigationElement.selector.classList;
 			this.selector.classList.add('navigation-toggle');
 			this.selector.classList.add('stay-in-nav');
