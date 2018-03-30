@@ -32,10 +32,11 @@ import throttle from 'lodash.throttle';
 
 		this.selector = document.createElement('nav');
 		this.selector.classList.add('navigation');
-		this.isHorizontal = false; this.isSticky =    false; this.isAdaptive = false;
-		this.isResponsive = false; this.isVertical =  false; this.isLeft =     false;
+		this.isHorizontal = false; this.isSticky =       false; this.isAdaptive = false;
+		this.isResponsive = false; this.isVertical =     false; this.isLeft =     false;
 		this.isRight =      false;
-		this.hasLogo =      false; this.hasBackdrop = false; this.hasButton =  false;
+		this.hasLogo =      false; this.hasBackdrop =    false; this.hasButton =  false;
+		this.itemsCount =       0; this.itemsCountOriginal = null;
 
 		// Check what type of navigation this is. Give the appropiate classes
 		if (navigationType != null) {
@@ -76,10 +77,6 @@ import throttle from 'lodash.throttle';
 				}
 			}
 		}
-
-		// isHorizontal
-		// isAdaptive
-		// isResponsive
 
 		// Make an inner wrapper element
 		this.wrapper_selector = document.createElement('div');
@@ -180,18 +177,13 @@ import throttle from 'lodash.throttle';
 				}
 			}
 
+			this.itemsCount++;
 			return li;
 		}
 
 		// Setup the HTML element classes
 		if (this.isVertical) {
 			document.documentElement.classList.add('navigation-vert');
-
-			// // Make a backdrop
-			// this.backdrop = new Backdrop(this);
-
-			// // Make a button for toggling the nav
-			// this.button = new Button(this);
 
 			if (this.isLeft) {
 				document.documentElement.classList.add('navigation-vert-left');
@@ -233,6 +225,8 @@ import throttle from 'lodash.throttle';
 		// Will automatically transfer menu items depending on whether or not the nav is adaptive or responsive
 		this.resize = function resize() {
 			var cs = getComputedStyle(_this.menu_wrapper_selector);
+			// To keep track of how many items our nav has before any transfers happen
+			if (this.itemsCountOriginal == null) this.itemsCountOriginal = this.itemsCount;
 
 			_this.sizeMenuWrapper = {
 				width: _this.menu_wrapper_selector.clientWidth,
@@ -265,7 +259,8 @@ import throttle from 'lodash.throttle';
 			console.log('sizeMenuHas', sizeMenuHas);
 			console.log('firstOverflow', _this.firstOverflow);
 
-			if (sizeMenuNeeds > sizeMenuHas) {
+			// Menu is too big, transfer items
+			if (sizeMenuNeeds > sizeMenuHas && _this.itemsCount != 0) {
 				if (_this.firstOverflow == null || sizeMenuNeeds > _this.firstOverflow) {
 					_this.firstOverflow = sizeMenuNeeds;
 				}
@@ -288,7 +283,9 @@ import throttle from 'lodash.throttle';
 					}
 
 					// Show button and send items from original to adaptive
-					_this.adaptiveTarget.button.show();
+					_this.itemsCount = 0;
+					_this.adaptiveTarget.itemsCount = _this.itemsCountOriginal;
+					if (_this.itemsCountOriginal >= _this.itemsCount) _this.adaptiveTarget.button.show();
 					_this.transferItems(_this, _this.adaptiveTarget);
 				} else if (_this.isResponsive) {
 					if (!_this.responsiveTarget.hasButton) {
@@ -307,18 +304,34 @@ import throttle from 'lodash.throttle';
 						_this.responsiveTarget.backdrop = new Backdrop(_this.responsiveTarget);
 					}
 
-					_this.responsiveTarget.button.show();
+					_this.itemsCount--;
+					_this.responsiveTarget.itemsCount++;
+					if (_this.itemsCountOriginal >= _this.itemsCount) _this.responsiveTarget.button.show();
 					_this.transferItems(_this, _this.responsiveTarget, 1);
 				}
-			} else if (_this.firstOverflow != null && _this.firstOverflow <= sizeMenuHas) {
-				if (_this.isAdaptive) {
+			} else if (_this.firstOverflow != null && _this.itemsCountOriginal > _this.itemsCount) {
+				// Menu is big enough again, send items back
+				if (_this.isAdaptive && sizeMenuHas >= _this.firstOverflow) {
 					// Hide button and send items from adaptive to original
-					_this.adaptiveTarget.button.hide();
+					_this.adaptiveTarget.itemsCount = 0;
+					_this.itemsCount = _this.itemsCountOriginal;
+					if (_this.itemsCountOriginal <= _this.itemsCount) _this.adaptiveTarget.button.hide();
 					_this.transferItems(_this.adaptiveTarget, _this);
 				} else if (_this.isResponsive) {
-					// Hide button and send one and one item from responsive to original
-					_this.responsiveTarget.button.hide();
-					_this.transferItems(_this.responsiveTarget, _this, 1);
+					if (sizeMenuHas >= _this.firstOverflow) {
+						// Send all items from responsive to original
+						_this.responsiveTarget.itemsCount = 0;
+						_this.itemsCount = _this.itemsCountOriginal;
+						_this.transferItems(_this.responsiveTarget, _this);
+					}
+					// else {
+					// 	// Send one item from responsive to original
+					// 	_this.itemsCount++;
+					// 	_this.responsiveTarget.itemsCount--;
+					// 	_this.transferItems(_this.responsiveTarget, _this, 1);
+					// }
+
+					if (_this.itemsCountOriginal <= _this.itemsCount) _this.responsiveTarget.button.hide();
 				}
 			}
 		}
@@ -328,9 +341,10 @@ import throttle from 'lodash.throttle';
 			var fromItemsCount = fromItems.length;
 			if (itemsCount == null) var itemsCount = fromItemsCount;
 
+			// Loop through the items backwards
 			for (var i = fromItemsCount; i-- > fromItemsCount-itemsCount && i >= 0;) {
 				if (fromItems[i].classList.contains('stay-in-nav')) {
-					i--;
+					i--; // Skip items that aren't supposed to be transfered
 				}
 
 				to.menu_wrapper_selector.insertBefore(fromItems[i], to.menu_wrapper_selector.firstElementChild);
@@ -417,7 +431,6 @@ import throttle from 'lodash.throttle';
 			this.selector.classList.remove('navigation');
 		} else {
 			this.selector.classList = (options.classList.join(' '));
-			console.log('classes', '\'' + options.classList.join('\', \'') + '\'');
 		}
 
 		// Create selector for opening
