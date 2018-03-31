@@ -32,11 +32,11 @@ import throttle from 'lodash.throttle';
 
 		this.selector = document.createElement('nav');
 		this.selector.classList.add('navigation');
-		this.isHorizontal = false; this.isSticky =       false; this.isAdaptive = false;
-		this.isResponsive = false; this.isVertical =     false; this.isLeft =     false;
+		this.isHorizontal = false; this.isSticky =          false; this.isAdaptive = false;
+		this.isResponsive = false; this.isVertical =        false; this.isLeft =     false;
 		this.isRight =      false;
-		this.hasLogo =      false; this.hasBackdrop =    false; this.hasButton =  false;
-		this.itemsCount =       0; this.itemsCountOriginal = null;
+		this.hasLogo =      false; this.hasBackdrop =       false; this.hasButton =  false;
+		this.itemsCount =       0; this.itemsCountOriginal = null; this.overflows =     [];
 
 		// Check what type of navigation this is. Give the appropiate classes
 		if (navigationType != null) {
@@ -222,11 +222,8 @@ import throttle from 'lodash.throttle';
 			}
 		}
 
-		// Will automatically transfer menu items depending on whether or not the nav is adaptive or responsive
-		this.resize = function resize() {
+		this.updateSizeInfo = function() {
 			var cs = getComputedStyle(_this.menu_wrapper_selector);
-			// To keep track of how many items our nav has before any transfers happen
-			if (this.itemsCountOriginal == null) this.itemsCountOriginal = this.itemsCount;
 
 			_this.sizeMenuWrapper = {
 				width: _this.menu_wrapper_selector.clientWidth,
@@ -251,18 +248,30 @@ import throttle from 'lodash.throttle';
 				heightMargin: parseFloat(csParent.marginTop) + parseFloat(csParent.marginBottom),
 			}
 
-			var sizeMenuNeeds = _this.sizeMenuWrapper.widthScroll;
-			var sizeMenuHas = _this.sizeWrapper.width;
-			if (_this.hasLogo) sizeMenuHas -= _this.logo.scrollWidth;
+			_this.sizeMenuNeeds = _this.sizeMenuWrapper.widthScroll;
+			_this.sizeMenuHas = _this.sizeWrapper.width;
+			if (_this.hasLogo) _this.sizeMenuHas -= _this.logo.scrollWidth;
+		}
 
-			console.log('sizeMenuNeeds', sizeMenuNeeds);
-			console.log('sizeMenuHas', sizeMenuHas);
-			console.log('firstOverflow', _this.firstOverflow);
+		// Will automatically transfer menu items depending on whether or not the nav is adaptive or responsive
+		this.resize = function() {
+			// To keep track of how many items our nav has before any transfers happen
+			if (_this.itemsCountOriginal == null) _this.itemsCountOriginal = _this.itemsCount;
+
+			_this.updateSizeInfo();
+
+			console.log('sizeMenuNeeds', _this.sizeMenuNeeds);
+			console.log('sizeMenuHas', _this.sizeMenuHas);
+			// console.log('firstOverflow', _this.firstOverflow);
+			console.log('overflows', _this.overflows);
 
 			// Menu is too big, transfer items
-			if (sizeMenuNeeds > sizeMenuHas && _this.itemsCount != 0) {
-				if (_this.firstOverflow == null || sizeMenuNeeds > _this.firstOverflow) {
-					_this.firstOverflow = sizeMenuNeeds;
+			if (_this.sizeMenuNeeds > _this.sizeMenuHas && _this.itemsCount != 0) {
+				// if (_this.firstOverflow == null || sizeMenuNeeds > _this.firstOverflow) {
+				// 	_this.firstOverflow = sizeMenuNeeds;
+				// }
+				if (_this.overflows[_this.itemsCount] == null || _this.sizeMenuNeeds > _this.overflows[_this.itemsCount]) {
+					_this.overflows[_this.itemsCount] = _this.sizeMenuNeeds;
 				}
 
 				if (_this.isAdaptive) {
@@ -307,42 +316,50 @@ import throttle from 'lodash.throttle';
 					_this.itemsCount--;
 					_this.responsiveTarget.itemsCount++;
 					if (_this.itemsCountOriginal >= _this.itemsCount) _this.responsiveTarget.button.show();
-					_this.transferItems(_this, _this.responsiveTarget, 1);
+					_this.transferItems(_this, _this.responsiveTarget, {
+						itemsToTransfer: 1
+					});
 				}
-			} else if (_this.firstOverflow != null && _this.itemsCountOriginal > _this.itemsCount) {
+			} else if (_this.itemsCountOriginal > _this.itemsCount) {
 				// Menu is big enough again, send items back
-				if (_this.isAdaptive && sizeMenuHas >= _this.firstOverflow) {
+				if (_this.isAdaptive && _this.sizeMenuHas >= _this.overflows[_this.itemsCountOriginal]) {
 					// Hide button and send items from adaptive to original
 					_this.adaptiveTarget.itemsCount = 0;
 					_this.itemsCount = _this.itemsCountOriginal;
 					if (_this.itemsCountOriginal <= _this.itemsCount) _this.adaptiveTarget.button.hide();
 					_this.transferItems(_this.adaptiveTarget, _this);
 				} else if (_this.isResponsive) {
-					if (sizeMenuHas >= _this.firstOverflow) {
+					if (_this.sizeMenuHas >= _this.overflows[_this.itemsCountOriginal]) {
 						// Send all items from responsive to original
 						_this.responsiveTarget.itemsCount = 0;
 						_this.itemsCount = _this.itemsCountOriginal;
 						_this.transferItems(_this.responsiveTarget, _this);
+					} else if (_this.sizeMenuHas >= _this.overflows[_this.itemsCount+1]) {
+						// Send one item from responsive to original
+						_this.itemsCount++;
+						_this.responsiveTarget.itemsCount--;
+						_this.transferItems(_this.responsiveTarget, _this, {
+							itemsToTransfer: 1
+						});
 					}
-					// else {
-					// 	// Send one item from responsive to original
-					// 	_this.itemsCount++;
-					// 	_this.responsiveTarget.itemsCount--;
-					// 	_this.transferItems(_this.responsiveTarget, _this, 1);
-					// }
 
 					if (_this.itemsCountOriginal <= _this.itemsCount) _this.responsiveTarget.button.hide();
 				}
 			}
+
+			_this.updateSizeInfo();
+			if (_this.sizeMenuNeeds > _this.sizeMenuHas && _this.itemsCount != 0) setTimeout(_this.resize, 10);
 		}
 
-		this.transferItems = function(from, to, itemsCount) {
+		this.transferItems = function(from, to, options) {
 			var fromItems = from.menu_wrapper_selector.childNodes;
 			var fromItemsCount = fromItems.length;
-			if (itemsCount == null) var itemsCount = fromItemsCount;
+
+			if (options == null) options = {};
+			if (options.itemsToTransfer == null) options.itemsToTransfer = fromItemsCount;
 
 			// Loop through the items backwards
-			for (var i = fromItemsCount; i-- > fromItemsCount-itemsCount && i >= 0;) {
+			for (var i = fromItemsCount; i-- > fromItemsCount-options.itemsToTransfer && i >= 0;) {
 				if (fromItems[i].classList.contains('stay-in-nav')) {
 					i--; // Skip items that aren't supposed to be transfered
 				}
@@ -352,7 +369,7 @@ import throttle from 'lodash.throttle';
 		}
 
 		if (this.isHorizontal && (this.isAdaptive || this.isResponsive)) {
-			window.addEventListener('resize', throttle(this.resize, 500));
+			window.addEventListener('resize', throttle(_this.resize, 500));
 
 			// Find the user defined target, or generate one
 			if (this.isAdaptive) {
@@ -377,9 +394,7 @@ import throttle from 'lodash.throttle';
 		if (this.isSticky) this.setupSticky();
 		// if (this.isHorizontal && (this.isAdaptive || this.isResponsive)) this.resize();
 		if (this.isHorizontal && (this.isAdaptive || this.isResponsive)) {
-			setTimeout(function() {
-				_this.resize();
-			}, 500);
+			setTimeout(_this.resize, 500);
 		}
 
 		navigations.push(this);
