@@ -217,6 +217,7 @@ import throttle from 'lodash.throttle';
 
 				// Give the navigation parent margin top equals to the nav height
 				this.selector.parentNode.style.marginTop = this.selector.scrollHeight + 'px';
+				this.selector.parentNode.style.height = (this.selector.parentNode.parentNode.clientHeight-this.selector.scrollHeight) + 'px';
 
 				window.addEventListener('scroll', throttle(this.stickyScroll, 500));
 			}
