@@ -260,16 +260,8 @@ import throttle from 'lodash.throttle';
 
 			_this.updateSizeInfo();
 
-			console.log('sizeMenuNeeds', _this.sizeMenuNeeds);
-			console.log('sizeMenuHas', _this.sizeMenuHas);
-			// console.log('firstOverflow', _this.firstOverflow);
-			console.log('overflows', _this.overflows);
-
 			// Menu is too big, transfer items
 			if (_this.sizeMenuNeeds > _this.sizeMenuHas && _this.itemsCount != 0) {
-				// if (_this.firstOverflow == null || sizeMenuNeeds > _this.firstOverflow) {
-				// 	_this.firstOverflow = sizeMenuNeeds;
-				// }
 				if (_this.overflows[_this.itemsCount] == null || _this.sizeMenuNeeds > _this.overflows[_this.itemsCount]) {
 					_this.overflows[_this.itemsCount] = _this.sizeMenuNeeds;
 				}
@@ -295,7 +287,9 @@ import throttle from 'lodash.throttle';
 					_this.itemsCount = 0;
 					_this.adaptiveTarget.itemsCount = _this.itemsCountOriginal;
 					if (_this.itemsCountOriginal >= _this.itemsCount) _this.adaptiveTarget.button.show();
-					_this.transferItems(_this, _this.adaptiveTarget);
+					_this.transferItems(_this, _this.adaptiveTarget, {
+						direction: 'backwards'
+					});
 				} else if (_this.isResponsive) {
 					if (!_this.responsiveTarget.hasButton) {
 						// Make button for the adaptive target
@@ -317,7 +311,8 @@ import throttle from 'lodash.throttle';
 					_this.responsiveTarget.itemsCount++;
 					if (_this.itemsCountOriginal >= _this.itemsCount) _this.responsiveTarget.button.show();
 					_this.transferItems(_this, _this.responsiveTarget, {
-						itemsToTransfer: 1
+						itemsToTransfer: 1,
+						direction: 'backwards'
 					});
 				}
 			} else if (_this.itemsCountOriginal > _this.itemsCount) {
@@ -333,13 +328,16 @@ import throttle from 'lodash.throttle';
 						// Send all items from responsive to original
 						_this.responsiveTarget.itemsCount = 0;
 						_this.itemsCount = _this.itemsCountOriginal;
-						_this.transferItems(_this.responsiveTarget, _this);
+						_this.transferItems(_this.responsiveTarget, _this, {
+							direction: 'forwards'
+						});
 					} else if (_this.sizeMenuHas >= _this.overflows[_this.itemsCount+1]) {
 						// Send one item from responsive to original
 						_this.itemsCount++;
 						_this.responsiveTarget.itemsCount--;
 						_this.transferItems(_this.responsiveTarget, _this, {
-							itemsToTransfer: 1
+							itemsToTransfer: 1,
+							direction: 'forwards'
 						});
 					}
 
@@ -355,16 +353,31 @@ import throttle from 'lodash.throttle';
 			var fromItems = from.menu_wrapper_selector.childNodes;
 			var fromItemsCount = fromItems.length;
 
-			if (options == null) options = {};
+			if (options == null)                 options = {};
 			if (options.itemsToTransfer == null) options.itemsToTransfer = fromItemsCount;
+			if (options.direction == null)       options.direction = 'backwards';
 
-			// Loop through the items backwards
-			for (var i = fromItemsCount; i-- > fromItemsCount-options.itemsToTransfer && i >= 0;) {
-				if (fromItems[i].classList.contains('stay-in-nav')) {
-					i--; // Skip items that aren't supposed to be transfered
+			if (options.direction == 'backwards') {
+				// Loop through the items backwards
+				for (var i = fromItemsCount; i-- > fromItemsCount-options.itemsToTransfer && i >= 0;) {
+					// Skip items that aren't supposed to be transfered
+					if (fromItems[i].classList.contains('stay-in-nav')) i--;
+
+					to.menu_wrapper_selector.insertBefore(fromItems[i], to.menu_wrapper_selector.firstElementChild);
 				}
+			} else if (options.direction == 'forwards') {
+				// Loop through the items forwards
+				for (var i = 0; i < options.itemsToTransfer; i++) {
+					// Skip items that aren't supposed to be transfered
+					if (fromItems[i].classList.contains('stay-in-nav')) i++;
 
-				to.menu_wrapper_selector.insertBefore(fromItems[i], to.menu_wrapper_selector.firstElementChild);
+					to.menu_wrapper_selector.insertBefore(fromItems[i], to.menu_wrapper_selector.lastElementChild);
+
+					// Because we are looping through the list forwards, we have to reduce the current
+					// position and total items when we transfer an item.
+					i--;
+					options.itemsToTransfer -= 1;
+				}
 			}
 		}
 
@@ -485,8 +498,4 @@ import throttle from 'lodash.throttle';
 		document.body.appendChild(this.selector);
 		buttons.push(this);
 	}
-
-	// console.log(buttons);
-	// console.log(backdrops);
-	// console.log(navigations);
 })();
