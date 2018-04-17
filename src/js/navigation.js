@@ -181,17 +181,6 @@ import throttle from 'lodash.throttle';
 			return li;
 		}
 
-		// Setup the HTML element classes
-		if (this.isVertical) {
-			document.documentElement.classList.add('navigation-vert');
-
-			if (this.isLeft) {
-				document.documentElement.classList.add('navigation-vert-left');
-			} else if (this.isRight) {
-				document.documentElement.classList.add('navigation-vert-right');
-			}
-		}
-
 		this.toggle = function() {
 			if (this.selector.classList.contains('open')) {
 				this.selector.classList.remove('open');
@@ -200,7 +189,7 @@ import throttle from 'lodash.throttle';
 			}
 		}
 
-		this.stickyScroll = function stickyScroll() {
+	this.stickyScroll = function stickyScroll(e) {
 			_this.parentScrollTop = this.pageYOffset;
 
 			if (_this.parentScrollTop > _this.lastScrollTop && _this.parentScrollTop > _this.selector.clientHeight) {
@@ -214,12 +203,7 @@ import throttle from 'lodash.throttle';
 		if (this.isSticky) {
 			this.setupSticky = function() {
 				this.lastScrollTop = 0;
-
-				// Give the navigation parent margin top equals to the nav height
-				this.selector.parentNode.style.marginTop = this.selector.scrollHeight + 'px';
-				this.selector.parentNode.style.height = (this.selector.parentNode.parentNode.clientHeight-this.selector.scrollHeight) + 'px';
-
-				window.addEventListener('scroll', throttle(this.stickyScroll, 500));
+			window.addEventListener('scroll', throttle(this.stickyScroll, 300));
 			}
 		}
 
