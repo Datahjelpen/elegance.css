@@ -1,8 +1,6 @@
 import throttle from 'lodash.throttle';
 
 // Open and close adaptive/responsive navigations
-	var navigationayy = new NavigationElement('horizontal sticky responsive', document.querySelector('main'));
-	// var navigationayy = new NavigationElement('vertical left adaptive');
 var navigations = [];
 var backdrops = [];
 var buttons = [];
@@ -12,21 +10,6 @@ var buttons = [];
 // 	var nav = new Navigation(navigationToggles[i]);
 // }
 
-	var navigationayy = new NavigationElement('horizontal sticky responsive', document.querySelector('main'));
-	// var navigationayy = new NavigationElement('vertical left adaptive');
-	navigationayy.createLogo('/assets/images/datahjelpen_logo.svg');
-	var navAyy1 = navigationayy.createMenuItem('Link 1', '#', 'icon fas fa-font', 'parent');
-	navAyy1.createMenuItem('1.1 Headings', '#', null);
-	navAyy1.createMenuItem('1.1 Headings', '#', null);
-	navAyy1.createMenuItem('1.1 Headings', '#', null);
-	var navAyy2 = navigationayy.createMenuItem('Link 2', '#', null, 'parent');
-	navAyy2.createMenuItem('1.1 Headings', '#', null);
-	navAyy2.createMenuItem('1.1 Headings', '#', null);
-	navAyy2.createMenuItem('1.1 Headings', '#', null);
-	var navAyy3 = navigationayy.createMenuItem('Link 3', '#', null, 'parent');
-	navAyy3.createMenuItem('1.1 Headings', '#', null);
-	navAyy3.createMenuItem('1.1 Headings', '#', null);
-	navAyy3.createMenuItem('1.1 Headings', '#', null);
 export function NavigationElement(navigationType, appendNavTo) {
 	var _this = this;
 

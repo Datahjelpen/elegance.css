@@ -1,6 +1,7 @@
 // Let's load all images so they all get compressed and usable
 const images = require.context('./../images', false, /\.(gif|png|jpe?g|svg)$/i);
 
+import '../scss/elegance.scss';
 import throttle from 'lodash.throttle';
 
 (function() {
@@ -27,6 +28,21 @@ import throttle from 'lodash.throttle';
 	};
 })();
 
-import '../scss/elegance.scss';
-import './navigation.js';
+const navigation = require('./navigation.js');
 
+// var navigationayy = new navigation.NavigationElement('horizontal sticky responsive', document.querySelector('main'));
+var navigationayy = new navigation.NavigationElement('horizontal sticky responsive', document.documentElement);
+// var navigationayy = new NavigationElement('vertical left adaptive');
+navigationayy.createLogo('/assets/images/datahjelpen_logo.svg');
+var navAyy1 = navigationayy.createMenuItem('Link 1', '#', 'icon fas fa-font', 'parent');
+navAyy1.createMenuItem('1.1 Headings', '#', null);
+navAyy1.createMenuItem('1.1 Headings', '#', null);
+navAyy1.createMenuItem('1.1 Headings', '#', null);
+var navAyy2 = navigationayy.createMenuItem('Link 2', '#', null, 'parent');
+navAyy2.createMenuItem('1.1 Headings', '#', null);
+navAyy2.createMenuItem('1.1 Headings', '#', null);
+navAyy2.createMenuItem('1.1 Headings', '#', null);
+var navAyy3 = navigationayy.createMenuItem('Link 3', '#', null, 'parent');
+navAyy3.createMenuItem('1.1 Headings', '#', null);
+navAyy3.createMenuItem('1.1 Headings', '#', null);
+navAyy3.createMenuItem('1.1 Headings', '#', null);
