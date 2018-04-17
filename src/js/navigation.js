@@ -10,7 +10,7 @@ var buttons = [];
 // 	var nav = new Navigation(navigationToggles[i]);
 // }
 
-export function NavigationElement(navigationType, appendNavTo) {
+export function NavigationElement(options) {
 	var _this = this;
 
 	this.selector = document.createElement('nav');
@@ -21,43 +21,44 @@ export function NavigationElement(navigationType, appendNavTo) {
 	this.hasLogo =      false; this.hasBackdrop =       false; this.hasButton =  false;
 	this.itemsCount =       0; this.itemsCountOriginal = null; this.overflows =     [];
 
+	if (options == null) options = {};
+	if (options.appendTo == null) options.appendTo = document.body;
+	if (options.classList == null) options.classList = ['horizontal', 'adaptive'];
+
 	// Check what type of navigation this is. Give the appropiate classes
-	if (navigationType != null) {
-		this.classes = navigationType.split(' ');
-		if (this.classes.indexOf('horizontal') != -1) {
-			this.isHorizontal = true;
-			this.selector.classList.add('navigation-hor');
+	if (options.classList.indexOf('horizontal') != -1) {
+		this.isHorizontal = true;
+		this.selector.classList.add('navigation-hor');
 
-			if (this.classes.indexOf('sticky') != -1) {
-				this.isSticky = true;
-				this.selector.classList.add('navigation-stick-auto');
-			}
+		if (options.classList.indexOf('sticky') != -1) {
+			this.isSticky = true;
+			this.selector.classList.add('navigation-stick-auto');
+		}
 
-			if (this.classes.indexOf('adaptive') != -1) {
-				this.isAdaptive = true;
-				this.selector.classList.add('navigation-hor-adaptive');
-			} else if (this.classes.indexOf('responsive') != -1) {
-				this.isResponsive = true;
-				this.selector.classList.add('navigation-hor-responsive');
-			}
-		} else if (this.classes.indexOf('vertical') != -1) {
-			this.isVertical = true;
-			this.selector.classList.add('navigation-vert');
+		if (options.classList.indexOf('adaptive') != -1) {
+			this.isAdaptive = true;
+			this.selector.classList.add('navigation-hor-adaptive');
+		} else if (options.classList.indexOf('responsive') != -1) {
+			this.isResponsive = true;
+			this.selector.classList.add('navigation-hor-responsive');
+		}
+	} else if (options.classList.indexOf('vertical') != -1) {
+		this.isVertical = true;
+		this.selector.classList.add('navigation-vert');
 
-			if (this.classes.indexOf('left') != -1) {
-				this.isLeft = true;
-				this.selector.classList.add('navigation-vert-left');
-			}
+		if (options.classList.indexOf('left') != -1) {
+			this.isLeft = true;
+			this.selector.classList.add('navigation-vert-left');
+		}
 
-			if (this.classes.indexOf('right') != -1) {
-				this.isRight = true;
-				this.selector.classList.add('navigation-vert-right');
-			}
+		if (options.classList.indexOf('right') != -1) {
+			this.isRight = true;
+			this.selector.classList.add('navigation-vert-right');
+		}
 
-			if (this.classes.indexOf('adaptive') != -1) {
-				this.isAdaptive = true;
-				this.selector.classList.add('navigation-vert-adaptive');
-			}
+		if (options.classList.indexOf('adaptive') != -1) {
+			this.isAdaptive = true;
+			this.selector.classList.add('navigation-vert-adaptive');
 		}
 	}
 
@@ -237,13 +238,19 @@ export function NavigationElement(navigationType, appendNavTo) {
 			if (_this.isAdaptive) {
 				if (!_this.adaptiveTarget.hasButton) {
 					// Make button for the adaptive target
+					_this.button = new Button(_this.adaptiveTarget, {
+						classList: ['navigation-toggle', 'stay-in-nav'],
+						element: 'li'
+					});
+
 					_this.adaptiveTarget.button = new Button(_this.adaptiveTarget, {
 						classList: ['navigation-toggle', 'stay-in-nav'],
 						element: 'li'
 					});
 
 					// Insert the button
-					_this.menu_wrapper_selector.insertBefore(_this.adaptiveTarget.button.selector, _this.menu_wrapper_selector.lastElementChild);
+					_this.menu_wrapper_selector.insertBefore(_this.button.selector, _this.menu_wrapper_selector.lastElementChild);
+					_this.adaptiveTarget.menu_wrapper_selector.insertBefore(_this.adaptiveTarget.button.selector, _this.adaptiveTarget.menu_wrapper_selector.lastElementChild);
 				}
 
 				if (!_this.adaptiveTarget.hasBackdrop) {
@@ -260,14 +267,20 @@ export function NavigationElement(navigationType, appendNavTo) {
 				});
 			} else if (_this.isResponsive) {
 				if (!_this.responsiveTarget.hasButton) {
-					// Make button for the adaptive target
+					// Make button for the responsive target
+					_this.button = new Button(_this.responsiveTarget, {
+						classList: ['navigation-toggle', 'stay-in-nav'],
+						element: 'li'
+					});
+
 					_this.responsiveTarget.button = new Button(_this.responsiveTarget, {
 						classList: ['navigation-toggle', 'stay-in-nav'],
 						element: 'li'
 					});
 
 					// Insert the button
-					_this.menu_wrapper_selector.insertBefore(_this.responsiveTarget.button.selector, _this.menu_wrapper_selector.lastElementChild);
+					_this.menu_wrapper_selector.insertBefore(_this.button.selector, _this.menu_wrapper_selector.lastElementChild);
+					_this.responsiveTarget.menu_wrapper_selector.insertBefore(_this.responsiveTarget.button.selector, _this.responsiveTarget.menu_wrapper_selector.lastElementChild);
 				}
 
 				if (!_this.responsiveTarget.hasBackdrop) {
@@ -337,14 +350,20 @@ export function NavigationElement(navigationType, appendNavTo) {
 			// Loop through the items forwards
 			for (var i = 0; i < options.itemsToTransfer; i++) {
 				// Skip items that aren't supposed to be transfered
-				if (fromItems[i].classList.contains('stay-in-nav')) i++;
+				if (fromItems[i].classList.contains('stay-in-nav')) {
+					i++;
+				}
 
-				to.menu_wrapper_selector.insertBefore(fromItems[i], to.menu_wrapper_selector.lastElementChild);
+				console.log(i, fromItems.length);
 
-				// Because we are looping through the list forwards, we have to reduce the current
-				// position and total items when we transfer an item.
-				i--;
-				options.itemsToTransfer -= 1;
+				if (i < fromItems.length) {
+					to.menu_wrapper_selector.insertBefore(fromItems[i], to.menu_wrapper_selector.lastElementChild);
+
+					// Because we are looping through the list forwards, we have to reduce the current
+					// position and total items when we transfer an item.
+					i--;
+					options.itemsToTransfer -= 1;
+				}
 			}
 		}
 	}
@@ -356,14 +375,18 @@ export function NavigationElement(navigationType, appendNavTo) {
 		if (this.isAdaptive) {
 			var adaptiveTargetSelector = this.selector.getAttribute('adaptive-target');
 			if (adaptiveTargetSelector == null) {
-				this.adaptiveTarget = new NavigationElement('vertical right', document.querySelector('main'));
+				this.adaptiveTarget = new NavigationElement({
+					classList: ['vertical', 'right']
+				});
 			} else {
 				this.adaptiveTarget = document.querySelector(adaptiveTargetSelector);
 			}
 		} else if (this.isResponsive) {
 			var responsiveTargetSelector = this.selector.getAttribute('responsive-target');
 			if (responsiveTargetSelector == null) {
-				this.responsiveTarget = new NavigationElement('vertical right', document.querySelector('main'));
+				this.responsiveTarget = new NavigationElement({
+					classList: ['vertical', 'right']
+				});
 			} else {
 				this.responsiveTarget = document.querySelector(responsiveTargetSelector);
 			}
@@ -371,7 +394,7 @@ export function NavigationElement(navigationType, appendNavTo) {
 	}
 
 	// Append the navigation element to the document
-	appendNavTo.appendChild(this.selector);
+	options.appendTo.appendChild(this.selector);
 	if (this.isSticky) this.setupSticky();
 	// if (this.isHorizontal && (this.isAdaptive || this.isResponsive)) this.resize();
 	if (this.isHorizontal && (this.isAdaptive || this.isResponsive)) {

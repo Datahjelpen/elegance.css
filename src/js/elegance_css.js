@@ -31,7 +31,13 @@ import throttle from 'lodash.throttle';
 const navigation = require('./navigation.js');
 
 // var navigationayy = new navigation.NavigationElement('horizontal sticky responsive', document.querySelector('main'));
-var navigationayy = new navigation.NavigationElement('horizontal sticky responsive', document.documentElement);
+var navigationayy = new navigation.NavigationElement({
+	classList: [
+		'horizontal',
+		'sticky',
+		'responsive'
+	]
+});
 // var navigationayy = new NavigationElement('vertical left adaptive');
 navigationayy.createLogo('/assets/images/datahjelpen_logo.svg');
 var navAyy1 = navigationayy.createMenuItem('Link 1', '#', 'icon fas fa-font', 'parent');
