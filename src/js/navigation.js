@@ -396,6 +396,9 @@ export function NavigationElement(options) {
 		}
 	}
 
+	// If logo option is set, create it
+	if (options.logo != null) this.createLogo(options.logo);
+
 	// Append the navigation element to the document
 	options.appendTo.appendChild(this.selector);
 	if (this.isSticky) this.setupSticky();
