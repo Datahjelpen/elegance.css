@@ -17,13 +17,18 @@ export function NavigationElement(options) {
 	this.selector.classList.add('navigation');
 	this.isHorizontal = false; this.isSticky =          false; this.isAdaptive = false;
 	this.isResponsive = false; this.isVertical =        false; this.isLeft =     false;
-	this.isRight =      false;
+	this.isRight =      false; this.isScrollChange =    false;
 	this.hasLogo =      false; this.hasBackdrop =       false; this.hasButton =  false;
 	this.itemsCount =       0; this.itemsCountOriginal = null; this.overflows =     [];
 
-	if (options == null) options = {};
-	if (options.appendTo == null) options.appendTo = document.body;
-	if (options.classList == null) options.classList = ['horizontal', 'adaptive'];
+	if (options == null)
+		options = {};
+
+	if (options.appendTo == null)
+		options.appendTo = document.body;
+
+	if (options.classList == null)
+		options.classList = ['horizontal', 'adaptive'];
 
 	// Check what type of navigation this is. Give the appropiate classes
 	if (options.classList.indexOf('horizontal') != -1) {
@@ -173,22 +178,59 @@ export function NavigationElement(options) {
 		}
 	}
 
-	this.stickyScroll = function stickyScroll(e) {
-		_this.parentScrollTop = this.pageYOffset;
+	this.scroll = function(options) {
+		_this.parentScrollTop = window.pageYOffset;
 
-		if (_this.parentScrollTop > _this.lastScrollTop && _this.parentScrollTop > _this.selector.clientHeight) {
-			_this.selector.classList.add('navigation-stick-active');
-		} else {
-			_this.selector.classList.remove('navigation-stick-active');
-		}
+		_this.stickyScroll(options.sticky);
+		_this.scrollChange(options.scrollChange);
+
 		_this.lastScrollTop = _this.parentScrollTop;
 	}
 
-	if (this.isSticky) {
-		this.setupSticky = function() {
-			this.lastScrollTop = 0;
-			window.addEventListener('scroll', throttle(this.stickyScroll, 300));
+	this.setupScroll = function(options) {
+		this.lastScrollTop = 0;
+
+		if (this.isScrollChange) {
+			for (var i = 0; i < options.scrollChange.points.length; i++) {
+				options.scrollChange.points[i] = document.querySelector('#' + options.scrollChange.points[i]);
+			}
 		}
+
+		window.addEventListener('scroll', throttle(function() {
+			_this.scroll(options);
+		}, 500));
+	}
+
+	this.stickyScroll = function(options) {
+		if (options.hide) {
+			if (_this.parentScrollTop > _this.lastScrollTop && _this.parentScrollTop > _this.selector.clientHeight) {
+					_this.selector.classList.add('navigation-stick-active');
+			} else {
+				_this.selector.classList.remove('navigation-stick-active');
+			}
+		}
+	}
+
+	this.scrollChange = function(options) {
+		for (var i = 0; i < options.points.length; i++) {
+			if (_this.parentScrollTop >= options.points[i].offsetTop) {
+				if (options.activeClass != options.classList[i]) {
+					options.activeClass = options.classList[i];
+				} else {
+					_this.selector.classList.remove(options.classList[i]);
+				}
+			}
+
+			if (_this.parentScrollTop < options.points[i].offsetTop) {
+				if (options.activeClass == options.classList[i])
+					options.activeClass = '';
+
+				_this.selector.classList.remove(options.classList[i]);
+			}
+		}
+
+		if (options.activeClass.length > 0)
+			_this.selector.classList.add(options.activeClass);
 	}
 
 	this.updateSizeInfo = function() {
@@ -357,8 +399,6 @@ export function NavigationElement(options) {
 					i++;
 				}
 
-				console.log(i, fromItems.length);
-
 				if (i < fromItems.length) {
 					to.menu_wrapper_selector.insertBefore(fromItems[i], to.menu_wrapper_selector.lastElementChild);
 
@@ -373,6 +413,7 @@ export function NavigationElement(options) {
 
 	if (this.isHorizontal && (this.isAdaptive || this.isResponsive)) {
 		window.addEventListener('resize', throttle(_this.resize, 500));
+		setTimeout(_this.resize, 500);
 
 		// Find the user defined target, or generate one
 		if (this.isAdaptive) {
@@ -397,15 +438,29 @@ export function NavigationElement(options) {
 	}
 
 	// If logo option is set, create it
-	if (options.logo != null) this.createLogo(options.logo);
+	if (options.logo != null)
+		this.createLogo(options.logo);
 
 	// Append the navigation element to the document
 	options.appendTo.appendChild(this.selector);
-	if (this.isSticky) this.setupSticky();
-	// if (this.isHorizontal && (this.isAdaptive || this.isResponsive)) this.resize();
-	if (this.isHorizontal && (this.isAdaptive || this.isResponsive)) {
-		setTimeout(_this.resize, 500);
+
+	if (options.scroll != null ) {
+		if (this.isSticky) {
+			if (options.scroll.sticky == null)
+				options.scroll.sticky = {};
+
+			if (options.scroll.sticky.hide == null)
+				options.scroll.sticky.hide = true;
+		}
+
+		if (options.scroll.scrollChange != null) {
+			this.isScrollChange = true;
+			options.scroll.scrollChange.activeClass = '';
+		}
 	}
+
+	if (this.isSticky || this.isScrollChange)
+		this.setupScroll(options.scroll);
 
 	navigations.push(this);
 }
