@@ -212,20 +212,28 @@ export function NavigationElement(options) {
 	}
 
 	this.scrollChange = function(options) {
+		var _this.currentScrollPosition = _this.parentScrollTop + _this.selector.scrollHeight/2;
 		for (var i = 0; i < options.points.length; i++) {
-			if (_this.parentScrollTop >= options.points[i].offsetTop) {
-				if (options.activeClass != options.classList[i]) {
-					options.activeClass = options.classList[i];
+			var pointPosition = options.points[i].offsetTop;
+			var pointClass = options.classList[i];
+
+			// If we have scrolled passed or to the point, and the active class is not the same as the
+			// one we want to add, add the class, oterwise remove it.
+			if (_this.currentScrollPosition >= pointPosition) {
+				if (options.activeClass != pointClass) {
+					options.activeClass = pointClass;
 				} else {
-					_this.selector.classList.remove(options.classList[i]);
+					_this.selector.classList.remove(pointClass);
 				}
 			}
 
-			if (_this.parentScrollTop < options.points[i].offsetTop) {
-				if (options.activeClass == options.classList[i])
+			// If we are above the point, remove the class.
+			// If the active class is the same as the point class, set active class to empty
+			if (_this.currentScrollPosition < pointPosition) {
+				if (options.activeClass == pointClass)
 					options.activeClass = '';
 
-				_this.selector.classList.remove(options.classList[i]);
+				_this.selector.classList.remove(pointClass);
 			}
 		}
 
