@@ -212,7 +212,8 @@ export function NavigationElement(options) {
 	}
 
 	this.scrollChange = function(options) {
-		var _this.currentScrollPosition = _this.parentScrollTop + _this.selector.scrollHeight/2;
+		_this.currentScrollPosition = _this.parentScrollTop + (_this.selector.scrollHeight/2);
+
 		for (var i = 0; i < options.points.length; i++) {
 			var pointPosition = options.points[i].offsetTop;
 			var pointClass = options.classList[i];
