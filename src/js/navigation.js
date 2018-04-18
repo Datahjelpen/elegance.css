@@ -302,8 +302,10 @@ export function NavigationElement(options) {
 				// Hide button and send items from adaptive to original
 				_this.adaptiveTarget.itemsCount = 0;
 				_this.itemsCount = _this.itemsCountOriginal;
-				if (_this.itemsCountOriginal <= _this.itemsCount) _this.adaptiveTarget.button.hide();
 				_this.transferItems(_this.adaptiveTarget, _this);
+
+				if (_this.itemsCountOriginal <= _this.itemsCount) _this.button.hide();
+				if (_this.itemsCountOriginal <= _this.itemsCount) _this.adaptiveTarget.button.hide();
 			} else if (_this.isResponsive) {
 				if (_this.sizeMenuHas >= _this.overflows[_this.itemsCountOriginal]) {
 					// Send all items from responsive to original
@@ -322,6 +324,7 @@ export function NavigationElement(options) {
 					});
 				}
 
+				if (_this.itemsCountOriginal <= _this.itemsCount) _this.button.hide();
 				if (_this.itemsCountOriginal <= _this.itemsCount) _this.responsiveTarget.button.hide();
 			}
 		}
