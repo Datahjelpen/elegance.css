@@ -46,6 +46,7 @@ body {
 	background-color: $color-red;
 }
 
+@import 'modules/media';
 @import 'modules/animations';
 @import 'modules/typography';
 @import 'modules/navigation';
