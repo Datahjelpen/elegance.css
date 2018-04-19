@@ -23,6 +23,7 @@ nav.navigation {
 		height: 100%;
 		@include padding(0, .5);
 		text-decoration: none;
+		@include transition('background-color, color');
 
 		&:focus,
 		&:hover {
@@ -33,6 +34,7 @@ nav.navigation {
 
 	ul {
 		background-color: $color-nav-bg;
+		@include transition('background-color, color');
 	}
 
 	.navigation {
@@ -61,7 +63,7 @@ nav.navigation {
 				position: relative;
 
 				> .navigation-menu-item-child {
-					transition: opacity 250ms;
+					@include transition('opacity');
 					@include line-height(1);
 					@include padding(0, 0, 0, 1);
 
@@ -118,7 +120,7 @@ nav.navigation {
 			position: fixed;
 			top: 0px;
 			transform: translateY(0%);
-			transition: transform 250ms;
+			@include transition('background-color, color, transform');
 		}
 
 		&-active {
@@ -206,7 +208,7 @@ nav.navigation {
 			z-index: 12; // Vert nav goes above backdrop which is 11
 			position: absolute;
 			top: 0;
-			transition: transform 250ms;
+			@include transition('background-color, color, transform');
 
 			&.navigation-vert-left {
 				transform: translateX(-100%);
