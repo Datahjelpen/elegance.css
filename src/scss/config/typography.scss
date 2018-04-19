@@ -1,11 +1,30 @@
 // Fonts
-$font-body: 'Rubik', Helvetica, sans-serif;
-$font-body-weight: 400;
-$font-headings: 'Playfair Display', Helvetica, Sans-serif;
-$font-headings-weight: 700;
-$font-code: monospace;
+$font-sans:  'IBM Plex Serif', sans-serif;
+$font-sans-italic: $font-sans;
+$font-serif: 'IBM Plex Mono', serif;
+$font-serif-italic: $font-serif;
+$font-mono:  'IBM Plex Mono', monospace;
+$font-mono-italic: $font-mono;
 
-// Base sizes
+// Weights
+$font-weight-light:  300;
+$font-weight-normal: 400;
+$font-weight-bold:   700;
+
+// Body, headings and code setup
+$font-body: $font-serif;
+$font-body-italic: $font-serif-italic;
+$font-body-weight: $font-weight-normal;
+
+$font-headings: $font-mono;
+$font-headings-italic: $font-mono-italic;
+$font-headings-weight: $font-weight-bold;
+
+$font-code: $font-mono;
+$font-code-italic: $font-mono-italic;
+$font-code-weight: $font-weight-normal;
+
+// sizes
 $font-base: 16;
 $font-size: 1.125em;
 $font-size-desktop: 1em;

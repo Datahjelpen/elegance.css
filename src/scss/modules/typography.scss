@@ -38,13 +38,13 @@ h4 + h5 {
 }
 
 h5 + h6 {
-	margin-top: -$pad-s;
+	margin-top: -$pad-xs;
 }
 
 h6 {
 	font-family: $font-headings;
 	font-weight: $font-body-weight;
-	font-style: italic;
+	font-style: $font-headings-italic;
 }
 
 p {
@@ -65,7 +65,7 @@ hgroup {
 }
 
 blockquote {
-	font-style: italic;
+	font-style: $font-body-italic;
 	padding-left: $pad-s;
 
 	@media screen and (min-width: $size-m-up) {
@@ -126,12 +126,12 @@ strong {
 
 // Address style set to `bolder` in Firefox 4+, Safari, and Chrome.
 strong {
-	font-weight: bold;
+	font-weight: $font-weight-bold;
 }
 
 // Address styling not present in Safari and Chrome.
 dfn {
-	font-style: italic;
+	font-style: $font-body-italic;
 }
 
 // Prevent `em` and `i` affecting `line-height` in all browsers.
@@ -177,7 +177,7 @@ ol li {
 
 dl dt {
 	margin-top: $pad-m;
-	font-weight: bold;
+	font-weight: $font-weight-bold;
 }
 
 a {
@@ -219,8 +219,9 @@ code,
 kbd,
 samp,
 pre {
-	font-family: $font-code;
 	font-size: 1em;
+	font-family: $font-code;
+	font-weight: $font-code-weight;
 }
 
 .icon {
