@@ -31,9 +31,9 @@ html {
 	font-family: $font-body;
 	line-height: $line-height;
 
-	@media screen and (min-width: #{ $size-m-up }) {
+	@media screen and (min-width: $size-m-up) {
 		font-size: $font-size-desktop;
-		line-height: $line-height;
+		line-height: $line-height-desktop;
 	}
 }
 
