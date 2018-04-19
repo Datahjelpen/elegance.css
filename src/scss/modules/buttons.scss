@@ -1,0 +1,111 @@
+.button {
+	margin: 0;
+	padding: $pad-s $pad-m;
+	outline: none;
+	border: 0.1em solid $color-button-default;
+	color: $color-button-default;
+	border-radius: $border-radius-s;
+	background-color: $color-button-default-bg;
+	@include transition('color, border-color, background-color');
+
+	&:focus,
+	&:hover {
+		background-color: darken($color-button-default-bg, 25%);
+		border-color: darken($color-button-default-bg, 25%);
+	}
+
+	&:hover {
+		cursor: pointer;
+	}
+
+	&-primary {
+		color: $color-primary-dark;
+		background-color: $color-primary;
+		border-color: $color-primary;
+
+		&:focus,
+		&:hover {
+			color: $color-primary-light;
+			border-color: $color-primary-dark;
+			background-color: $color-primary-dark;
+		}
+	}
+
+	&-accent  {
+		color: $color-accent-light;
+		background-color: $color-accent;
+		border-color: $color-accent;
+
+		&:focus,
+		&:hover {
+			color: $color-accent-light;
+			border-color: $color-accent-dark;
+			background-color: $color-accent-dark;
+		}
+	}
+
+	&-success {
+		color: $color-success-dark;
+		background-color: $color-success;
+		border-color: $color-success;
+
+		&:focus,
+		&:hover {
+			color: $color-success-light;
+			border-color: $color-success-dark;
+			background-color: $color-success-dark;
+		}
+	}
+
+	&-error   {
+		color: $color-error-dark;
+		background-color: $color-error;
+		border-color: $color-error;
+
+		&:focus,
+		&:hover {
+			color: $color-error-light;
+			border-color: $color-error-dark;
+			background-color: $color-error-dark;
+		}
+	}
+
+	&-warning {
+		color: $color-warning-dark;
+		background-color: $color-warning;
+		border-color: $color-warning;
+
+		&:focus,
+		&:hover {
+			color: $color-warning-light;
+			border-color: $color-warning-dark;
+			background-color: $color-warning-dark;
+		}
+	}
+
+	&-info {
+		color: $color-info-dark;
+		background-color: $color-info;
+		border-color: $color-info;
+
+		&:focus,
+		&:hover {
+			color: $color-info-light;
+			border-color: $color-info-dark;
+			background-color: $color-info-dark;
+		}
+	}
+
+	&-neutral {
+		color: $color-neutral-dark;
+		background-color: $color-neutral;
+		border-color: $color-neutral;
+
+		&:focus,
+		&:hover {
+			color: $color-neutral-light;
+			border-color: $color-neutral-dark;
+			background-color: $color-neutral-dark;
+		}
+	}
+}

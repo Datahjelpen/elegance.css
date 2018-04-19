@@ -48,17 +48,17 @@ $color-red-vivid: #fa1d42;
 $color-blue-vivid-tint1:  #826afc;
 $color-blue-vivid-tint2:  #a290fd;
 $color-blue-vivid-tint3:  #c2b7fd;
-$color-blue-vivid: #421dfa;
+$color-blue-vivid:        #421dfa;
 $color-blue-vivid-shade1: #130264;
 $color-blue-vivid-shade2: #0f0251;
 $color-blue-vivid-shade3: #08012b;
 
 // Brand
 $color-primary-light: $color-red-light;
-$color-primary: $color-red-vivid;
+$color-primary:       $color-red-vivid;
 $color-primary-dark:  $color-red-dark;
 $color-accent-light:  $color-blue-vivid-tint3;
-$color-accent: $color-blue-vivid;
+$color-accent:        $color-blue-vivid;
 $color-accent-dark:   $color-blue-vivid-shade1;
 $color-success-light: $color-green-light;
 $color-success:       $color-green;
@@ -91,12 +91,15 @@ $color-nav-backdrop-bg:      rgba($color-dark, 0.25);
 $color-body-bg: $color-light1;
 
 // Typography
-$color-font-body: $color-dark4;
-$color-font-headings: $color-font-body;
-$color-font-light: $color-light5;
+$color-font-body:       $color-dark4;
+$color-font-headings:   $color-font-body;
+$color-font-light:      $color-light5;
 $color-font-figcaption: $color-font-body;
 
-$color-link-normal: $color-font-body;
-$color-link-hover: $color-font-body;
-$color-link-active: $color-red;
+$color-link-normal:  $color-font-body;
+$color-link-hover:   $color-font-body;
+$color-link-active:  $color-red;
 $color-link-visited: $color-font-light;
+
+$color-button-default:    $color-font-body;
+$color-button-default-bg: $color-body-bg;
