@@ -1,3 +1,9 @@
+@mixin transition($properties, $duration: 250ms, $timing_function: cubic-bezier(.29, 1.01, 1, -0.68)) {
+	transition-property: unquote($properties);
+	transition-duration: unquote($duration);
+	transition-timing-function: $timing_function;
+}
+
 @mixin shadow($depth: 1, $strength: 1) {
 	@if $depth == 0 { box-shadow: 0 0 0 rgba($color-shadow, 0); }
 
