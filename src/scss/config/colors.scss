@@ -24,32 +24,57 @@ $color-gray-warm-medium:    #898276;
 $color-gray-warm-dark:      #605b53;
 
 // Regular
-$color-red-light:    #ff627c;
 $color-red:          #fa1d42;
-$color-red-dark:     #aa132d;
-$color-purple-light: #edd9fe;
+$color-red-light:    lighten($color-red, 33%);
+$color-red-dark:     darken($color-red, 33%);
 $color-purple:       #b664ff;
-$color-purple-dark:  #9013fe;
-$color-blue-light:   #dde3fe;
+$color-purple-light: lighten($color-purple, 33%);
+$color-purple-dark:  darken($color-purple, 33%);
 $color-blue:         #839bfd;
-$color-blue-dark:    #5677fc;
-$color-green-light:  #ccf4ea;
+$color-blue-light:   lighten($color-blue, 33%);
+$color-blue-dark:    darken($color-blue, 33%);
 $color-green:        #43dab4;
-$color-green-dark:   #00cc99;
-$color-yellow-light: #fff3ce;
+$color-green-light:  lighten($color-green, 33%);
+$color-green-dark:   darken($color-green, 33%);
 $color-yellow:       #ffd067;
-$color-yellow-dark:  #ffc208;
+$color-yellow-light: lighten($color-yellow, 33%);
+$color-yellow-dark:  darken($color-yellow, 33%);
+$color-orange:       #ff8467;
+$color-orange-light: lighten($color-orange, 33%);
+$color-orange-dark:  darken($color-orange, 33%);
 
 // Special
 $color-red-vivid: #fa1d42;
+$color-blue-vivid-tint1:  #826afc;
+$color-blue-vivid-tint2:  #a290fd;
+$color-blue-vivid-tint3:  #c2b7fd;
 $color-blue-vivid: #421dfa;
 $color-blue-vivid-shade1: #130264;
 $color-blue-vivid-shade2: #0f0251;
 $color-blue-vivid-shade3: #08012b;
 
 // Brand
+$color-primary-light: $color-red-light;
 $color-primary: $color-red-vivid;
+$color-primary-dark:  $color-red-dark;
+$color-accent-light:  $color-blue-vivid-tint3;
 $color-accent: $color-blue-vivid;
+$color-accent-dark:   $color-blue-vivid-shade1;
+$color-success-light: $color-green-light;
+$color-success:       $color-green;
+$color-success-dark:  $color-green-dark;
+$color-error-light:   $color-red-light;
+$color-error:         $color-red;
+$color-error-dark:    $color-red-dark;
+$color-warning-light: $color-orange-light;
+$color-warning:       $color-orange;
+$color-warning-dark:  $color-orange-dark;
+$color-info-light:    $color-blue-light;
+$color-info:          $color-blue;
+$color-info-dark:     $color-blue-dark;
+$color-neutral-light: $color-gray-neutral-light;
+$color-neutral:       $color-gray-neutral-medium;
+$color-neutral-dark:  $color-gray-neutral-dark;
 
 // Utilities
 $color-shadow: $color-blue-vivid-shade1;
