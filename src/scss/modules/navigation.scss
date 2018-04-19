@@ -1,3 +1,13 @@
+html {
+	&.navigation {
+		&-stick {
+			body {
+				margin-top: 4rem;
+			}
+		}
+	}
+}
+
 nav ol,
 nav ul {
 	list-style: none;
@@ -12,7 +22,7 @@ nav.navigation {
 	width: 100%;
 	height: 4rem;
 	max-width: $size-xl;
-	@include padding(0, 1);
+	padding: 0 $pad-m;
 
 	a {
 		cursor: pointer;
@@ -21,7 +31,7 @@ nav.navigation {
 		display: block;
 		width: 100%;
 		height: 100%;
-		@include padding(0, .5);
+		padding: 0 $pad-s;
 		text-decoration: none;
 		@include transition('background-color, color');
 
@@ -64,8 +74,7 @@ nav.navigation {
 
 				> .navigation-menu-item-child {
 					@include transition('opacity');
-					@include line-height(1);
-					@include padding(0, 0, 0, 1);
+					padding: 0 0 0 $pad-m;
 
 					&.trigger-hover,
 					&.trigger-click {
@@ -84,7 +93,7 @@ nav.navigation {
 
 				&:hover {
 					> .navigation-menu-item-child.trigger-hover {
-						@include padding(.5, .5);
+						padding: $pad-s $pad-s;
 						opacity: 1;
 						height: auto;
 						width: auto;
@@ -101,7 +110,7 @@ nav.navigation {
 					}
 
 					> .navigation-menu-item-child.trigger-click {
-						@include padding(.5, .5);
+						padding: $pad-s $pad-s;
 						opacity: 1;
 						height: auto;
 						width: auto;
@@ -130,7 +139,7 @@ nav.navigation {
 
 	&-hor {
 		.navigation-menu {
-			@include padding(0, 0, 0, .5);
+			padding: 0 0 0 $pad-s;
 			flex-grow: 1;
 			margin: 0;
 			display: flex;
@@ -156,7 +165,7 @@ nav.navigation {
 		.navigation {
 			&-logo {
 				margin: auto;
-				height: #{($base-font-size-desktop / 100)*2 + 'rem'};
+				height: 2rem;
 			}
 		}
 
@@ -181,7 +190,7 @@ nav.navigation {
 	}
 
 	&-vert {
-		@include padding(1, 1);
+		padding: $pad-m $pad-m;
 		height: 100%;
 		max-width: 18rem;
 
@@ -238,7 +247,7 @@ nav.navigation {
 				&.navigation-menu-item-parent {
 					&:hover {
 						> .navigation-menu-item-child.trigger-hover {
-							@include padding(0, 0, 0, 1);
+							padding: 0 0 0 $pad-m;
 						}
 					}
 
@@ -247,7 +256,7 @@ nav.navigation {
 					&:focus,
 					&:focus-within {
 						> .navigation-menu-item-child.trigger-click {
-							@include padding(0, 0, 0, 1);
+							padding: 0 0 0 $pad-m;
 						}
 					}
 				}
@@ -267,7 +276,7 @@ nav.navigation {
 	position: fixed;
 	top: 0;
 	display: block;
-	transition: transform 250ms;
+	@include transition('transform');
 
 	&.navigation-vert-left {
 		left: 0;

@@ -18,47 +18,32 @@
 html,
 body {
 	margin: 0;
+	padding: 0;
 	overflow-x: hidden;
+	color: $color-font-body;
+	background-color: $color-body-bg;
 }
 
 html {
 	box-sizing: border-box;
-	font-size: #{$base + 'px'};
-	font-size: #{$base-font-size + '%'};
-	font-family: $font-body;
-	color: $color-font-body;
 	cursor: default;
-	-ms-text-size-adjust: 100%;
-	-webkit-text-size-adjust: 100%;
+	font-size: $font-size;
+	font-family: $font-body;
+	line-height: $line-height;
 
-	@media screen and (min-width: #{ $max-width + 5 + 'em'}) {
-		font-size: #{$base-desktop + 'px'};
-		font-size: #{$base-font-size-desktop / 100 + 'rem'};
+	@media screen and (min-width: #{ $size-m-up }) {
+		font-size: $font-size-desktop;
+		line-height: $line-height;
 	}
 }
 
 body {
 	position: relative;
-	background-color: $color-body-bg;
-	@include line-height(1);
-
-	@media screen and (min-width: #{ $max-width + 5 + 'em'}) {
-		$leading: $leading-desktop;
-		$leading-rem: $leading-rem-desktop;
-
-		@include line-height(1);
-	}
-}
-
-img {
-	border-style: none;
-	max-width: 100%;
-	height: auto;
 }
 
 // TODO: USE FOR TABS
 *:target {
-	background-color: $color-light2;
+	background-color: $color-red;
 }
 
 @import 'modules/animations';

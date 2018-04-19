@@ -1,15 +1,22 @@
-$size-xs:     239px;
-$size-xs-up:  240px;
-$size-s:      479px;
-$size-s-up:   480px;
-$size-m:      767px;
-$size-m-up:   768px;
-$size-l:      1023px;
-$size-l-up:   1024px;
-$size-xl:     1365px;
-$size-xl-up:  1366px;
-$size-xxl:    1919px;
-$size-xxl-up: 1920px;
+$size-xs:     239 / 16 + 'rem';
+$size-xs-up:  240 / 16 + 'rem';
+$size-s:      479 / 16 + 'rem';
+$size-s-up:   480 / 16 + 'rem';
+$size-m:      767 / 16 + 'rem';
+$size-m-up:   768 / 16 + 'rem';
+$size-l:      1023 / 16 + 'rem';
+$size-l-up:   1024 / 16 + 'rem';
+$size-xl:     1365 / 16 + 'rem';
+$size-xl-up:  1366 / 16 + 'rem';
+$size-xxl:    1919 / 16 + 'rem';
+$size-xxl-up: 1920 / 16 + 'rem';
+
+$pad-xs:  0.1rem;
+$pad-s:   0.25rem;
+$pad-m:   0.5rem;
+$pad-l:   1rem;
+$pad-xl:  2rem;
+$pad-xxl: 4rem;
 
 @import 'colors';
 @import 'typography';
