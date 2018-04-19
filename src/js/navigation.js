@@ -37,7 +37,6 @@ export function NavigationElement(options) {
 
 		if (options.classList.indexOf('sticky') != -1) {
 			this.isSticky = true;
-			this.selector.classList.add('navigation-stick-auto');
 		}
 
 		if (options.classList.indexOf('adaptive') != -1) {
@@ -455,11 +454,20 @@ export function NavigationElement(options) {
 
 	if (options.scroll != null ) {
 		if (this.isSticky) {
+			document.documentElement.classList.add('navigation-stick');
+
 			if (options.scroll.sticky == null)
 				options.scroll.sticky = {};
 
-			if (options.scroll.sticky.hide == null)
+			if (options.scroll.sticky.hide == null) {
 				options.scroll.sticky.hide = true;
+			}
+
+			if (options.scroll.sticky.hide == true)
+				this.selector.classList.add('navigation-stick-auto');
+
+			if (options.scroll.sticky.hide == false)
+				this.selector.classList.add('navigation-stick');
 		}
 
 		if (options.scroll.scrollChange != null) {
