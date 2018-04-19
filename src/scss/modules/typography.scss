@@ -1,3 +1,10 @@
+h1, h2,
+h3, h4,
+h5 {
+	font-weight: $font-headings-weight;
+	font-family: $font-headings;
+}
+
 // Set headings sizes, line-heights and margins
 @each $heading, $properties in $headings {
 	#{$heading} {
@@ -32,24 +39,25 @@ h4 + h5 {
 
 h5 + h6 {
 	margin-top: -$pad-s;
-
-	// @media screen and (min-width: $size-m-up) {
-	// 	margin-top: -$pad-m;
-	// }
 }
 
-h6 {
-	// font-style: italic;
-	// font-weight: normal;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
 h6 {
 	font-family: $font-headings;
+	font-weight: $font-body-weight;
+	font-style: italic;
+}
+
+p {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+.content {
+	&-text {
+		p {
+			margin-bottom: $pad-xl;
+		}
+	}
 }
 
 hgroup {
