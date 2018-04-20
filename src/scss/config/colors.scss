@@ -101,5 +101,7 @@ $color-link-hover:   $color-font-body;
 $color-link-active:  $color-red;
 $color-link-visited: $color-font-light;
 
-$color-button-default:    $color-font-body;
-$color-button-default-bg: $color-body-bg;
+$color-button-default:          $color-dark1;
+$color-button-default-bg:       $color-light2;
+$color-button-default-hover:    $color-light2;
+$color-button-default-bg-hover: $color-dark1;

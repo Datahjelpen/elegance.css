@@ -2,16 +2,50 @@
 	margin: 0;
 	padding: $pad-s $pad-m;
 	outline: none;
-	border: 0.1em solid $color-button-default;
+	border: 0.1em solid $color-button-default-bg;
 	color: $color-button-default;
 	border-radius: $border-radius-s;
 	background-color: $color-button-default-bg;
-	@include transition('color, border-color, background-color');
+	vertical-align: middle;
+	transform: translateY(0px);
+	@include shadow(1, 1);
+	@include transition('color, border-color, background-color, transform, box-shadow');
+
+	&-small {
+		font-size: 0.75em;
+	}
+
+	&-large {
+		font-size: 1.25em;
+	}
+
+	&-round {
+		border-radius: 100%;
+	}
+
+	&-action {
+		padding: $pad-m $pad-m;
+
+		.icon {
+			vertical-align: middle;
+			display: block;
+			width: 1em;
+			height: 1em;
+		}
+	}
 
 	&:focus,
 	&:hover {
-		background-color: darken($color-button-default-bg, 25%);
-		border-color: darken($color-button-default-bg, 25%);
+		color: $color-button-default-hover;
+		background-color: $color-button-default-bg-hover;
+		border-color: $color-button-default-bg-hover;
+		transform: translateY(-1px);
+		@include shadow(2, 1);
+	}
+
+	&:active {
+		transform: translateY(1px);
+		@include shadow(1, 1);
 	}
 
 	&:hover {
