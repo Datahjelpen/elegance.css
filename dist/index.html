@@ -1,14 +1,26 @@
 <!DOCTYPE html>
-<html class="navigation-vert navigation-vert-left">
+<html>
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="initial-scale=1, maximum-scale=1, width=device-width, height=device-height">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<title>Elegance.css</title>
 	<link rel="stylesheet" href="assets/css/elegance.css">
+	<style>
+		main {
+			padding: 0 0.5rem;
+		}
+
+		main section {
+			width: 100%;
+			max-width: 900px;
+			margin: 0 auto;
+			display: block;
+		}
+	</style>
 </head>
 <body>
-	<nav id="nav-main-vert" class="navigation navigation-vert navigation-vert-left navigation-vert-adaptive">
+<!-- 	<nav id="nav-main-vert" class="navigation navigation-vert navigation-vert-left navigation-vert-adaptive">
 		<div class="navigation-wrapper-inner">
 			<img class="navigation-logo" src="https://brand.datahjelpen.no/images/dh-logo.svg">
 			<ul class="navigation-menu">
@@ -33,14 +45,14 @@
 				</li>
 			</ul>
 		</div>
-	</nav>
+	</nav> -->
 	<main>
-		<button class="navigation-toggle navigation-vert navigation-vert-left navigation-vert-adaptive" target="#nav-main-vert">
+<!-- 		<button class="navigation-toggle navigation-vert navigation-vert-left navigation-vert-adaptive" target="#nav-main-vert">
 			<span class="open"><i class="icon fas fa-bars"></i></span>
 			<span class="close"><i class="icon fas fa-times"></i></span>
-		</button>
+		</button> -->
 
-		<nav id="nav-main-hor" class="navigation navigation-stick-auto navigation-hor navigation-hor-responsive">
+<!-- 		<nav id="nav-main-hor" class="navigation navigation-stick-auto navigation-hor navigation-hor-responsive">
 			<div class="navigation-wrapper-inner">
 				<img class="navigation-logo" src="https://brand.datahjelpen.no/images/dh-logo.svg">
 				<ul class="navigation-menu">
@@ -79,7 +91,8 @@
 					<span class="close"><i class="icon fas fa-times"></i></span>
 				</button>
 			</div>
-		</nav>
+		</nav> -->
+		<!-- <img src="/assets/images/red.jpg"> -->
 		<section id="doc-typography">
 			<header>
 				<h2><i class="icon fas fa-font"></i><span>Typography</span></h2>
@@ -96,26 +109,26 @@
 				<h5>Heading 5</h5>
 				<h6>Heading 6</h6>
 			</section>
-			<section id="doc-typography-paragraphs">
+			<section id="doc-typography-paragraphs" class="content-text">
 				<header>
 					<h3>Paragraphs</h3>
 				</header>
-					<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-					<p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an
-					unknown printer took a galley of type and scrambled it to make a type specimen book. It
-					has survived not only five centuries, but also the leap into electronic typesetting,
-					remaining essentially unchanged. It was popularised in the 1960s with the release of
-					Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing
-					software like Aldus PageMaker including versions of Lorem Ipsum</p>
-					<p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a
-					piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard
-					McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the
-					more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the
-					cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum
-					comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes
-					of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of
-					ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum
-					dolor sit amet..", comes from a line in section 1.10.32.</p>
+				<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+				<p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an
+				unknown printer took a galley of type and scrambled it to make a type specimen book. It
+				has survived not only five centuries, but also the leap into electronic typesetting,
+				remaining essentially unchanged. It was popularised in the 1960s with the release of
+				Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing
+				software like Aldus PageMaker including versions of Lorem Ipsum</p>
+				<p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a
+				piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard
+				McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the
+				more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the
+				cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum
+				comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes
+				of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of
+				ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum
+				dolor sit amet..", comes from a line in section 1.10.32.</p>
 			</section>
 			<section id="doc-typography-elements">
 				<header>
@@ -207,23 +220,43 @@
 			<header>
 				<h2><i class=""></i><span>Buttons</span></h2>
 				<p>Lorem ipsum</p>
-				<button class="button">Default button</button>
-				<button class="button button-primary">Primary button</button>
-				<button class="button button-link">Link button</button>
 			</header>
 			<section id="doc-buttons">
-				<header>
-					<h3>Button colors</h3>
-				</header>
-				<button class="button button-primary">Primary button</button>
-				<button class="button button-accent">Accent button</button>
-				<button class="button button-success">Success button</button>
-				<button class="button button-error">Error button</button>
-				<button class="button button-warning">Warning button</button>
-				<button class="button button-info">Info button</button>
-				<button class="button button-neutral">Neutral button</button>
+				<section>
+					<header>
+						<h3>Button colors</h3>
+					</header>
+					<button class="button button-primary">Primary button</button>
+					<button class="button button-accent">Accent button</button>
+					<button class="button button-success">Success button</button>
+					<button class="button button-error">Error button</button>
+					<button class="button button-warning">Warning button</button>
+					<button class="button button-info">Info button</button>
+					<button class="button button-neutral">Neutral button</button>
+				</section>
+				<section>
+					<header>
+						<h3>Button sizes</h3>
+					</header>
+					<button class="button button-large">Large button</button>
+					<button class="button">Normal button</button>
+					<button class="button button-small">Small button</button>
+				</section>
+				<section>
+					<header>
+						<h3>Action buttons</h3>
+					</header>
+					<button class="button button-action button-round button-large"><i class="icon" data-feather="send"></i></button>
+					<button class="button button-action button-round"><i class="icon" data-feather="send"></i></button>
+					<button class="button button-action button-round button-small"><i class="icon" data-feather="send"></i></button>
+					<button class="button button-action button-large"><i class="icon" data-feather="send"></i></button>
+					<button class="button button-action"><i class="icon" data-feather="send"></i></button>
+					<button class="button button-action button-small"><i class="icon" data-feather="send"></i></button>
+				</section>
 			</section>
 	</main>
+	<br><br><br><br><br><br><br><br><br>
+	<br><br><br><br><br><br><br><br><br>
 	<div id="size-xs-up"></div><div id="size-s-up"></div><div id="size-m-up"></div>
 	<div id="size-l-up"></div><div id="size-xl-up"></div><div id="size-xxl-up"></div>
 	<script defer src="/assets/js/elegance_css.js"></script>
