@@ -96,8 +96,24 @@ textarea {
 input,
 select,
 textarea {
-	background-color: transparent;
-	color: inherit;
+	font-family: $font-mono;
+	font-weight: $font-weight-normal;
+	font-size: inherit;
+	line-height: inherit;
+	padding: $pad-s $pad-m;
+	color: $color-input;
+	border: 1px solid $color-input-border;
+	border-radius: $border-radius-s;
+	background-color: $color-input-bg;
+	vertical-align: middle;
+
+	&:hover,
+	&:focus {
+		outline: none;
+		color: $color-input-focus;
+		border: 1px solid $color-input-focus-border;
+		background-color: $color-input-focus-bg;
+	}
 }
 
 input {
