@@ -150,6 +150,7 @@ textarea {
 	}
 
 	.form-label {
+		cursor: pointer;
 		margin-top: $pad-m;
 		margin-bottom: $pad-s;
 		width: 100%;
@@ -163,13 +164,15 @@ textarea {
 	}
 
 
-	&-checkbox {
+	&-checkbox,
+	&-radio,
+	&-switch {
 		flex-direction: row;
 
 		.form-label {
 			position: relative;
 			width: auto;
-			padding-left: 1.5em;
+			padding-left: 2em;
 
 			&:before {
 				position: absolute;
@@ -177,20 +180,117 @@ textarea {
 				left: 0;
 				top: 0;
 				bottom: 0;
-				width: 1em;
-				height: 1em;
-				background-color: $color-red;
+				text-align: center;
+				vertical-align: middle;
+				display: block;
+				margin: auto 0;
+				height: 1.25em;
+				line-height: 1.25em;
+				border: 1px solid $color-font-body;
+				background-color: transparent;
 			}
 		}
 
 		.form-input {
-			display: inherit;
+			position: absolute;
+			clip: rect(0 0 0 0);
 			width: 1px;
 			height: 1px;
+			font-size: 1px;
+			opacity: 0.01;
+			line-height: 0;
+			overflow: hidden;
+			z-index: -1;
+		}
+	}
 
+	&-checkbox,
+	&-radio {
+		.form-label {
+			&:before {
+				width: 1.25em;
+			}
+		}
+	}
+
+	&-checkbox {
+		.form-label {
+			&:before {
+				border-radius: $border-radius-s;
+			}
+		}
+
+		.form-input {
 			&:checked + .form-label {
 				&:before {
-					background-color: $color-blue;
+					content: '\2714';
+				}
+			}
+		}
+	}
+
+	&-radio,
+	&-switch {
+		.form-label {
+			&:after {
+				position: absolute;
+				content: ' ';
+				left: 0.3em;
+				top: 0;
+				bottom: 0;
+				display: block;
+				margin: auto 0;
+				width: 0.65em;
+				height: 0.65em;
+				line-height: 0.65em;
+			}
+		}
+	}
+
+	&-radio {
+		.form-label {
+			&:before,
+			&:after {
+				border-radius: 100%;
+			}
+
+			&:after {
+				background-color: transparent;
+			}
+		}
+
+		.form-input {
+			&:checked + .form-label {
+				&:after {
+					background-color: $color-font-body;
+				}
+			}
+		}
+	}
+
+	&-switch {
+		.form-label {
+			&:before {
+				width: 1.75em;
+				border-radius: $border-radius-l;
+				background-color: $color-error;
+			}
+
+			&:after {
+				border-radius: 100%;
+				// background-color: $color-font-body;
+				background-color: $color-body-bg;
+			}
+		}
+
+		.form-input {
+			&:checked + .form-label {
+				&:before {
+					background-color: $color-success;
+				}
+
+				&:after {
+					left: 0.8em;
 				}
 			}
 		}
