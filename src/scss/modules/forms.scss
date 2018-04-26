@@ -130,6 +130,10 @@ textarea {
 	resize: vertical;
 }
 
+label {
+	color: inherit;
+}
+
 .form-group {
 	display: flex;
 	width: 100%;
@@ -174,7 +178,18 @@ textarea {
 			width: auto;
 			padding-left: 2em;
 
+			&::-moz-selection {
+				color: inherit;
+				background-color: transparent;
+			}
+
+			&::selection {
+				color: inherit;
+				background-color: transparent;
+			}
+
 			&:before {
+				@include transition('background-color, color');
 				position: absolute;
 				content: ' ';
 				left: 0;
@@ -186,8 +201,9 @@ textarea {
 				margin: auto 0;
 				height: 1.25em;
 				line-height: 1.25em;
-				border: 1px solid $color-font-body;
-				background-color: transparent;
+				color: $color-input;
+				border: 1px solid $color-input;
+				background-color: $color-input-bg;
 			}
 		}
 
@@ -216,6 +232,8 @@ textarea {
 	&-checkbox {
 		.form-label {
 			&:before {
+				content: '\2714';
+				color: $color-input-bg;
 				border-radius: $border-radius-s;
 			}
 		}
@@ -223,7 +241,7 @@ textarea {
 		.form-input {
 			&:checked + .form-label {
 				&:before {
-					content: '\2714';
+					color: $color-input;
 				}
 			}
 		}
@@ -243,6 +261,7 @@ textarea {
 				width: 0.65em;
 				height: 0.65em;
 				line-height: 0.65em;
+				background-color: $color-input-bg;
 			}
 		}
 	}
@@ -255,14 +274,14 @@ textarea {
 			}
 
 			&:after {
-				background-color: transparent;
+				@include transition('background-color');
 			}
 		}
 
 		.form-input {
 			&:checked + .form-label {
 				&:after {
-					background-color: $color-font-body;
+					background-color: $color-input;
 				}
 			}
 		}
@@ -273,24 +292,24 @@ textarea {
 			&:before {
 				width: 1.75em;
 				border-radius: $border-radius-l;
-				background-color: $color-error;
 			}
 
 			&:after {
+				@include transition('background-color, transform');
 				border-radius: 100%;
-				// background-color: $color-font-body;
-				background-color: $color-body-bg;
+				background-color: $color-input;
 			}
 		}
 
 		.form-input {
 			&:checked + .form-label {
 				&:before {
-					background-color: $color-success;
+					background-color: $color-input;
 				}
 
 				&:after {
-					left: 0.8em;
+					transform: translateX(90%);
+					background-color: $color-input-bg;
 				}
 			}
 		}
