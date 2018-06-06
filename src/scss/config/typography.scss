@@ -1,9 +1,9 @@
 // Fonts
-$font-sans:  'IBM Plex Serif', sans-serif;
+$font-sans:  'New Frank', 'Rubik', sans-serif;
 $font-sans-italic: $font-sans;
-$font-serif: 'IBM Plex Mono', serif;
+$font-serif: 'Butler', 'Playfair Display', serif;
 $font-serif-italic: $font-serif;
-$font-mono:  'IBM Plex Mono', monospace;
+$font-mono:  'GT Pressura Mono', monospace;
 $font-mono-italic: $font-mono;
 
 // Weights
@@ -12,12 +12,12 @@ $font-weight-normal: 400;
 $font-weight-bold:   700;
 
 // Body, headings and code setup
-$font-body: $font-serif;
-$font-body-italic: $font-serif-italic;
+$font-body: $font-sans;
+$font-body-italic: $font-sans-italic;
 $font-body-weight: $font-weight-normal;
 
-$font-headings: $font-mono;
-$font-headings-italic: $font-mono-italic;
+$font-headings: $font-serif;
+$font-headings-italic: $font-serif-italic;
 $font-headings-weight: $font-weight-bold;
 
 $font-code: $font-mono;
