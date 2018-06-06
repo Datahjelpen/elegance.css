@@ -31,6 +31,9 @@ button:-moz-focusring,
 }
 
 button,
+[type="button"],
+[type="reset"],
+[type="submit"],
 .button {
 	margin: 0;
 	padding: $pad-s $pad-m;
@@ -50,6 +53,26 @@ button,
 	@include shadow(1, 1);
 	@include transition('color, border-color, background-color, transform, box-shadow');
 
+	&:focus,
+	&:hover {
+		color: $color-button-default-hover;
+		background-color: $color-button-default-bg-hover;
+		border-color: $color-button-default-bg-hover;
+		transform: translateY(-1px);
+		@include shadow(2, 1);
+	}
+
+	&:active {
+		transform: translateY(1px);
+		@include shadow(1, 1);
+	}
+
+	&:hover {
+		cursor: pointer;
+	}
+
+button,
+.button {
 	&-small {
 		font-size: 0.75em;
 	}
@@ -71,24 +94,6 @@ button,
 			width: 1em;
 			height: 1em;
 		}
-	}
-
-	&:focus,
-	&:hover {
-		color: $color-button-default-hover;
-		background-color: $color-button-default-bg-hover;
-		border-color: $color-button-default-bg-hover;
-		transform: translateY(-1px);
-		@include shadow(2, 1);
-	}
-
-	&:active {
-		transform: translateY(1px);
-		@include shadow(1, 1);
-	}
-
-	&:hover {
-		cursor: pointer;
 	}
 
 	&-primary {
