@@ -71,6 +71,16 @@ button,
 		cursor: pointer;
 	}
 
+	&[disabled] {
+		cursor: default;
+		color: $color-input-disabled;
+		border-color: $color-input-disabled-border;
+		background-color: $color-input-disabled-bg;
+		transform: translateY(0px);
+		@include shadow(1, 1);
+	}
+}
+
 button,
 .button {
 	&-small {
