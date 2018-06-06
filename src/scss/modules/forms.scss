@@ -278,9 +278,15 @@ label {
 
 			&[disabled] + .form-label {
 				&:before {
-					color: $color-input-disabled;
+					color: $color-input-disabled-bg;
 					border-color: $color-input-disabled-border;
 					background-color: $color-input-disabled-bg;
+				}
+			}
+
+			&:checked[disabled] + .form-label {
+				&:before {
+					color: $color-input-disabled;
 				}
 			}
 		}
@@ -328,6 +334,23 @@ label {
 					background-color: $color-input;
 				}
 			}
+
+			&[disabled] + .form-label {
+				&:after {
+					background-color: $color-input-disabled-bg;
+				}
+			}
+
+			&:checked[disabled] + .form-label {
+				&:before {
+					border-color: $color-input-disabled-border;
+					background-color: $color-input-disabled-bg;
+				}
+
+				&:after {
+					background-color: $color-input-disabled;
+				}
+			}
 		}
 	}
 
@@ -355,6 +378,23 @@ label {
 				&:after {
 					transform: translateX(90%);
 					background-color: $color-input-bg;
+				}
+			}
+
+			&[disabled] + .form-label {
+				&:after {
+					background-color: $color-input-disabled;
+				}
+			}
+
+			&:checked[disabled] + .form-label {
+				&:before {
+					border-color: $color-input-disabled-border;
+					background-color: $color-input-disabled;
+				}
+
+				&:after {
+					background-color: $color-input-disabled-bg;
 				}
 			}
 		}
