@@ -199,27 +199,52 @@ button,
 }
 
 .button-group {
-	display: flex;
-	flex-wrap: nowrap;
-	justify-content: flex-start;
-	align-content: flex-start;
-	align-items: flex-start;
+	&.outer {
+		display: flex;
+	}
 
-	.button {
-		border-radius: 0;
+	&.inner {
+		display: flex;
+		flex-wrap: nowrap;
+		justify-content: flex-start;
+		align-content: flex-start;
+		align-items: flex-start;
+		transform: translateY(0px);
+		@include shadow(1, 1);
+		@include transition('transform, box-shadow');
 
-		&:hover,
 		&:focus,
+		&:hover {
+			transform: translateY(-1px);
+			@include shadow(2, 1);
+		}
+
 		&:active {
-			transform: translateY(0px);
+			transform: translateY(1px);
+			@include shadow(1, 1);
 		}
 
-		&:first-child {
-			border-radius: $border-radius-s 0 0 $border-radius-s;
-		}
+		button,
+		[type="button"],
+		[type="reset"],
+		[type="submit"],
+		.button {
+			border-radius: 0;
+			box-shadow: none;
 
-		&:last-child {
-			border-radius: 0 $border-radius-s $border-radius-s 0;
+			&:hover,
+			&:focus,
+			&:active {
+				transform: translateY(0px);
+			}
+
+			&:first-child {
+				border-radius: $border-radius-s 0 0 $border-radius-s;
+			}
+
+			&:last-child {
+				border-radius: 0 $border-radius-s $border-radius-s 0;
+			}
 		}
 	}
 }
