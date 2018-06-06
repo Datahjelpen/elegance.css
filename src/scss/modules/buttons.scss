@@ -79,6 +79,16 @@ button,
 		transform: translateY(0px);
 		@include shadow(1, 1);
 	}
+
+	span,
+	.icon {
+		vertical-align: middle;
+	}
+
+	.icon {
+		width: 1em;
+		height: 1em;
+	}
 }
 
 button,
@@ -99,10 +109,7 @@ button,
 		padding: $pad-m $pad-m;
 
 		.icon {
-			vertical-align: middle;
 			display: block;
-			width: 1em;
-			height: 1em;
 		}
 	}
 
